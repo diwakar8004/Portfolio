@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Dimension - Dhyanchand Gond</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        .particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .dimension-content {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .floating-cube {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .magnetic-hover {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .magnetic-hover:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        
+        .timeline-item {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .skill-progress {
+            width: 0%;
+            transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .expandable-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .expandable-section.expanded {
+            max-height: 1000px;
+        }
+        
+        .github-graph {
+            background: linear-gradient(45deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .contribution-day {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .contribution-day:hover {
+            transform: scale(1.2);
+        }
+        
+        .phase-card {
+            backdrop-filter: blur(10px);
+            background: rgba(42, 42, 42, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .phase-card:hover {
+            background: rgba(42, 42, 42, 0.5);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+        
+        .testimonial-card {
+            backdrop-filter: blur(15px);
+            background: rgba(26, 26, 26, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .certification-badge {
+            animation: certificationGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes certificationGlow {
+            0% { box-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.6); }
+        }
+        
+        .parallax-bg {
+            background: linear-gradient(45deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+    </style>
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fdevportfol4161back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+<script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
+</head>
+<body class="bg-background text-text-primary overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-subtle">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center glow-accent">
+                        <svg class="w-6 h-6 text-background" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold glow-text">Dhyanchand Gond</span>
+                </div>
+                
+                <!-- Navigation Links (desktop) -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="hero_laboratory.html" class="text-text-secondary hover:text-accent transition-natural">Laboratory</a>
+                    <a href="about_dimension.html" class="text-accent font-medium hover:glow-accent transition-natural">About</a>
+                    <a href="skills_universe.html" class="text-text-secondary hover:text-accent transition-natural">Skills</a>
+                    <a href="project_galaxy.html" class="text-text-secondary hover:text-accent transition-natural">Projects</a>
+                    <a href="achievement_timeline.html" class="text-text-secondary hover:text-accent transition-natural">Timeline</a>
+                    <a href="contact_portal.html" class="bg-accent text-background px-6 py-2 rounded-lg hover:shadow-glow-accent transition-natural magnetic-hover">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-accent" data-menu-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+
+                <!-- Mobile Menu Overlay -->
+                <div id="mobile-menu" class="fixed inset-0 z-60 bg-background/90 backdrop-blur-md hidden" aria-hidden="true">
+                    <div class="max-w-md w-full mx-auto mt-20 bg-surface/90 border border-subtle rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                </div>
+                                <span class="font-semibold">Menu</span>
+                            </div>
+                            <button data-menu-toggle aria-controls="mobile-menu" aria-expanded="true" aria-label="Close navigation menu" class="text-text-secondary">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                        <nav class="space-y-4">
+                            <a href="hero_laboratory.html" class="block text-text-secondary">Laboratory</a>
+                            <a href="about_dimension.html" class="block text-accent font-medium">About</a>
+                            <a href="skills_universe.html" class="block text-text-secondary">Skills</a>
+                            <a href="project_galaxy.html" class="block text-text-secondary">Projects</a>
+                            <a href="achievement_timeline.html" class="block text-text-secondary">Timeline</a>
+                            <a href="contact_portal.html" class="block bg-accent text-background px-4 py-2 rounded-lg">Contact</a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about-hero" class="relative min-h-screen flex items-center justify-center parallax-bg overflow-hidden">
+        <!-- Particle Canvas -->
+        <canvas id="particleCanvas" class="particle-canvas"></canvas>
+        
+        <!-- Floating Geometric Shapes -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-20 left-10 w-16 h-16 border-2 border-accent/30 rotate-45 floating-cube"></div>
+            <div class="absolute top-40 right-20 w-12 h-12 bg-success/20 rounded-full floating-cube" style="animation-delay: -2s;"></div>
+            <div class="absolute bottom-40 left-20 w-20 h-20 border border-warning/40 floating-cube" style="animation-delay: -4s;"></div>
+            <div class="absolute bottom-20 right-10 w-14 h-14 bg-accent/10 rotate-12 floating-cube" style="animation-delay: -1s;"></div>
+        </div>
+        
+        <div class="dimension-content max-w-7xl mx-auto px-6 py-20 text-center">
+            <div class="space-y-8 animate-slide-up">
+                <!-- Status Badge -->
+                <div class="inline-flex items-center space-x-2 bg-surface/50 backdrop-blur-sm border border-subtle rounded-full px-4 py-2">
+                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                    <span class="text-sm text-text-secondary">Exploring the About Dimension</span>
+                </div>
+                
+                <!-- Main Heading -->
+                <div class="space-y-4">
+                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
+                        <span class="block glow-text">The Journey</span>
+                        <span class="block text-accent">Behind the Code</span>
+                    </h1>
+                    <p class="text-xl lg:text-2xl text-text-secondary max-w-3xl mx-auto">
+                        Where computer science meets creative innovation. Discover the passion, 
+                        education, and experiences that shape my approach to 
+                        <span class="text-accent font-medium">transforming ideas into interactive digital experiences</span>.
+                    </p>
+                    <!-- Education / Quick Bio -->
+                    <p class="mt-4 text-sm text-text-secondary">
+                        <strong class="text-accent">Dhyanchand Gond</strong> — BTech CS (AIML), 3rd Year
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Story Section -->
+    <section class="py-20 bg-surface/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Story Content -->
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h2 class="text-4xl font-bold">Code with Purpose, Design with Passion</h2>
+                        <p class="text-lg text-text-secondary leading-relaxed">
+                            My journey into the world of technology began with a simple curiosity: 
+                            <em class="text-accent">"What if code could be art?"</em> This question has driven 
+                            me through years of exploration, learning, and creating at the intersection 
+                            of technical excellence and creative expression.
+                        </p>
+                    </div>
+                    
+                    <!-- Expandable Life Phases -->
+                    <div class="space-y-4">
+                        <!-- Early Years -->
+                        <div class="phase-card rounded-xl p-6">
+                            <button class="w-full flex items-center justify-between text-left" onclick="togglePhase('early-years')">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-semibold">The Spark (2018-2020)</h3>
+                                        <p class="text-text-secondary">First encounter with programming</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-accent transition-transform duration-300" id="early-years-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                            <div id="early-years" class="expandable-section mt-4">
+                                <p class="text-text-secondary leading-relaxed">
+                                    It all started with a simple "Hello, World!" in Python during my first computer science class. 
+                                    The moment I saw those words appear on the screen, I knew I had found my calling. 
+                                    I spent countless hours experimenting with basic algorithms, building simple games, 
+                                    and discovering the logical beauty of programming.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Academic Journey -->
+                        <div class="phase-card rounded-xl p-6">
+                            <button class="w-full flex items-center justify-between text-left" onclick="togglePhase('academic-journey')">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-success/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-semibold">Academic Excellence (2020-2024)</h3>
+                                        <p class="text-text-secondary">Computer Science degree journey</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-accent transition-transform duration-300" id="academic-journey-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                            <div id="academic-journey" class="expandable-section mt-4">
+                                <p class="text-text-secondary leading-relaxed mb-4">
+                                    Pursuing my Bachelor's in Computer Science at Tech University has been transformative. 
+                                    From data structures and algorithms to machine learning and web development, 
+                                    each course has added new dimensions to my problem-solving toolkit.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div class="bg-background/50 rounded-lg p-3">
+                                        <div class="font-semibold text-accent">GPA: 3.8/4.0</div>
+                                        <div class="text-text-secondary">Dean's List (3 semesters)</div>
+                                    </div>
+                                    <div class="bg-background/50 rounded-lg p-3">
+                                        <div class="font-semibold text-success">Key Courses</div>
+                                        <div class="text-text-secondary">AI, Web Dev, Databases</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Professional Growth -->
+                        <div class="phase-card rounded-xl p-6">
+                            <button class="w-full flex items-center justify-between text-left" onclick="togglePhase('professional-growth')">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-12 h-12 bg-warning/20 rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-semibold">Building Tomorrow's Web (2023-Present)</h3>
+                                        <p class="text-text-secondary">Professional development & innovation</p>
+                                    </div>
+                                </div>
+                                <svg class="w-5 h-5 text-accent transition-transform duration-300" id="professional-growth-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                            <div id="professional-growth" class="expandable-section mt-4">
+                                <p class="text-text-secondary leading-relaxed">
+                                    Today, I'm focused on pushing the boundaries of web technology through 3D experiences, 
+                                    interactive animations, and performance optimization. My goal is to create digital 
+                                    experiences that not only function flawlessly but inspire and delight users.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visual Elements -->
+                <div class="relative">
+                    <!-- Profile Image with 3D Effect -->
+                    <div class="relative w-80 h-80 mx-auto">
+                        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-success/20 rounded-full blur-3xl"></div>
+                        <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-accent/30 shadow-glow-accent">
+                            <img src="professional-headshot-of-sarah-chen--ceo.jpg" class="w-full h-full object-cover" alt="">
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="text-center bg-surface/50 backdrop-blur-sm rounded-xl p-4 border border-subtle">
+                            <div class="text-2xl font-bold text-accent">2025</div>
+                            <div class="text-sm text-text-secondary">Expected Graduation</div>
+                        </div>
+                        <div class="text-center bg-surface/50 backdrop-blur-sm rounded-xl p-4 border border-subtle">
+                            <div class="text-2xl font-bold text-success">50+</div>
+                            <div class="text-sm text-text-secondary">Projects Completed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Timeline -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Educational Journey</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">
+                    A timeline of academic milestones and learning experiences that shaped my technical foundation.
+                </p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-accent/30"></div>
+                
+                <!-- Timeline Items -->
+                <div class="space-y-16">
+                    <!-- 2024 - Senior Year -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
+                                <div class="text-accent font-semibold mb-2">2024 - Present</div>
+                                <h3 class="text-xl font-bold mb-2">Senior Year Focus</h3>
+                                <p class="text-text-secondary">Advanced coursework in AI/ML, capstone project development, and industry collaboration.</p>
+                                <div class="flex justify-end space-x-2 mt-4">
+                                    <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm">Machine Learning</span>
+                                    <span class="bg-success/20 text-success px-3 py-1 rounded-full text-sm">Capstone</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-accent rounded-full border-4 border-background flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                    
+                    <!-- 2023 - Junior Year -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8"></div>
+                        <div class="w-8 h-8 bg-success rounded-full border-4 border-background flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
+                                <div class="text-success font-semibold mb-2">2023</div>
+                                <h3 class="text-xl font-bold mb-2">Advanced Development</h3>
+                                <p class="text-text-secondary">Full-stack development, database systems, and software engineering principles.</p>
+                                <div class="flex space-x-2 mt-4">
+                                    <span class="bg-warning/20 text-warning px-3 py-1 rounded-full text-sm">Full-Stack</span>
+                                    <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm">Databases</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2022 - Sophomore Year -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
+                                <div class="text-warning font-semibold mb-2">2022</div>
+                                <h3 class="text-xl font-bold mb-2">Core Foundations</h3>
+                                <p class="text-text-secondary">Data structures, algorithms, and object-oriented programming mastery.</p>
+                                <div class="flex justify-end space-x-2 mt-4">
+                                    <span class="bg-success/20 text-success px-3 py-1 rounded-full text-sm">Algorithms</span>
+                                    <span class="bg-warning/20 text-warning px-3 py-1 rounded-full text-sm">OOP</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-warning rounded-full border-4 border-background flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                    
+                    <!-- 2021 - Freshman Year -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8"></div>
+                        <div class="w-8 h-8 bg-accent rounded-full border-4 border-background flex-shrink-0 z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
+                                <div class="text-accent font-semibold mb-2">2021</div>
+                                <h3 class="text-xl font-bold mb-2">The Beginning</h3>
+                                <p class="text-text-secondary">Introduction to programming, mathematics for CS, and foundational concepts.</p>
+                                <div class="flex space-x-2 mt-4">
+                                    <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm">Python</span>
+                                    <span class="bg-success/20 text-success px-3 py-1 rounded-full text-sm">Mathematics</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Progress Section -->
+    <section class="py-20 bg-surface/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Skill Evolution</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">
+                    Watch my technical capabilities grow through interactive progress visualization.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Frontend Skills -->
+                <div class="bg-surface/50 backdrop-blur-sm border border-subtle rounded-xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-accent">Frontend Mastery</h3>
+                    <div class="space-y-6">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">JavaScript/TypeScript</span>
+                                <span class="text-accent">95%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-accent h-3 rounded-full" data-width="95"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">React/Next.js</span>
+                                <span class="text-success">90%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-success h-3 rounded-full" data-width="90"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Three.js/WebGL</span>
+                                <span class="text-warning">85%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-warning h-3 rounded-full" data-width="85"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">CSS/Tailwind</span>
+                                <span class="text-accent">92%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-accent h-3 rounded-full" data-width="92"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Backend Skills -->
+                <div class="bg-surface/50 backdrop-blur-sm border border-subtle rounded-xl p-8">
+                    <h3 class="text-2xl font-bold mb-6 text-success">Backend Expertise</h3>
+                    <div class="space-y-6">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Node.js/Express</span>
+                                <span class="text-success">88%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-success h-3 rounded-full" data-width="88"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Python/Django</span>
+                                <span class="text-warning">82%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-warning h-3 rounded-full" data-width="82"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Database Design</span>
+                                <span class="text-accent">87%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-accent h-3 rounded-full" data-width="87"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Cloud Services</span>
+                                <span class="text-success">80%</span>
+                            </div>
+                            <div class="w-full bg-background/50 rounded-full h-3">
+                                <div class="skill-progress bg-success h-3 rounded-full" data-width="80"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Contribution Graph -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Coding Activity</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">
+                    My GitHub contribution graph showcasing consistent development and learning.
+                </p>
+            </div>
+            
+            <div class="bg-surface/50 backdrop-blur-sm border border-subtle rounded-xl p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-semibold">2024 Contributions</h3>
+                    <div class="flex items-center space-x-4 text-sm text-text-secondary">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-background/50 rounded-sm"></div>
+                            <span>Less</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <div class="w-3 h-3 bg-accent/30 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-accent/50 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-accent/70 rounded-sm"></div>
+                            <div class="w-3 h-3 bg-accent rounded-sm"></div>
+                        </div>
+                        <span>More</span>
+                    </div>
+                </div>
+                
+                <!-- Contribution Grid -->
+                <div class="github-graph rounded-lg p-4 overflow-x-auto">
+                    <div class="flex space-x-1 min-w-max" id="contributionGraph">
+                        <!-- Generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-accent">1,247</div>
+                        <div class="text-sm text-text-secondary">Total Contributions</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-success">156</div>
+                        <div class="text-sm text-text-secondary">Days Active</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-warning">42</div>
+                        <div class="text-sm text-text-secondary">Repositories</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-accent">23</div>
+                        <div class="text-sm text-text-secondary">Pull Requests</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials & Social Proof -->
+    <section class="py-20 bg-surface/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">What Others Say</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">
+                    Testimonials from professors, collaborators, and peers who've witnessed my growth.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Professor Testimonial -->
+                <div class="testimonial-card rounded-xl p-6">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Professor Smith" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
+                        <div>
+                            <div class="font-semibold">Dr. Sarah Chen</div>
+                            <div class="text-sm text-text-secondary">Computer Science Professor</div>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary italic">
+                        "Exceptional student who consistently demonstrates both technical excellence and creative problem-solving. 
+                        Their capstone project showcased innovative thinking that impressed the entire faculty."
+                    </p>
+                    <div class="flex text-warning mt-4">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                </div>
+                
+                <!-- Peer Testimonial -->
+                <div class="testimonial-card rounded-xl p-6">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg" alt="Alex Rodriguez" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
+                        <div>
+                            <div class="font-semibold">Alex Rodriguez</div>
+                            <div class="text-sm text-text-secondary">Project Collaborator</div>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary italic">
+                        "Working on our hackathon project together was incredible. Their ability to combine 
+                        clean code with stunning visual design helped us win first place. A true creative technologist!"
+                    </p>
+                    <div class="flex text-warning mt-4">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                </div>
+                
+                <!-- Mentor Testimonial -->
+                <div class="testimonial-card rounded-xl p-6">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Michael Johnson" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg'; this.onerror=null;" />
+                        <div>
+                            <div class="font-semibold">Michael Johnson</div>
+                            <div class="text-sm text-text-secondary">Industry Mentor</div>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary italic">
+                        "Rare to find someone who balances technical depth with creative vision so well. 
+                        Their portfolio projects demonstrate real-world application of advanced concepts."
+                    </p>
+                    <div class="flex text-warning mt-4">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications & Achievements -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Certifications & Recognition</h2>
+                <p class="text-text-secondary max-w-2xl mx-auto">
+                    Interactive achievements showcasing continuous learning and professional development.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- AWS Certification -->
+                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-success/30 rounded-xl p-6 text-center magnetic-hover">
+                    <div class="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-success" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">AWS Cloud Practitioner</h3>
+                    <p class="text-sm text-text-secondary">Certified 2024</p>
+                </div>
+                
+                <!-- React Certification -->
+                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-accent/30 rounded-xl p-6 text-center magnetic-hover">
+                    <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">React Developer</h3>
+                    <p class="text-sm text-text-secondary">Meta Certified 2023</p>
+                </div>
+                
+                <!-- Hackathon Winner -->
+                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-warning/30 rounded-xl p-6 text-center magnetic-hover">
+                    <div class="w-16 h-16 bg-warning/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Hackathon Winner</h3>
+                    <p class="text-sm text-text-secondary">TechCrunch 2024</p>
+                </div>
+                
+                <!-- Dean's List -->
+                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-accent/30 rounded-xl p-6 text-center magnetic-hover">
+                    <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Dean's List</h3>
+                    <p class="text-sm text-text-secondary">3 Semesters</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-surface/20">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="space-y-8">
+                <h2 class="text-4xl font-bold">Ready to Build Tomorrow's Web Together?</h2>
+                <p class="text-xl text-text-secondary">
+                    Let's connect and explore how we can create innovative digital experiences 
+                    that push the boundaries of what's possible.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="project_galaxy.html" class="bg-accent text-background px-8 py-4 rounded-lg font-semibold hover:shadow-glow-accent transition-natural magnetic-hover inline-flex items-center justify-center space-x-2">
+                        <span>View My Projects</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                    </a>
+                    <a href="contact_portal.html" class="border border-accent text-accent px-8 py-4 rounded-lg font-semibold hover:bg-accent hover:text-background transition-natural magnetic-hover inline-flex items-center justify-center space-x-2">
+                        <span>Get In Touch</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // Particle System
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particleCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.mouse = { x: 0, y: 0 };
+                
+                this.resize();
+                this.init();
+                this.animate();
+                
+                window.addEventListener('resize', () => this.resize());
+                window.addEventListener('mousemove', (e) => this.updateMouse(e));
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            init() {
+                for (let i = 0; i < 80; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3,
+                        size: Math.random() * 2 + 1,
+                        opacity: Math.random() * 0.5 + 0.2
+                    });
+                }
+            }
+            
+            updateMouse(e) {
+                this.mouse.x = e.clientX;
+                this.mouse.y = e.clientY;
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(particle => {
+                    // Mouse interaction
+                    const dx = this.mouse.x - particle.x;
+                    const dy = this.mouse.y - particle.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        particle.vx += dx * 0.00003;
+                        particle.vy += dy * 0.00003;
+                    }
+                    
+                    // Update position
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    // Boundary check
+                    if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+                    
+                    // Draw particle
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(0, 212, 255, ${particle.opacity})`;
+                    this.ctx.fill();
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        // Initialize particle system
+        window.addEventListener('load', () => {
+            new ParticleSystem();
+        });
+        
+        // Phase toggle functionality
+        function togglePhase(phaseId) {
+            const phase = document.getElementById(phaseId);
+            const icon = document.getElementById(phaseId + '-icon');
+            
+            if (phase.classList.contains('expanded')) {
+                phase.classList.remove('expanded');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                phase.classList.add('expanded');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // Timeline animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            timelineObserver.observe(item);
+        });
+        
+        // Skill progress animation
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBars = entry.target.querySelectorAll('.skill-progress');
+                    progressBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        setTimeout(() => {
+                            bar.style.width = width + '%';
+                        }, 300);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.skill-item').forEach(item => {
+            skillObserver.observe(item);
+        });
+        
+        // Generate GitHub contribution graph
+        function generateContributionGraph() {
+            const graph = document.getElementById('contributionGraph');
+            const weeks = 52;
+            const days = 7;
+            
+            for (let week = 0; week < weeks; week++) {
+                const weekDiv = document.createElement('div');
+                weekDiv.className = 'flex flex-col space-y-1';
+                
+                for (let day = 0; day < days; day++) {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.className = 'contribution-day';
+                    
+                    // Random contribution level (0-4)
+                    const level = Math.floor(Math.random() * 5);
+                    const colors = [
+                        'bg-background/50',
+                        'bg-accent/30',
+                        'bg-accent/50',
+                        'bg-accent/70',
+                        'bg-accent'
+                    ];
+                    
+                    dayDiv.className += ' ' + colors[level];
+                    dayDiv.title = `${level} contributions`;
+                    
+                    weekDiv.appendChild(dayDiv);
+                }
+                
+                graph.appendChild(weekDiv);
+            }
+        }
+        
+        // Initialize contribution graph
+        generateContributionGraph();
+        
+        // Magnetic hover effect
+        document.querySelectorAll('.magnetic-hover').forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'translate(0px, 0px) scale(1)';
+            });
+        });
+        
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="../js/menu.js"></script>
+    <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
