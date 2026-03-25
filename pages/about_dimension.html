@@ -3,359 +3,807 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Dimension - Dhyanchand Gond</title>
-    <link rel="stylesheet" href="../css/main.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>CLASSIFIED // About — Dhyanchand Gond</title>
+    <meta name="description" content="Classified dossier on Dhyanchand Gond — Full-Stack Developer, neural architect, and digital craftsman from Lucknow, India." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        .particle-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        /* ═══ NEURAL CORE SYSTEM ═══ */
+        :root {
+            --void: #030308;
+            --abyss: #07070f;
+            --surface: #0c0c18;
+            --panel: #10101f;
+            --border: rgba(0,255,170,0.08);
+            --border-hot: rgba(0,255,170,0.25);
+            --neon: #00ffaa;
+            --neon-dim: rgba(0,255,170,0.6);
+            --cyan: #00e5ff;
+            --magenta: #ff006e;
+            --amber: #ffbe0b;
+            --text: #c8d6e5;
+            --text-dim: #5a6a7a;
+            --text-bright: #e8f0f8;
+            --glow-neon: 0 0 30px rgba(0,255,170,0.3), 0 0 60px rgba(0,255,170,0.1);
+            --glow-cyan: 0 0 30px rgba(0,229,255,0.3), 0 0 60px rgba(0,229,255,0.1);
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
-        
-        .dimension-content {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--void);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ═══ SCANLINE OVERLAY ═══ */
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: 9999;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,255,170,0.015) 2px,
+                rgba(0,255,170,0.015) 4px
+            );
+        }
+
+        /* ═══ NAVBAR ═══ */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(3,3,8,0.85);
+            backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+        }
+        .navbar::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            opacity: 0.4;
+        }
+        .navbar-inner {
+            max-width: 1400px; margin: 0 auto; padding: 0 2rem;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo-icon {
+            width: 38px; height: 38px; border-radius: 8px; position: relative;
+            background: linear-gradient(135deg, var(--neon), var(--cyan));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 14px; color: var(--void);
+            font-family: var(--font-display);
+            box-shadow: var(--glow-neon);
+        }
+        .nav-logo-text {
+            font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+            color: var(--neon); letter-spacing: 2px; text-transform: uppercase;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-links a {
+            color: var(--text-dim); font-size: 0.8rem; font-weight: 500;
+            text-decoration: none; transition: all 0.3s; letter-spacing: 1px;
+            text-transform: uppercase; font-family: var(--font-mono);
             position: relative;
-            z-index: 10;
         }
-        
-        .floating-cube {
-            animation: float 6s ease-in-out infinite;
+        .nav-links a:hover, .nav-links a.active { color: var(--neon); text-shadow: 0 0 20px rgba(0,255,170,0.5); }
+        .nav-links a.active::after {
+            content: ''; position: absolute; bottom: -6px; left: 0; right: 0; height: 2px;
+            background: var(--neon); box-shadow: 0 0 10px var(--neon);
         }
-        
-        .magnetic-hover {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .nav-cta {
+            background: transparent; color: var(--neon); padding: 8px 20px;
+            border: 1px solid var(--neon); border-radius: 4px;
+            font-size: 0.75rem; font-weight: 600; text-decoration: none;
+            font-family: var(--font-display); text-transform: uppercase;
+            letter-spacing: 2px; transition: all 0.3s;
         }
-        
-        .magnetic-hover:hover {
-            transform: scale(1.05) translateY(-5px);
+        .nav-cta:hover { background: var(--neon); color: var(--void); box-shadow: var(--glow-neon); }
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--neon); }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
         }
-        
-        .glow-text {
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        .mobile-overlay {
+            position: fixed; inset: 0; z-index: 200;
+            background: rgba(3,3,8,0.97); backdrop-filter: blur(30px);
+            display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
         }
-        
-        .timeline-item {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        .mobile-overlay.open { display: flex; }
+        .mobile-overlay a {
+            color: var(--text); font-size: 1.2rem; font-weight: 600;
+            text-decoration: none; font-family: var(--font-display);
+            letter-spacing: 3px; text-transform: uppercase; transition: color 0.3s;
         }
-        
-        .timeline-item.animate {
-            opacity: 1;
-            transform: translateX(0);
+        .mobile-overlay a:hover { color: var(--neon); }
+        .mobile-close { position: absolute; top: 1.25rem; right: 1.5rem; background: none; border: none; color: var(--text-dim); cursor: pointer; }
+
+        /* ═══ HERO ═══ */
+        .about-hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; padding: 8rem 2rem 6rem;
         }
-        
-        .skill-progress {
-            width: 0%;
-            transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+        .hero-bg-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,255,170,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,255,170,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
         }
-        
-        .expandable-section {
-            max-height: 0;
+        .hero-neural-web {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 30% 20%, rgba(0,255,170,0.06), transparent),
+                radial-gradient(ellipse 60% 40% at 70% 70%, rgba(0,229,255,0.04), transparent),
+                radial-gradient(ellipse 50% 30% at 50% 50%, rgba(255,0,110,0.03), transparent);
+        }
+        /* Animated radar sweep */
+        .radar-sweep {
+            position: absolute; width: 600px; height: 600px;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 0deg, rgba(0,255,170,0.08) 30deg, transparent 60deg);
+            animation: radarSpin 6s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes radarSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        .hero-content {
+            max-width: 1200px; width: 100%; position: relative; z-index: 2;
+            text-align: center;
+        }
+
+        /* Classified stamp */
+        .classified-stamp {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 8px 24px; border: 1px solid rgba(255,0,110,0.3);
+            background: rgba(255,0,110,0.05); border-radius: 2px;
+            margin-bottom: 2rem; animation: stampFlicker 4s ease-in-out infinite;
+        }
+        .classified-stamp span {
+            font-family: var(--font-display); font-size: 0.7rem; font-weight: 700;
+            color: var(--magenta); letter-spacing: 6px; text-transform: uppercase;
+        }
+        @keyframes stampFlicker {
+            0%, 95%, 100% { opacity: 1; }
+            96% { opacity: 0.3; }
+            97% { opacity: 1; }
+            98% { opacity: 0.5; }
+        }
+
+        .hero-title {
+            font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900; line-height: 1.1; margin-bottom: 1rem;
+            text-transform: uppercase; letter-spacing: 4px;
+        }
+        .hero-title .line1 {
+            display: block; color: var(--text-bright);
+            text-shadow: 0 0 40px rgba(200,214,229,0.3);
+        }
+        .hero-title .line2 {
+            display: block;
+            background: linear-gradient(135deg, var(--neon), var(--cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(0,255,170,0.4));
+        }
+        .hero-subtitle {
+            font-family: var(--font-mono); font-size: 1rem; color: var(--text-dim);
+            margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;
+            line-height: 1.8;
+        }
+        .hero-subtitle .highlight { color: var(--neon); }
+
+        /* ═══ DOSSIER SECTION ═══ */
+        .dossier-section {
+            padding: 6rem 2rem; position: relative;
+            background: linear-gradient(180deg, var(--void), var(--abyss));
+        }
+        .dossier-section::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            opacity: 0.2;
+        }
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+
+        .section-header {
+            display: flex; align-items: center; gap: 16px; margin-bottom: 3rem;
+        }
+        .section-tag {
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--neon);
+            background: rgba(0,255,170,0.08); border: 1px solid rgba(0,255,170,0.2);
+            padding: 4px 12px; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-hot), transparent); }
+        .section-title {
+            font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700; color: var(--text-bright); letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Dossier Grid */
+        .dossier-grid {
+            display: grid; grid-template-columns: 340px 1fr; gap: 3rem; align-items: start;
+        }
+        @media (max-width: 960px) { .dossier-grid { grid-template-columns: 1fr; } }
+
+        /* Subject Profile Card */
+        .subject-card {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 2rem; position: relative; overflow: hidden;
+        }
+        .subject-card::before {
+            content: 'SUBJECT FILE'; position: absolute; top: 12px; right: 12px;
+            font-family: var(--font-mono); font-size: 0.6rem; color: var(--magenta);
+            letter-spacing: 2px; opacity: 0.6;
+        }
+        .subject-avatar {
+            width: 200px; height: 200px; margin: 0 auto 1.5rem;
+            position: relative;
+        }
+        .subject-avatar img {
+            width: 100%; height: 100%; object-fit: cover;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            filter: contrast(1.1) brightness(1.1) saturate(1.1);
+            transition: all 0.5s ease;
+        }
+        .subject-avatar:hover img {
+            filter: contrast(1.2) brightness(1.2) saturate(1.3);
+        }
+        .avatar-hex-border {
+            position: absolute; inset: -4px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: linear-gradient(135deg, var(--neon), var(--cyan));
+            z-index: -1; animation: borderPulse 4s infinite ease-in-out;
+        }
+        @keyframes borderPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        /* Scanning effect on hexagon */
+        .avatar-scan {
+            position: absolute; top: 0; left: 0; width: 100%; height: 15px;
+            background: linear-gradient(to bottom, transparent, var(--neon), transparent);
+            opacity: 0.5; z-index: 4; pointer-events: none;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: hexScan 4s linear infinite;
+        }
+        @keyframes hexScan {
+            0% { top: 0; opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .subject-name {
+            font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;
+            color: var(--neon); text-align: center; letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 0.5rem;
+        }
+        .subject-role {
+            font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);
+            text-align: center; letter-spacing: 1px; margin-bottom: 1.5rem;
+        }
+
+        .subject-stats { display: flex; flex-direction: column; gap: 12px; }
+        .stat-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; background: rgba(0,255,170,0.03);
+            border-left: 2px solid var(--neon);
+        }
+        .stat-row .label {
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .stat-row .value {
+            font-family: var(--font-display); font-size: 0.85rem; color: var(--neon);
+            font-weight: 600;
+        }
+
+        /* Bio panel */
+        .bio-panel { display: flex; flex-direction: column; gap: 2rem; }
+        .bio-card {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 2rem; position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .bio-card:hover {
+            border-color: var(--border-hot);
+            box-shadow: 0 0 40px rgba(0,255,170,0.05);
+        }
+        .bio-card-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+        }
+        .bio-icon {
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border-hot); background: rgba(0,255,170,0.05);
+        }
+        .bio-card-title {
+            font-family: var(--font-display); font-size: 0.85rem; font-weight: 700;
+            color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase;
+        }
+        .bio-card-text {
+            font-size: 0.95rem; color: var(--text); line-height: 1.8;
+        }
+        .bio-card-text .neon { color: var(--neon); font-weight: 600; }
+        .bio-card-text .cyan { color: var(--cyan); font-weight: 600; }
+
+        /* ═══ TIMELINE ═══ */
+        .timeline-section {
+            padding: 6rem 2rem; position: relative;
+            background: var(--abyss);
+        }
+        .timeline-track {
+            position: relative; padding-left: 40px;
+        }
+        .timeline-track::before {
+            content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(180deg, var(--neon), var(--cyan), var(--magenta), transparent);
+            opacity: 0.4;
+        }
+        .timeline-entry {
+            position: relative; margin-bottom: 3rem; padding-left: 30px;
+            opacity: 0; transform: translateX(-20px);
+            animation: slideIn 0.6s ease forwards;
+        }
+        .timeline-entry:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-entry:nth-child(2) { animation-delay: 0.3s; }
+        .timeline-entry:nth-child(3) { animation-delay: 0.5s; }
+        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+
+        .timeline-dot {
+            position: absolute; left: -33px; top: 8px;
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--neon); box-shadow: 0 0 20px rgba(0,255,170,0.5);
+        }
+        .timeline-dot.cyan { background: var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.5); }
+        .timeline-dot.magenta { background: var(--magenta); box-shadow: 0 0 20px rgba(255,0,110,0.5); }
+
+        .timeline-card {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 1.5rem 2rem; transition: all 0.3s;
+        }
+        .timeline-card:hover {
+            border-color: var(--border-hot);
+            box-shadow: 0 0 40px rgba(0,255,170,0.05);
+        }
+        .timeline-year {
+            font-family: var(--font-display); font-size: 0.7rem; color: var(--neon);
+            letter-spacing: 3px; margin-bottom: 0.5rem;
+        }
+        .timeline-card h3 {
+            font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+            color: var(--text-bright); letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-card p {
+            font-size: 0.9rem; color: var(--text-dim); line-height: 1.7;
+        }
+        .timeline-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+        .timeline-tag {
+            font-family: var(--font-mono); font-size: 0.65rem; padding: 4px 10px;
+            border: 1px solid var(--border); color: var(--neon); letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .timeline-tag.cyan { color: var(--cyan); border-color: rgba(0,229,255,0.2); }
+        .timeline-tag.magenta { color: var(--magenta); border-color: rgba(255,0,110,0.2); }
+
+        /* ═══ CODE ACTIVITY ═══ */
+        .activity-section {
+            padding: 6rem 2rem; position: relative;
+            background: linear-gradient(180deg, var(--abyss), var(--void));
+        }
+        .activity-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .metric-card {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 2rem; text-align: center; position: relative;
+            transition: all 0.3s;
+        }
+        .metric-card:hover {
+            border-color: var(--border-hot);
+            box-shadow: 0 0 50px rgba(0,255,170,0.06);
+            transform: translateY(-4px);
+        }
+        .metric-value {
+            font-family: var(--font-display); font-size: 2.5rem; font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        .metric-value.neon { color: var(--neon); text-shadow: 0 0 30px rgba(0,255,170,0.4); }
+        .metric-value.cyan { color: var(--cyan); text-shadow: 0 0 30px rgba(0,229,255,0.4); }
+        .metric-value.amber { color: var(--amber); text-shadow: 0 0 30px rgba(255,190,11,0.4); }
+        .metric-value.magenta { color: var(--magenta); text-shadow: 0 0 30px rgba(255,0,110,0.4); }
+        .metric-label {
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        /* Contribution heatmap */
+        .heatmap-container {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 2rem; margin-top: 2rem; overflow-x: auto;
+        }
+        .heatmap-title {
+            font-family: var(--font-display); font-size: 0.8rem; color: var(--text-dim);
+            letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1.5rem;
+        }
+        .heatmap-grid { display: flex; gap: 3px; }
+        .heatmap-col { display: flex; flex-direction: column; gap: 3px; }
+        .heatmap-cell {
+            width: 12px; height: 12px;
+            background: rgba(0,255,170,0.05);
+            transition: all 0.2s;
+        }
+        .heatmap-cell:hover { transform: scale(1.3); }
+        .heatmap-cell.l1 { background: rgba(0,255,170,0.15); }
+        .heatmap-cell.l2 { background: rgba(0,255,170,0.3); }
+        .heatmap-cell.l3 { background: rgba(0,255,170,0.5); }
+        .heatmap-cell.l4 { background: rgba(0,255,170,0.8); box-shadow: 0 0 6px rgba(0,255,170,0.3); }
+
+        /* ═══ INTERESTS ═══ */
+        .interests-section {
+            padding: 6rem 2rem; position: relative;
+            background: var(--void);
+        }
+        .interests-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .interest-card {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 2rem; transition: all 0.4s; position: relative; overflow: hidden;
+        }
+        .interest-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .interest-card:hover::before { opacity: 1; }
+        .interest-card:hover {
+            border-color: var(--border-hot);
+            transform: translateY(-4px);
+            box-shadow: 0 0 40px rgba(0,255,170,0.05);
+        }
+        .interest-icon {
+            font-size: 2rem; margin-bottom: 1rem;
+            filter: grayscale(0.2);
+        }
+        .interest-name {
+            font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+            color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .interest-desc {
+            font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;
+        }
+
+        /* ═══ CTA ═══ */
+        .cta-section {
+            padding: 6rem 2rem; text-align: center;
+            background: var(--abyss); position: relative;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            opacity: 0.3;
+        }
+        .cta-title {
+            font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800; color: var(--text-bright); letter-spacing: 3px;
+            text-transform: uppercase; margin-bottom: 1rem;
+        }
+        .cta-desc {
+            font-size: 1rem; color: var(--text-dim); margin-bottom: 2.5rem;
+            max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--neon); color: var(--void); padding: 14px 32px;
+            font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+            text-decoration: none; letter-spacing: 3px; text-transform: uppercase;
+            transition: all 0.3s; border: none; cursor: pointer;
+        }
+        .btn-primary:hover { box-shadow: var(--glow-neon); transform: translateY(-2px); }
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: transparent; color: var(--neon); padding: 14px 32px;
+            border: 1px solid var(--neon); font-family: var(--font-display);
+            font-size: 0.8rem; font-weight: 700; text-decoration: none;
+            letter-spacing: 3px; text-transform: uppercase; transition: all 0.3s;
+        }
+        .btn-ghost:hover { background: rgba(0,255,170,0.1); transform: translateY(-2px); }
+
+        /* ═══ FOOTER ═══ */
+        .footer {
+            padding: 2rem; text-align: center;
+            border-top: 1px solid var(--border);
+            font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
+        }
+        .footer a { color: var(--neon); text-decoration: none; }
+        .footer a:hover { text-shadow: 0 0 10px rgba(0,255,170,0.5); }
+
+        /* ═══ ANIMATIONS ═══ */
+        .fade-in {
+            opacity: 0; transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+        .fade-in-d1 { animation-delay: 0.15s; }
+        .fade-in-d2 { animation-delay: 0.3s; }
+        .fade-in-d3 { animation-delay: 0.45s; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Neural pulse line */
+        .neural-pulse {
+            height: 2px; width: 100%; position: relative;
+            background: rgba(0,255,170,0.05); margin: 4rem 0;
             overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .expandable-section.expanded {
-            max-height: 1000px;
+        .neural-pulse::after {
+            content: ''; position: absolute; top: 0; width: 100px; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            animation: pulseSweep 3s linear infinite;
         }
-        
-        .github-graph {
-            background: linear-gradient(45deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+        @keyframes pulseSweep { 0% { left: -100px; } 100% { left: 100%; } }
+
+        /* Glitch text */
+        .glitch {
+            position: relative;
         }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .glitch::before, .glitch::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
         }
-        
-        .contribution-day {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            margin: 1px;
-            transition: all 0.3s ease;
+        .glitch::before {
+            color: var(--cyan); z-index: -1;
+            animation: glitch1 3s infinite linear alternate-reverse;
         }
-        
-        .contribution-day:hover {
-            transform: scale(1.2);
+        .glitch::after {
+            color: var(--magenta); z-index: -2;
+            animation: glitch2 2s infinite linear alternate-reverse;
         }
-        
-        .phase-card {
-            backdrop-filter: blur(10px);
-            background: rgba(42, 42, 42, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        @keyframes glitch1 {
+            0%, 95% { clip-path: inset(0); transform: translate(0); }
+            96% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 2px); }
+            97% { clip-path: inset(40% 0 20% 0); transform: translate(3px, -1px); }
+            98% { clip-path: inset(60% 0 10% 0); transform: translate(-2px, 1px); }
+            99% { clip-path: inset(10% 0 80% 0); transform: translate(2px, -2px); }
         }
-        
-        .phase-card:hover {
-            background: rgba(42, 42, 42, 0.5);
-            border-color: rgba(0, 212, 255, 0.3);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        @keyframes glitch2 {
+            0%, 95% { clip-path: inset(0); transform: translate(0); }
+            96% { clip-path: inset(30% 0 50% 0); transform: translate(2px, -1px); }
+            97% { clip-path: inset(50% 0 30% 0); transform: translate(-2px, 2px); }
+            98% { clip-path: inset(70% 0 5% 0); transform: translate(1px, -1px); }
+            99% { clip-path: inset(5% 0 70% 0); transform: translate(-1px, 1px); }
         }
-        
-        .testimonial-card {
-            backdrop-filter: blur(15px);
-            background: rgba(26, 26, 26, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        /* Corner decorations */
+        .corner-decor {
+            position: absolute; width: 20px; height: 20px;
         }
-        
-        .certification-badge {
-            animation: certificationGlow 3s ease-in-out infinite alternate;
-        }
-        
-        @keyframes certificationGlow {
-            0% { box-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.6); }
-        }
-        
-        .parallax-bg {
-            background: linear-gradient(45deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
+        .corner-decor.tl { top: 0; left: 0; border-top: 1px solid var(--neon); border-left: 1px solid var(--neon); }
+        .corner-decor.tr { top: 0; right: 0; border-top: 1px solid var(--neon); border-right: 1px solid var(--neon); }
+        .corner-decor.bl { bottom: 0; left: 0; border-bottom: 1px solid var(--neon); border-left: 1px solid var(--neon); }
+        .corner-decor.br { bottom: 0; right: 0; border-bottom: 1px solid var(--neon); border-right: 1px solid var(--neon); }
     </style>
-<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fdevportfol4161back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
-<script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
 </head>
-<body class="bg-background text-text-primary overflow-x-hidden">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-subtle">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center glow-accent">
-                        <svg class="w-6 h-6 text-background" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <span class="text-xl font-bold glow-text">Dhyanchand Gond</span>
-                </div>
-                
-                <!-- Navigation Links (desktop) -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="hero_laboratory.html" class="text-text-secondary hover:text-accent transition-natural">Laboratory</a>
-                    <a href="about_dimension.html" class="text-accent font-medium hover:glow-accent transition-natural">About</a>
-                    <a href="skills_universe.html" class="text-text-secondary hover:text-accent transition-natural">Skills</a>
-                    <a href="project_galaxy.html" class="text-text-secondary hover:text-accent transition-natural">Projects</a>
-                    <a href="achievement_timeline.html" class="text-text-secondary hover:text-accent transition-natural">Timeline</a>
-                    <a href="contact_portal.html" class="bg-accent text-background px-6 py-2 rounded-lg hover:shadow-glow-accent transition-natural magnetic-hover">Contact</a>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-accent" data-menu-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
-
-                <!-- Mobile Menu Overlay -->
-                <div id="mobile-menu" class="fixed inset-0 z-60 bg-background/90 backdrop-blur-md hidden" aria-hidden="true">
-                    <div class="max-w-md w-full mx-auto mt-20 bg-surface/90 border border-subtle rounded-xl p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                                </div>
-                                <span class="font-semibold">Menu</span>
-                            </div>
-                            <button data-menu-toggle aria-controls="mobile-menu" aria-expanded="true" aria-label="Close navigation menu" class="text-text-secondary">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                            </button>
-                        </div>
-                        <nav class="space-y-4">
-                            <a href="hero_laboratory.html" class="block text-text-secondary">Laboratory</a>
-                            <a href="about_dimension.html" class="block text-accent font-medium">About</a>
-                            <a href="skills_universe.html" class="block text-text-secondary">Skills</a>
-                            <a href="project_galaxy.html" class="block text-text-secondary">Projects</a>
-                            <a href="achievement_timeline.html" class="block text-text-secondary">Timeline</a>
-                            <a href="contact_portal.html" class="block bg-accent text-background px-4 py-2 rounded-lg">Contact</a>
-                        </nav>
-                    </div>
-                </div>
+<body>
+    <!-- ═══ Navbar ═══ -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="hero_laboratory.html" class="nav-logo">
+                <div class="nav-logo-icon">DG</div>
+                <span class="nav-logo-text">Dhyanchand</span>
+            </a>
+            <div class="nav-links">
+                <a href="hero_laboratory.html">Home</a>
+                <a href="about_dimension.html" class="active">About</a>
+                <a href="skills_universe.html">Skills</a>
+                <a href="project_galaxy.html">Projects</a>
+                <a href="achievement_timeline.html">Timeline</a>
+                <a href="contact_portal.html" class="nav-cta">Contact</a>
             </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Open menu">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
     </nav>
+    <div id="mobileMenu" class="mobile-overlay">
+        <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')" aria-label="Close menu">
+            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l16 16M22 6L6 22"/></svg>
+        </button>
+        <a href="hero_laboratory.html">Home</a>
+        <a href="about_dimension.html">About</a>
+        <a href="skills_universe.html">Skills</a>
+        <a href="project_galaxy.html">Projects</a>
+        <a href="achievement_timeline.html">Timeline</a>
+        <a href="contact_portal.html">Contact</a>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="about-hero" class="relative min-h-screen flex items-center justify-center parallax-bg overflow-hidden">
-        <!-- Particle Canvas -->
-        <canvas id="particleCanvas" class="particle-canvas"></canvas>
-        
-        <!-- Floating Geometric Shapes -->
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-20 left-10 w-16 h-16 border-2 border-accent/30 rotate-45 floating-cube"></div>
-            <div class="absolute top-40 right-20 w-12 h-12 bg-success/20 rounded-full floating-cube" style="animation-delay: -2s;"></div>
-            <div class="absolute bottom-40 left-20 w-20 h-20 border border-warning/40 floating-cube" style="animation-delay: -4s;"></div>
-            <div class="absolute bottom-20 right-10 w-14 h-14 bg-accent/10 rotate-12 floating-cube" style="animation-delay: -1s;"></div>
-        </div>
-        
-        <div class="dimension-content max-w-7xl mx-auto px-6 py-20 text-center">
-            <div class="space-y-8 animate-slide-up">
-                <!-- Status Badge -->
-                <div class="inline-flex items-center space-x-2 bg-surface/50 backdrop-blur-sm border border-subtle rounded-full px-4 py-2">
-                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-                    <span class="text-sm text-text-secondary">Exploring the About Dimension</span>
-                </div>
-                
-                <!-- Main Heading -->
-                <div class="space-y-4">
-                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
-                        <span class="block glow-text">The Journey</span>
-                        <span class="block text-accent">Behind the Code</span>
-                    </h1>
-                    <p class="text-xl lg:text-2xl text-text-secondary max-w-3xl mx-auto">
-                        Where computer science meets creative innovation. Discover the passion, 
-                        education, and experiences that shape my approach to 
-                        <span class="text-accent font-medium">transforming ideas into interactive digital experiences</span>.
-                    </p>
-                    <!-- Education / Quick Bio -->
-                    <p class="mt-4 text-sm text-text-secondary">
-                        <strong class="text-accent">Dhyanchand Gond</strong> — BTech CS (AIML), 3rd Year
-                    </p>
-                </div>
+    <!-- ═══ Hero ═══ -->
+    <section class="about-hero">
+        <div class="hero-bg-grid"></div>
+        <div class="hero-neural-web"></div>
+        <div class="radar-sweep"></div>
+
+        <div class="hero-content fade-in">
+            <div class="classified-stamp">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--magenta);display:inline"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9M3 12a9 9 0 0118 0"/></svg>
+                <span>Classified Dossier</span>
             </div>
+            <h1 class="hero-title">
+                <span class="line1 glitch" data-text="The Neural">The Neural</span>
+                <span class="line2">Architect</span>
+            </h1>
+            <p class="hero-subtitle fade-in fade-in-d1">
+                <span class="highlight">&gt;_</span> Subject: <span class="highlight">Dhyanchand Gond</span> // 
+                Full-stack developer from Lucknow, India. Specializing in 
+                <span class="highlight">TypeScript</span>, <span class="highlight">Next.js</span>, 
+                and production-grade neural interfaces.
+            </p>
         </div>
     </section>
 
-    <!-- Personal Story Section -->
-    <section class="py-20 bg-surface/20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <!-- Story Content -->
-                <div class="space-y-8">
-                    <div class="space-y-4">
-                        <h2 class="text-4xl font-bold">Code with Purpose, Design with Passion</h2>
-                        <p class="text-lg text-text-secondary leading-relaxed">
-                            My journey into the world of technology began with a simple curiosity: 
-                            <em class="text-accent">"What if code could be art?"</em> This question has driven 
-                            me through years of exploration, learning, and creating at the intersection 
-                            of technical excellence and creative expression.
+    <!-- ═══ Dossier ═══ -->
+    <section class="dossier-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">SYS://dossier</span>
+                <div class="section-line"></div>
+            </div>
+            <h2 class="section-title fade-in fade-in-d1">Subject Profile</h2>
+
+            <div class="dossier-grid" style="margin-top:2rem;">
+                <!-- Left: Subject Card -->
+                <div class="subject-card fade-in fade-in-d2">
+                    <div class="corner-decor tl"></div>
+                    <div class="corner-decor tr"></div>
+                    <div class="corner-decor bl"></div>
+                    <div class="corner-decor br"></div>
+
+                    <div class="subject-avatar">
+                        <div class="avatar-hex-border"></div>
+                        <div class="avatar-scan"></div>
+                        <img src="diwakar-avatar.png" alt="Dhyanchand Gond — Neural Architect" />
+                    </div>
+                    <div class="subject-name">Dhyanchand Gond</div>
+                    <div class="subject-role">Full-Stack Developer // Neural Architect</div>
+
+                    <div class="subject-stats">
+                        <div class="stat-row">
+                            <span class="label">Location</span>
+                            <span class="value">Lucknow, IN</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Status</span>
+                            <span class="value" style="color:var(--neon);">● ACTIVE</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Repos</span>
+                            <span class="value">11+</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Projects</span>
+                            <span class="value">5+</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="label">Stack</span>
+                            <span class="value" style="font-size:0.7rem;">TS/Next/Redux</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Bio Cards -->
+                <div class="bio-panel">
+                    <div class="bio-card fade-in fade-in-d1">
+                        <div class="bio-card-header">
+                            <div class="bio-icon">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--neon)"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            </div>
+                            <span class="bio-card-title">Mission Brief</span>
+                        </div>
+                        <p class="bio-card-text">
+                            Dev who ships. My mission is to turn raw ideas into <span class="neon">production-ready applications</span> 
+                            that solve real problems. I specialize in building full-stack systems with 
+                            <span class="cyan">TypeScript, Next.js, Tailwind & Redux</span> — 
+                            always prioritizing clean architecture, performance, and extraordinary user experiences.
                         </p>
                     </div>
-                    
-                    <!-- Expandable Life Phases -->
-                    <div class="space-y-4">
-                        <!-- Early Years -->
-                        <div class="phase-card rounded-xl p-6">
-                            <button class="w-full flex items-center justify-between text-left" onclick="togglePhase('early-years')">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold">The Spark (2018-2020)</h3>
-                                        <p class="text-text-secondary">First encounter with programming</p>
-                                    </div>
-                                </div>
-                                <svg class="w-5 h-5 text-accent transition-transform duration-300" id="early-years-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </button>
-                            <div id="early-years" class="expandable-section mt-4">
-                                <p class="text-text-secondary leading-relaxed">
-                                    It all started with a simple "Hello, World!" in Python during my first computer science class. 
-                                    The moment I saw those words appear on the screen, I knew I had found my calling. 
-                                    I spent countless hours experimenting with basic algorithms, building simple games, 
-                                    and discovering the logical beauty of programming.
-                                </p>
+
+                    <div class="bio-card fade-in fade-in-d2">
+                        <div class="bio-card-header">
+                            <div class="bio-icon" style="border-color:rgba(0,229,255,0.25);background:rgba(0,229,255,0.05);">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--cyan)"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                             </div>
+                            <span class="bio-card-title">Origin Story</span>
                         </div>
-                        
-                        <!-- Academic Journey -->
-                        <div class="phase-card rounded-xl p-6">
-                            <button class="w-full flex items-center justify-between text-left" onclick="togglePhase('academic-journey')">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-success/20 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold">Academic Excellence (2020-2024)</h3>
-                                        <p class="text-text-secondary">Computer Science degree journey</p>
-                                    </div>
-                                </div>
-                                <svg class="w-5 h-5 text-accent transition-transform duration-300" id="academic-journey-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </button>
-                            <div id="academic-journey" class="expandable-section mt-4">
-                                <p class="text-text-secondary leading-relaxed mb-4">
-                                    Pursuing my Bachelor's in Computer Science at Tech University has been transformative. 
-                                    From data structures and algorithms to machine learning and web development, 
-                                    each course has added new dimensions to my problem-solving toolkit.
-                                </p>
-                                <div class="grid grid-cols-2 gap-4 text-sm">
-                                    <div class="bg-background/50 rounded-lg p-3">
-                                        <div class="font-semibold text-accent">GPA: 3.8/4.0</div>
-                                        <div class="text-text-secondary">Dean's List (3 semesters)</div>
-                                    </div>
-                                    <div class="bg-background/50 rounded-lg p-3">
-                                        <div class="font-semibold text-success">Key Courses</div>
-                                        <div class="text-text-secondary">AI, Web Dev, Databases</div>
-                                    </div>
-                                </div>
+                        <p class="bio-card-text">
+                            It started with a single line of code — a <span class="cyan">"Hello, World!"</span> 
+                            that sparked a lifelong obsession with building digital systems. From experimenting with basic 
+                            algorithms to shipping full-stack platforms like <span class="neon">CyberShield</span>, 
+                            <span class="neon">AlgoArena</span>, and <span class="neon">PartanX</span> — each project 
+                            pushed the boundaries of what I thought was possible.
+                        </p>
+                    </div>
+
+                    <div class="bio-card fade-in fade-in-d3">
+                        <div class="bio-card-header">
+                            <div class="bio-icon" style="border-color:rgba(255,0,110,0.25);background:rgba(255,0,110,0.05);">
+                                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--magenta)"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                             </div>
+                            <span class="bio-card-title">Current Directive</span>
                         </div>
-                        
-                        <!-- Professional Growth -->
-                        <div class="phase-card rounded-xl p-6">
-                            <button class="w-full flex items-center justify-between text-left" onclick="togglePhase('professional-growth')">
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-12 h-12 bg-warning/20 rounded-lg flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-xl font-semibold">Building Tomorrow's Web (2023-Present)</h3>
-                                        <p class="text-text-secondary">Professional development & innovation</p>
-                                    </div>
-                                </div>
-                                <svg class="w-5 h-5 text-accent transition-transform duration-300" id="professional-growth-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                            </button>
-                            <div id="professional-growth" class="expandable-section mt-4">
-                                <p class="text-text-secondary leading-relaxed">
-                                    Today, I'm focused on pushing the boundaries of web technology through 3D experiences, 
-                                    interactive animations, and performance optimization. My goal is to create digital 
-                                    experiences that not only function flawlessly but inspire and delight users.
-                                </p>
-                            </div>
+                        <p class="bio-card-text">
+                            Currently focused on building <span class="neon">production-grade web platforms</span> that merge 
+                            cutting-edge technology with extraordinary design. Exploring AI-powered developer tools, 
+                            cybersecurity systems, and <span class="cyan">competitive programming platforms</span>. 
+                            Every line of code is a step toward the future I want to build.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="neural-pulse"></div>
+
+    <!-- ═══ Journey Timeline ═══ -->
+    <section class="timeline-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">SYS://timeline</span>
+                <div class="section-line"></div>
+            </div>
+            <h2 class="section-title fade-in fade-in-d1">Evolution Log</h2>
+
+            <div class="timeline-track" style="margin-top:2rem;">
+                <div class="timeline-entry">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-year">2024 — Present</div>
+                        <h3>Building Tomorrow's Web</h3>
+                        <p>Shipping production-grade platforms. Full-stack development with TypeScript, Next.js, and modern frameworks. Leading development of CyberShield, AlgoArena, and AI-powered tools.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag">TypeScript</span>
+                            <span class="timeline-tag cyan">Next.js</span>
+                            <span class="timeline-tag">Firebase</span>
+                            <span class="timeline-tag magenta">AI/ML</span>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Visual Elements -->
-                <div class="relative">
-                    <!-- Profile Image with 3D Effect -->
-                    <div class="relative w-80 h-80 mx-auto">
-                        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-success/20 rounded-full blur-3xl"></div>
-                        <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-accent/30 shadow-glow-accent">
-                            <img src="professional-headshot-of-sarah-chen--ceo.jpg" class="w-full h-full object-cover" alt="">
+
+                <div class="timeline-entry">
+                    <div class="timeline-dot cyan"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-year" style="color:var(--cyan);">2022 — 2023</div>
+                        <h3>Advanced Development Phase</h3>
+                        <p>Mastered React ecosystem, state management with Redux, and backend architecture with Node.js & Express. Built complex multi-tier applications and deployed to cloud platforms.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag cyan">React</span>
+                            <span class="timeline-tag">Redux</span>
+                            <span class="timeline-tag cyan">Node.js</span>
+                            <span class="timeline-tag">Cloud</span>
                         </div>
                     </div>
-                    
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-2 gap-4 mt-8">
-                        <div class="text-center bg-surface/50 backdrop-blur-sm rounded-xl p-4 border border-subtle">
-                            <div class="text-2xl font-bold text-accent">2025</div>
-                            <div class="text-sm text-text-secondary">Expected Graduation</div>
-                        </div>
-                        <div class="text-center bg-surface/50 backdrop-blur-sm rounded-xl p-4 border border-subtle">
-                            <div class="text-2xl font-bold text-success">50+</div>
-                            <div class="text-sm text-text-secondary">Projects Completed</div>
+                </div>
+
+                <div class="timeline-entry">
+                    <div class="timeline-dot magenta"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-year" style="color:var(--magenta);">2020 — 2021</div>
+                        <h3>The Awakening</h3>
+                        <p>First encounter with programming. Python, HTML/CSS, JavaScript — the building blocks that ignited a passion for creating digital experiences. The spark that started it all.</p>
+                        <div class="timeline-tags">
+                            <span class="timeline-tag magenta">Python</span>
+                            <span class="timeline-tag">HTML/CSS</span>
+                            <span class="timeline-tag magenta">JavaScript</span>
                         </div>
                     </div>
                 </div>
@@ -363,620 +811,171 @@
         </div>
     </section>
 
-    <!-- Education Timeline -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Educational Journey</h2>
-                <p class="text-text-secondary max-w-2xl mx-auto">
-                    A timeline of academic milestones and learning experiences that shaped my technical foundation.
-                </p>
+    <div class="neural-pulse"></div>
+
+    <!-- ═══ Activity Metrics ═══ -->
+    <section class="activity-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">SYS://metrics</span>
+                <div class="section-line"></div>
             </div>
-            
-            <div class="relative">
-                <!-- Timeline Line -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-accent/30"></div>
-                
-                <!-- Timeline Items -->
-                <div class="space-y-16">
-                    <!-- 2024 - Senior Year -->
-                    <div class="timeline-item flex items-center">
-                        <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
-                                <div class="text-accent font-semibold mb-2">2024 - Present</div>
-                                <h3 class="text-xl font-bold mb-2">Senior Year Focus</h3>
-                                <p class="text-text-secondary">Advanced coursework in AI/ML, capstone project development, and industry collaboration.</p>
-                                <div class="flex justify-end space-x-2 mt-4">
-                                    <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm">Machine Learning</span>
-                                    <span class="bg-success/20 text-success px-3 py-1 rounded-full text-sm">Capstone</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-8 h-8 bg-accent rounded-full border-4 border-background flex-shrink-0 z-10"></div>
-                        <div class="w-1/2 pl-8"></div>
-                    </div>
-                    
-                    <!-- 2023 - Junior Year -->
-                    <div class="timeline-item flex items-center">
-                        <div class="w-1/2 pr-8"></div>
-                        <div class="w-8 h-8 bg-success rounded-full border-4 border-background flex-shrink-0 z-10"></div>
-                        <div class="w-1/2 pl-8">
-                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
-                                <div class="text-success font-semibold mb-2">2023</div>
-                                <h3 class="text-xl font-bold mb-2">Advanced Development</h3>
-                                <p class="text-text-secondary">Full-stack development, database systems, and software engineering principles.</p>
-                                <div class="flex space-x-2 mt-4">
-                                    <span class="bg-warning/20 text-warning px-3 py-1 rounded-full text-sm">Full-Stack</span>
-                                    <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm">Databases</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 2022 - Sophomore Year -->
-                    <div class="timeline-item flex items-center">
-                        <div class="w-1/2 pr-8 text-right">
-                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
-                                <div class="text-warning font-semibold mb-2">2022</div>
-                                <h3 class="text-xl font-bold mb-2">Core Foundations</h3>
-                                <p class="text-text-secondary">Data structures, algorithms, and object-oriented programming mastery.</p>
-                                <div class="flex justify-end space-x-2 mt-4">
-                                    <span class="bg-success/20 text-success px-3 py-1 rounded-full text-sm">Algorithms</span>
-                                    <span class="bg-warning/20 text-warning px-3 py-1 rounded-full text-sm">OOP</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="w-8 h-8 bg-warning rounded-full border-4 border-background flex-shrink-0 z-10"></div>
-                        <div class="w-1/2 pl-8"></div>
-                    </div>
-                    
-                    <!-- 2021 - Freshman Year -->
-                    <div class="timeline-item flex items-center">
-                        <div class="w-1/2 pr-8"></div>
-                        <div class="w-8 h-8 bg-accent rounded-full border-4 border-background flex-shrink-0 z-10"></div>
-                        <div class="w-1/2 pl-8">
-                            <div class="bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6">
-                                <div class="text-accent font-semibold mb-2">2021</div>
-                                <h3 class="text-xl font-bold mb-2">The Beginning</h3>
-                                <p class="text-text-secondary">Introduction to programming, mathematics for CS, and foundational concepts.</p>
-                                <div class="flex space-x-2 mt-4">
-                                    <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm">Python</span>
-                                    <span class="bg-success/20 text-success px-3 py-1 rounded-full text-sm">Mathematics</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <h2 class="section-title fade-in fade-in-d1">Neural Activity</h2>
+
+            <div class="activity-grid" style="margin-top:2rem;">
+                <div class="metric-card fade-in">
+                    <div class="metric-value neon" id="repoCount">0</div>
+                    <div class="metric-label">Public Repos</div>
+                </div>
+                <div class="metric-card fade-in fade-in-d1">
+                    <div class="metric-value cyan" id="projectCount">0</div>
+                    <div class="metric-label">Live Projects</div>
+                </div>
+                <div class="metric-card fade-in fade-in-d2">
+                    <div class="metric-value amber" id="contribCount">0</div>
+                    <div class="metric-label">Contributions</div>
+                </div>
+                <div class="metric-card fade-in fade-in-d3">
+                    <div class="metric-value magenta" id="followerCount">0</div>
+                    <div class="metric-label">Followers</div>
+                </div>
+            </div>
+
+            <!-- Heatmap -->
+            <div class="heatmap-container fade-in">
+                <div class="heatmap-title">Contribution Heatmap — 2025/2026</div>
+                <div class="heatmap-grid" id="heatmap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ Interests ═══ -->
+    <section class="interests-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">SYS://interests</span>
+                <div class="section-line"></div>
+            </div>
+            <h2 class="section-title fade-in fade-in-d1">Neural Nodes</h2>
+
+            <div class="interests-grid" style="margin-top:2rem;">
+                <div class="interest-card fade-in">
+                    <div class="interest-icon">🔐</div>
+                    <div class="interest-name">Cybersecurity</div>
+                    <div class="interest-desc">Building defense systems and security-first applications. Fascinated by ethical hacking and secure architecture.</div>
+                </div>
+                <div class="interest-card fade-in fade-in-d1">
+                    <div class="interest-icon">🧠</div>
+                    <div class="interest-name">AI & Machine Learning</div>
+                    <div class="interest-desc">Exploring AI-powered tools, from resume builders to intelligent code analysis systems.</div>
+                </div>
+                <div class="interest-card fade-in fade-in-d2">
+                    <div class="interest-icon">⚡</div>
+                    <div class="interest-name">Competitive Programming</div>
+                    <div class="interest-desc">Sharpening algorithmic thinking through DSA challenges and building platforms like AlgoArena.</div>
+                </div>
+                <div class="interest-card fade-in fade-in-d3">
+                    <div class="interest-icon">🚀</div>
+                    <div class="interest-name">Open Source</div>
+                    <div class="interest-desc">Contributing to the community. Building tools that empower developers worldwide.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Progress Section -->
-    <section class="py-20 bg-surface/20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Skill Evolution</h2>
-                <p class="text-text-secondary max-w-2xl mx-auto">
-                    Watch my technical capabilities grow through interactive progress visualization.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Frontend Skills -->
-                <div class="bg-surface/50 backdrop-blur-sm border border-subtle rounded-xl p-8">
-                    <h3 class="text-2xl font-bold mb-6 text-accent">Frontend Mastery</h3>
-                    <div class="space-y-6">
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">JavaScript/TypeScript</span>
-                                <span class="text-accent">95%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-accent h-3 rounded-full" data-width="95"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">React/Next.js</span>
-                                <span class="text-success">90%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-success h-3 rounded-full" data-width="90"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Three.js/WebGL</span>
-                                <span class="text-warning">85%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-warning h-3 rounded-full" data-width="85"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">CSS/Tailwind</span>
-                                <span class="text-accent">92%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-accent h-3 rounded-full" data-width="92"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Backend Skills -->
-                <div class="bg-surface/50 backdrop-blur-sm border border-subtle rounded-xl p-8">
-                    <h3 class="text-2xl font-bold mb-6 text-success">Backend Expertise</h3>
-                    <div class="space-y-6">
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Node.js/Express</span>
-                                <span class="text-success">88%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-success h-3 rounded-full" data-width="88"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Python/Django</span>
-                                <span class="text-warning">82%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-warning h-3 rounded-full" data-width="82"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Database Design</span>
-                                <span class="text-accent">87%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-accent h-3 rounded-full" data-width="87"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="skill-item">
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Cloud Services</span>
-                                <span class="text-success">80%</span>
-                            </div>
-                            <div class="w-full bg-background/50 rounded-full h-3">
-                                <div class="skill-progress bg-success h-3 rounded-full" data-width="80"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- ═══ CTA ═══ -->
+    <section class="cta-section">
+        <div class="section-inner" style="text-align:center;">
+            <h2 class="cta-title fade-in">Initiate Connection</h2>
+            <p class="cta-desc fade-in fade-in-d1">Ready to collaborate on the next generation of digital experiences? Let's build something extraordinary.</p>
+            <div class="cta-btns fade-in fade-in-d2">
+                <a href="project_galaxy.html" class="btn-primary">
+                    View Projects
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m0 0l-5-5m5 5l-5 5"/></svg>
+                </a>
+                <a href="contact_portal.html" class="btn-ghost">
+                    Open Channel
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- GitHub Contribution Graph -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Coding Activity</h2>
-                <p class="text-text-secondary max-w-2xl mx-auto">
-                    My GitHub contribution graph showcasing consistent development and learning.
-                </p>
-            </div>
-            
-            <div class="bg-surface/50 backdrop-blur-sm border border-subtle rounded-xl p-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl font-semibold">2024 Contributions</h3>
-                    <div class="flex items-center space-x-4 text-sm text-text-secondary">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-3 h-3 bg-background/50 rounded-sm"></div>
-                            <span>Less</span>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <div class="w-3 h-3 bg-accent/30 rounded-sm"></div>
-                            <div class="w-3 h-3 bg-accent/50 rounded-sm"></div>
-                            <div class="w-3 h-3 bg-accent/70 rounded-sm"></div>
-                            <div class="w-3 h-3 bg-accent rounded-sm"></div>
-                        </div>
-                        <span>More</span>
-                    </div>
-                </div>
-                
-                <!-- Contribution Grid -->
-                <div class="github-graph rounded-lg p-4 overflow-x-auto">
-                    <div class="flex space-x-1 min-w-max" id="contributionGraph">
-                        <!-- Generated by JavaScript -->
-                    </div>
-                </div>
-                
-                <!-- Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-accent">1,247</div>
-                        <div class="text-sm text-text-secondary">Total Contributions</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-success">156</div>
-                        <div class="text-sm text-text-secondary">Days Active</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-warning">42</div>
-                        <div class="text-sm text-text-secondary">Repositories</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-2xl font-bold text-accent">23</div>
-                        <div class="text-sm text-text-secondary">Pull Requests</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- ═══ Footer ═══ -->
+    <footer class="footer">
+        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank" rel="noopener">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER // LUCKNOW, INDIA</p>
+    </footer>
 
-    <!-- Testimonials & Social Proof -->
-    <section class="py-20 bg-surface/20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">What Others Say</h2>
-                <p class="text-text-secondary max-w-2xl mx-auto">
-                    Testimonials from professors, collaborators, and peers who've witnessed my growth.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Professor Testimonial -->
-                <div class="testimonial-card rounded-xl p-6">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Professor Smith" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'; this.onerror=null;" />
-                        <div>
-                            <div class="font-semibold">Dr. Sarah Chen</div>
-                            <div class="text-sm text-text-secondary">Computer Science Professor</div>
-                        </div>
-                    </div>
-                    <p class="text-text-secondary italic">
-                        "Exceptional student who consistently demonstrates both technical excellence and creative problem-solving. 
-                        Their capstone project showcased innovative thinking that impressed the entire faculty."
-                    </p>
-                    <div class="flex text-warning mt-4">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    </div>
-                </div>
-                
-                <!-- Peer Testimonial -->
-                <div class="testimonial-card rounded-xl p-6">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <img src="https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg" alt="Alex Rodriguez" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                        <div>
-                            <div class="font-semibold">Alex Rodriguez</div>
-                            <div class="text-sm text-text-secondary">Project Collaborator</div>
-                        </div>
-                    </div>
-                    <p class="text-text-secondary italic">
-                        "Working on our hackathon project together was incredible. Their ability to combine 
-                        clean code with stunning visual design helped us win first place. A true creative technologist!"
-                    </p>
-                    <div class="flex text-warning mt-4">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    </div>
-                </div>
-                
-                <!-- Mentor Testimonial -->
-                <div class="testimonial-card rounded-xl p-6">
-                    <div class="flex items-center space-x-4 mb-4">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Michael Johnson" class="w-12 h-12 rounded-full object-cover" onerror="this.src='https://images.pixabay.com/photo/2016/11/21/12/42/beard-1845166_1280.jpg'; this.onerror=null;" />
-                        <div>
-                            <div class="font-semibold">Michael Johnson</div>
-                            <div class="text-sm text-text-secondary">Industry Mentor</div>
-                        </div>
-                    </div>
-                    <p class="text-text-secondary italic">
-                        "Rare to find someone who balances technical depth with creative vision so well. 
-                        Their portfolio projects demonstrate real-world application of advanced concepts."
-                    </p>
-                    <div class="flex text-warning mt-4">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Certifications & Achievements -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Certifications & Recognition</h2>
-                <p class="text-text-secondary max-w-2xl mx-auto">
-                    Interactive achievements showcasing continuous learning and professional development.
-                </p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- AWS Certification -->
-                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-success/30 rounded-xl p-6 text-center magnetic-hover">
-                    <div class="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-success" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold mb-2">AWS Cloud Practitioner</h3>
-                    <p class="text-sm text-text-secondary">Certified 2024</p>
-                </div>
-                
-                <!-- React Certification -->
-                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-accent/30 rounded-xl p-6 text-center magnetic-hover">
-                    <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold mb-2">React Developer</h3>
-                    <p class="text-sm text-text-secondary">Meta Certified 2023</p>
-                </div>
-                
-                <!-- Hackathon Winner -->
-                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-warning/30 rounded-xl p-6 text-center magnetic-hover">
-                    <div class="w-16 h-16 bg-warning/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold mb-2">Hackathon Winner</h3>
-                    <p class="text-sm text-text-secondary">TechCrunch 2024</p>
-                </div>
-                
-                <!-- Dean's List -->
-                <div class="certification-badge bg-surface/50 backdrop-blur-sm border border-accent/30 rounded-xl p-6 text-center magnetic-hover">
-                    <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                    </div>
-                    <h3 class="font-semibold mb-2">Dean's List</h3>
-                    <p class="text-sm text-text-secondary">3 Semesters</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="py-20 bg-surface/20">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <div class="space-y-8">
-                <h2 class="text-4xl font-bold">Ready to Build Tomorrow's Web Together?</h2>
-                <p class="text-xl text-text-secondary">
-                    Let's connect and explore how we can create innovative digital experiences 
-                    that push the boundaries of what's possible.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="project_galaxy.html" class="bg-accent text-background px-8 py-4 rounded-lg font-semibold hover:shadow-glow-accent transition-natural magnetic-hover inline-flex items-center justify-center space-x-2">
-                        <span>View My Projects</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                    </a>
-                    <a href="contact_portal.html" class="border border-accent text-accent px-8 py-4 rounded-lg font-semibold hover:bg-accent hover:text-background transition-natural magnetic-hover inline-flex items-center justify-center space-x-2">
-                        <span>Get In Touch</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- JavaScript for Interactions -->
     <script>
-        // Particle System
-        class ParticleSystem {
-            constructor() {
-                this.canvas = document.getElementById('particleCanvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.mouse = { x: 0, y: 0 };
-                
-                this.resize();
-                this.init();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.resize());
-                window.addEventListener('mousemove', (e) => this.updateMouse(e));
+        // Counter animation
+        function animateCounter(id, target, duration) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            let start = 0;
+            const step = target / (duration / 16);
+            function update() {
+                start += step;
+                if (start >= target) { el.textContent = target + '+'; return; }
+                el.textContent = Math.floor(start) + '+';
+                requestAnimationFrame(update);
             }
-            
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            init() {
-                for (let i = 0; i < 80; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        vx: (Math.random() - 0.5) * 0.3,
-                        vy: (Math.random() - 0.5) * 0.3,
-                        size: Math.random() * 2 + 1,
-                        opacity: Math.random() * 0.5 + 0.2
-                    });
+            update();
+        }
+
+        // Generate heatmap
+        function generateHeatmap() {
+            const container = document.getElementById('heatmap');
+            if (!container) return;
+            const levels = ['', 'l1', 'l2', 'l3', 'l4'];
+            for (let w = 0; w < 52; w++) {
+                const col = document.createElement('div');
+                col.className = 'heatmap-col';
+                for (let d = 0; d < 7; d++) {
+                    const cell = document.createElement('div');
+                    const rand = Math.random();
+                    let level = 0;
+                    if (rand > 0.7) level = 1;
+                    if (rand > 0.82) level = 2;
+                    if (rand > 0.91) level = 3;
+                    if (rand > 0.96) level = 4;
+                    cell.className = 'heatmap-cell ' + levels[level];
+                    col.appendChild(cell);
                 }
-            }
-            
-            updateMouse(e) {
-                this.mouse.x = e.clientX;
-                this.mouse.y = e.clientY;
-            }
-            
-            animate() {
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.particles.forEach(particle => {
-                    // Mouse interaction
-                    const dx = this.mouse.x - particle.x;
-                    const dy = this.mouse.y - particle.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 100) {
-                        particle.vx += dx * 0.00003;
-                        particle.vy += dy * 0.00003;
-                    }
-                    
-                    // Update position
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
-                    
-                    // Boundary check
-                    if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
-                    if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
-                    
-                    // Draw particle
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `rgba(0, 212, 255, ${particle.opacity})`;
-                    this.ctx.fill();
-                });
-                
-                requestAnimationFrame(() => this.animate());
+                container.appendChild(col);
             }
         }
-        
-        // Initialize particle system
-        window.addEventListener('load', () => {
-            new ParticleSystem();
-        });
-        
-        // Phase toggle functionality
-        function togglePhase(phaseId) {
-            const phase = document.getElementById(phaseId);
-            const icon = document.getElementById(phaseId + '-icon');
-            
-            if (phase.classList.contains('expanded')) {
-                phase.classList.remove('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                phase.classList.add('expanded');
-                icon.style.transform = 'rotate(180deg)';
-            }
-        }
-        
-        // Timeline animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const timelineObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
+
+        // Intersection observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.animationPlayState = 'running';
                 }
             });
-        }, observerOptions);
-        
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            timelineObserver.observe(item);
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
         });
-        
-        // Skill progress animation
-        const skillObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const progressBars = entry.target.querySelectorAll('.skill-progress');
-                    progressBars.forEach(bar => {
-                        const width = bar.getAttribute('data-width');
-                        setTimeout(() => {
-                            bar.style.width = width + '%';
-                        }, 300);
-                    });
+
+        // Start counters when metrics section is visible
+        const metricsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    animateCounter('repoCount', 11, 1500);
+                    animateCounter('projectCount', 5, 1500);
+                    animateCounter('contribCount', 200, 2000);
+                    animateCounter('followerCount', 4, 1000);
+                    metricsObserver.unobserve(e.target);
                 }
             });
-        }, observerOptions);
-        
-        document.querySelectorAll('.skill-item').forEach(item => {
-            skillObserver.observe(item);
-        });
-        
-        // Generate GitHub contribution graph
-        function generateContributionGraph() {
-            const graph = document.getElementById('contributionGraph');
-            const weeks = 52;
-            const days = 7;
-            
-            for (let week = 0; week < weeks; week++) {
-                const weekDiv = document.createElement('div');
-                weekDiv.className = 'flex flex-col space-y-1';
-                
-                for (let day = 0; day < days; day++) {
-                    const dayDiv = document.createElement('div');
-                    dayDiv.className = 'contribution-day';
-                    
-                    // Random contribution level (0-4)
-                    const level = Math.floor(Math.random() * 5);
-                    const colors = [
-                        'bg-background/50',
-                        'bg-accent/30',
-                        'bg-accent/50',
-                        'bg-accent/70',
-                        'bg-accent'
-                    ];
-                    
-                    dayDiv.className += ' ' + colors[level];
-                    dayDiv.title = `${level} contributions`;
-                    
-                    weekDiv.appendChild(dayDiv);
-                }
-                
-                graph.appendChild(weekDiv);
-            }
-        }
-        
-        // Initialize contribution graph
-        generateContributionGraph();
-        
-        // Magnetic hover effect
-        document.querySelectorAll('.magnetic-hover').forEach(element => {
-            element.addEventListener('mousemove', (e) => {
-                const rect = element.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                element.style.transform = 'translate(0px, 0px) scale(1)';
-            });
-        });
-        
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        }, { threshold: 0.3 });
+        const actSection = document.querySelector('.activity-section');
+        if (actSection) metricsObserver.observe(actSection);
+
+        // Init
+        generateHeatmap();
     </script>
-    <script src="../js/menu.js"></script>
-    <script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 </body>
 </html>

@@ -3,1057 +3,443 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skills Universe - Dhyanchand Gond</title>
-    <link rel="stylesheet" href="../css/main.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>CLASSIFIED // Skills Matrix — Dhyanchand Gond</title>
+    <meta name="description" content="Neural skill matrix of Dhyanchand Gond — TypeScript, Next.js, React, Redux, Firebase, Node.js, and beyond." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        .skills-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        :root {
+            --void: #030308; --abyss: #07070f; --surface: #0c0c18; --panel: #10101f;
+            --border: rgba(0,255,170,0.08); --border-hot: rgba(0,255,170,0.25);
+            --neon: #00ffaa; --cyan: #00e5ff; --magenta: #ff006e; --amber: #ffbe0b;
+            --text: #c8d6e5; --text-dim: #5a6a7a; --text-bright: #e8f0f8;
+            --glow-neon: 0 0 30px rgba(0,255,170,0.3), 0 0 60px rgba(0,255,170,0.1);
+            --font-display: 'Orbitron', sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
-        
-        .skills-content {
-            position: relative;
-            z-index: 10;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--void); color: var(--text); overflow-x: hidden; }
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,170,0.015) 2px, rgba(0,255,170,0.015) 4px);
         }
-        
-        .skill-constellation {
-            animation: constellation-rotate 30s linear infinite;
+
+        /* Navbar (same as about) */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3,3,8,0.85); backdrop-filter: blur(25px) saturate(180%); border-bottom: 1px solid var(--border); }
+        .navbar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--neon), transparent); opacity: 0.4; }
+        .navbar-inner { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; border-radius: 8px; background: linear-gradient(135deg, var(--neon), var(--cyan)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: var(--void); font-family: var(--font-display); box-shadow: var(--glow-neon); }
+        .nav-logo-text { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: var(--neon); letter-spacing: 2px; text-transform: uppercase; }
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-links a { color: var(--text-dim); font-size: 0.8rem; font-weight: 500; text-decoration: none; transition: all 0.3s; letter-spacing: 1px; text-transform: uppercase; font-family: var(--font-mono); position: relative; }
+        .nav-links a:hover, .nav-links a.active { color: var(--neon); text-shadow: 0 0 20px rgba(0,255,170,0.5); }
+        .nav-links a.active::after { content: ''; position: absolute; bottom: -6px; left: 0; right: 0; height: 2px; background: var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .nav-cta { background: transparent; color: var(--neon); padding: 8px 20px; border: 1px solid var(--neon); border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; }
+        .nav-cta:hover { background: var(--neon); color: var(--void); box-shadow: var(--glow-neon); }
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--neon); }
+        @media (max-width: 768px) { .nav-links { display: none; } .mobile-menu-btn { display: block; } }
+        .mobile-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(3,3,8,0.97); backdrop-filter: blur(30px); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+        .mobile-overlay.open { display: flex; }
+        .mobile-overlay a { color: var(--text); font-size: 1.2rem; font-weight: 600; text-decoration: none; font-family: var(--font-display); letter-spacing: 3px; text-transform: uppercase; transition: color 0.3s; }
+        .mobile-overlay a:hover { color: var(--neon); }
+        .mobile-close { position: absolute; top: 1.25rem; right: 1.5rem; background: none; border: none; color: var(--text-dim); cursor: pointer; }
+
+        /* Section common */
+        .section-inner { max-width: 1200px; margin: 0 auto; }
+        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 1.5rem; }
+        .section-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--neon); background: rgba(0,255,170,0.08); border: 1px solid rgba(0,255,170,0.2); padding: 4px 12px; letter-spacing: 2px; text-transform: uppercase; }
+        .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-hot), transparent); }
+        .section-title { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: var(--text-bright); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .section-subtitle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim); margin-bottom: 3rem; }
+
+        /* Hero */
+        .skills-hero {
+            min-height: 60vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; padding: 8rem 2rem 4rem; text-align: center;
         }
-        
-        @keyframes constellation-rotate {
-            0% { transform: rotateY(0deg) rotateX(0deg); }
-            25% { transform: rotateY(90deg) rotateX(15deg); }
-            50% { transform: rotateY(180deg) rotateX(0deg); }
-            75% { transform: rotateY(270deg) rotateX(-15deg); }
-            100% { transform: rotateY(360deg) rotateX(0deg); }
+        .skills-hero::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,255,170,0.08), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,229,255,0.05), transparent);
         }
-        
-        .skill-node {
+        .hex-grid-bg {
+            position: absolute; inset: 0; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpath d='M30 0L60 15v22L30 52 0 37V15z' fill='none' stroke='%2300ffaa' stroke-width='0.5'/%3E%3C/svg%3E");
+            background-size: 60px 52px;
+        }
+        .skills-hero-content { position: relative; z-index: 2; }
+        .skills-hero h1 {
+            font-family: var(--font-display); font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900; text-transform: uppercase; letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+        .skills-hero h1 span {
+            background: linear-gradient(135deg, var(--neon), var(--cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0,255,170,0.4));
+        }
+        .skills-hero p {
+            font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim);
+            max-width: 600px; margin: 0 auto;
+        }
+
+        /* Skill category sections */
+        .skill-section { padding: 4rem 2rem; position: relative; }
+        .skill-section:nth-child(even) { background: var(--abyss); }
+        .skill-section::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent); opacity: 0.15;
+        }
+
+        /* Skill cards grid */
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 1.5rem; position: relative; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
         }
-        
-        .skill-node:hover {
-            transform: scale(1.1) translateZ(20px);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+        .skill-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--neon), var(--cyan));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s;
         }
-        
-        .magnetic-hover {
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .skill-card:hover::before { transform: scaleX(1); }
+        .skill-card:hover {
+            border-color: var(--border-hot);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(0,255,170,0.06);
         }
-        
-        .magnetic-hover:hover {
-            transform: scale(1.05) translateY(-5px);
+        .skill-card-icon {
+            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border-hot); background: rgba(0,255,170,0.05);
+            margin-bottom: 1rem; font-size: 1.2rem;
         }
-        
-        .code-demo {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+        .skill-card-name {
+            font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+            color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 0.75rem;
         }
-        
-        .code-demo:hover {
-            border-color: rgba(0, 212, 255, 0.6);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+
+        /* Skill progress bar */
+        .skill-bar-track {
+            width: 100%; height: 4px; background: rgba(255,255,255,0.05);
+            margin-bottom: 0.5rem; position: relative; overflow: hidden;
         }
-        
-        .proficiency-bar {
-            background: linear-gradient(90deg, #00d4ff 0%, #39ff14 100%);
-            height: 4px;
-            border-radius: 2px;
-            transition: width 1s ease-out;
+        .skill-bar-fill {
+            height: 100%; width: 0; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .filter-button {
-            transition: all 0.3s ease;
+        .skill-bar-fill.neon { background: linear-gradient(90deg, var(--neon), rgba(0,255,170,0.5)); }
+        .skill-bar-fill.cyan { background: linear-gradient(90deg, var(--cyan), rgba(0,229,255,0.5)); }
+        .skill-bar-fill.magenta { background: linear-gradient(90deg, var(--magenta), rgba(255,0,110,0.5)); }
+        .skill-bar-fill.amber { background: linear-gradient(90deg, var(--amber), rgba(255,190,11,0.5)); }
+
+        .skill-level {
+            font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim);
+            display: flex; justify-content: space-between;
         }
-        
-        .filter-button.active {
-            background: linear-gradient(135deg, #00d4ff 0%, #39ff14 100%);
-            color: #000;
+
+        /* Proficiency badges */
+        .proficiency {
+            display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
+            font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 1px;
+            text-transform: uppercase; border: 1px solid;
         }
-        
-        .skill-category {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
+        .proficiency.expert { color: var(--neon); border-color: rgba(0,255,170,0.3); background: rgba(0,255,170,0.05); }
+        .proficiency.advanced { color: var(--cyan); border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.05); }
+        .proficiency.intermediate { color: var(--amber); border-color: rgba(255,190,11,0.3); background: rgba(255,190,11,0.05); }
+
+        /* Tools / ecosystem grid */
+        .tools-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem; margin-top: 2rem;
         }
-        
-        .skill-category.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .tool-chip {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 12px 16px; transition: all 0.3s;
+            font-family: var(--font-mono); font-size: 0.8rem; color: var(--text);
         }
-        
-        .floating-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #00d4ff;
-            border-radius: 50%;
-            animation: float-particle 8s linear infinite;
+        .tool-chip:hover {
+            border-color: var(--border-hot);
+            background: rgba(0,255,170,0.03);
+            transform: translateX(4px);
         }
-        
-        @keyframes float-particle {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
+        .tool-dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
         }
-        
-        .tech-orbit {
-            animation: orbit 20s linear infinite;
-        }
-        
-        @keyframes orbit {
-            0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
-        }
-        
-        .glow-text {
-            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
-        }
-        
-        .parallax-bg {
-            background: linear-gradient(45deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        .tool-dot.neon { background: var(--neon); box-shadow: 0 0 8px rgba(0,255,170,0.5); }
+        .tool-dot.cyan { background: var(--cyan); box-shadow: 0 0 8px rgba(0,229,255,0.5); }
+        .tool-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(255,190,11,0.5); }
+        .tool-dot.magenta { background: var(--magenta); box-shadow: 0 0 8px rgba(255,0,110,0.5); }
+
+        /* Neural pulse */
+        .neural-pulse { height: 2px; width: 100%; position: relative; background: rgba(0,255,170,0.05); margin: 0; overflow: hidden; }
+        .neural-pulse::after { content: ''; position: absolute; top: 0; width: 100px; height: 100%; background: linear-gradient(90deg, transparent, var(--neon), transparent); animation: pulseSweep 3s linear infinite; }
+        @keyframes pulseSweep { 0% { left: -100px; } 100% { left: 100%; } }
+
+        /* Footer */
+        .footer { padding: 2rem; text-align: center; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+        .footer a { color: var(--neon); text-decoration: none; }
+
+        /* Fade animation */
+        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeIn 0.8s ease forwards; }
+        .fade-in-d1 { animation-delay: 0.15s; }
+        .fade-in-d2 { animation-delay: 0.3s; }
+        .fade-in-d3 { animation-delay: 0.45s; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+        /* Corner decor */
+        .corner-decor { position: absolute; width: 20px; height: 20px; }
+        .corner-decor.tl { top: 0; left: 0; border-top: 1px solid var(--neon); border-left: 1px solid var(--neon); }
+        .corner-decor.tr { top: 0; right: 0; border-top: 1px solid var(--neon); border-right: 1px solid var(--neon); }
+        .corner-decor.bl { bottom: 0; left: 0; border-bottom: 1px solid var(--neon); border-left: 1px solid var(--neon); }
+        .corner-decor.br { bottom: 0; right: 0; border-bottom: 1px solid var(--neon); border-right: 1px solid var(--neon); }
     </style>
-<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fdevportfol4161back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
-<script type="module" src="https://static.rocket.new/rocket-shot.js?v=0.0.1"></script>
 </head>
-<body class="bg-background text-text-primary overflow-x-hidden">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-subtle">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-accent rounded-lg flex items-center justify-center glow-accent">
-                        <svg class="w-6 h-6 text-background" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
-                    </div>
-                    <span class="text-xl font-bold glow-text">Dhyanchand Gond</span>
-                </div>
-                
-                <!-- Navigation Links -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="hero_laboratory.html" class="text-text-secondary hover:text-accent transition-natural">Laboratory</a>
-                    <a href="about_dimension.html" class="text-text-secondary hover:text-accent transition-natural">About</a>
-                    <a href="skills_universe.html" class="text-accent font-medium hover:glow-accent transition-natural">Skills</a>
-                    <a href="project_galaxy.html" class="text-text-secondary hover:text-accent transition-natural">Projects</a>
-                    <a href="achievement_timeline.html" class="text-text-secondary hover:text-accent transition-natural">Timeline</a>
-                    <a href="contact_portal.html" class="bg-accent text-background px-6 py-2 rounded-lg hover:shadow-glow-accent transition-natural magnetic-hover">Contact</a>
-                </div>
-                
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-accent" data-menu-toggle aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="hero_laboratory.html" class="nav-logo"><div class="nav-logo-icon">DG</div><span class="nav-logo-text">Dhyanchand</span></a>
+            <div class="nav-links">
+                <a href="hero_laboratory.html">Home</a>
+                <a href="about_dimension.html">About</a>
+                <a href="skills_universe.html" class="active">Skills</a>
+                <a href="project_galaxy.html">Projects</a>
+                <a href="achievement_timeline.html">Timeline</a>
+                <a href="contact_portal.html" class="nav-cta">Contact</a>
             </div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Open menu">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
     </nav>
-
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-60 bg-background/80 backdrop-blur-md hidden" aria-hidden="true">
-        <div class="absolute inset-0" data-menu-overlay></div>
-        <div class="relative max-w-xs w-full h-full bg-surface/90 p-6 overflow-y-auto">
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-background" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                    </div>
-                    <span class="font-semibold">Dhyanchand Gond</span>
-                </div>
-                <button class="text-text-secondary" data-menu-toggle aria-controls="mobile-menu" aria-expanded="true" aria-label="Close navigation menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-
-            <nav class="space-y-4">
-                <a href="hero_laboratory.html" class="block text-lg text-text-secondary hover:text-accent">Laboratory</a>
-                <a href="about_dimension.html" class="block text-lg text-text-secondary hover:text-accent">About</a>
-                <a href="skills_universe.html" class="block text-lg text-accent font-medium">Skills</a>
-                <a href="project_galaxy.html" class="block text-lg text-text-secondary hover:text-accent">Projects</a>
-                <a href="achievement_timeline.html" class="block text-lg text-text-secondary hover:text-accent">Timeline</a>
-                <a href="contact_portal.html" class="block text-lg bg-accent text-background px-4 py-2 rounded-lg">Contact</a>
-            </nav>
-        </div>
+    <div id="mobileMenu" class="mobile-overlay">
+        <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')" aria-label="Close">
+            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l16 16M22 6L6 22"/></svg>
+        </button>
+        <a href="hero_laboratory.html">Home</a><a href="about_dimension.html">About</a>
+        <a href="skills_universe.html">Skills</a><a href="project_galaxy.html">Projects</a>
+        <a href="achievement_timeline.html">Timeline</a><a href="contact_portal.html">Contact</a>
     </div>
 
-    <!-- Skills Universe Hero Section -->
-    <section id="skills-hero" class="relative min-h-screen flex items-center justify-center parallax-bg overflow-hidden">
-        <!-- 3D Skills Canvas -->
-        <canvas id="skillsCanvas" class="skills-canvas"></canvas>
-        
-        <!-- Floating Particles -->
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="floating-particle" style="left: 10%; animation-delay: 0s;"></div>
-            <div class="floating-particle" style="left: 20%; animation-delay: -2s;"></div>
-            <div class="floating-particle" style="left: 30%; animation-delay: -4s;"></div>
-            <div class="floating-particle" style="left: 40%; animation-delay: -1s;"></div>
-            <div class="floating-particle" style="left: 50%; animation-delay: -3s;"></div>
-            <div class="floating-particle" style="left: 60%; animation-delay: -5s;"></div>
-            <div class="floating-particle" style="left: 70%; animation-delay: -2.5s;"></div>
-            <div class="floating-particle" style="left: 80%; animation-delay: -1.5s;"></div>
-            <div class="floating-particle" style="left: 90%; animation-delay: -4.5s;"></div>
+    <!-- Hero -->
+    <section class="skills-hero">
+        <div class="hex-grid-bg"></div>
+        <div class="skills-hero-content fade-in">
+            <h1>Skills <span>Matrix</span></h1>
+            <p>&gt;_ Neural capabilities acquired through years of building production-grade systems</p>
         </div>
-        
-        <div class="skills-content max-w-7xl mx-auto px-6 py-20 text-center">
-            <div class="space-y-8 animate-slide-up">
-                <!-- Section Header -->
-                <div class="space-y-4">
-                    <div class="inline-flex items-center space-x-2 bg-surface/50 backdrop-blur-sm border border-subtle rounded-full px-4 py-2">
-                        <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                        </svg>
-                        <span class="text-sm text-text-secondary">Interactive Skills Constellation</span>
-                    </div>
-                    
-                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
-                        <span class="block glow-text">Skills</span>
-                        <span class="block text-accent">Universe</span>
-                    </h1>
-                    
-                    <p class="text-xl lg:text-2xl text-text-secondary max-w-3xl mx-auto">
-                        Explore my technical capabilities through an 
-                        <span class="text-accent font-medium">interactive 3D constellation</span> 
-                        where each skill is a living, breathing demonstration of expertise.
-                    </p>
+    </section>
+
+    <div class="neural-pulse"></div>
+
+    <!-- Frontend Arsenal -->
+    <section class="skill-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">NODE://frontend</span>
+                <div class="section-line"></div>
+            </div>
+            <h2 class="section-title fade-in">Frontend Arsenal</h2>
+            <p class="section-subtitle fade-in fade-in-d1">&gt;_ Client-side neural pathways — the interface layer</p>
+
+            <div class="skills-grid">
+                <div class="skill-card fade-in">
+                    <div class="skill-card-icon">⚛️</div>
+                    <div class="skill-card-name">React / Next.js</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="92"></div></div>
+                    <div class="skill-level"><span>Framework</span><span class="proficiency expert">Expert</span></div>
                 </div>
-                
-                <!-- Quick Stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-accent">15+</div>
-                        <div class="text-sm text-text-secondary">Technologies</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-success">8+</div>
-                        <div class="text-sm text-text-secondary">Frameworks</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-warning">5+</div>
-                        <div class="text-sm text-text-secondary">Languages</div>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-accent">3+</div>
-                        <div class="text-sm text-text-secondary">Years Exp</div>
-                    </div>
+                <div class="skill-card fade-in fade-in-d1">
+                    <div class="skill-card-icon">📘</div>
+                    <div class="skill-card-name">TypeScript</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="95"></div></div>
+                    <div class="skill-level"><span>Language</span><span class="proficiency expert">Expert</span></div>
+                </div>
+                <div class="skill-card fade-in fade-in-d2">
+                    <div class="skill-card-icon">🎨</div>
+                    <div class="skill-card-name">Tailwind CSS</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill cyan" data-width="90"></div></div>
+                    <div class="skill-level"><span>Styling</span><span class="proficiency expert">Expert</span></div>
+                </div>
+                <div class="skill-card fade-in fade-in-d3">
+                    <div class="skill-card-icon">🔄</div>
+                    <div class="skill-card-name">Redux / Zustand</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill cyan" data-width="88"></div></div>
+                    <div class="skill-level"><span>State</span><span class="proficiency advanced">Advanced</span></div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-card-icon">📐</div>
+                    <div class="skill-card-name">HTML5 / CSS3</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="95"></div></div>
+                    <div class="skill-level"><span>Core</span><span class="proficiency expert">Expert</span></div>
+                </div>
+                <div class="skill-card fade-in fade-in-d1">
+                    <div class="skill-card-icon">⚡</div>
+                    <div class="skill-card-name">JavaScript ES6+</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill amber" data-width="94"></div></div>
+                    <div class="skill-level"><span>Language</span><span class="proficiency expert">Expert</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Filter Section -->
-    <section class="bg-surface/30 backdrop-blur-sm border-t border-subtle py-8">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-wrap justify-center gap-4">
-                <button class="filter-button active px-6 py-3 rounded-lg bg-surface/50 border border-subtle text-text-primary font-medium hover:border-accent transition-natural" data-filter="all">
-                    All Skills
-                </button>
-                <button class="filter-button px-6 py-3 rounded-lg bg-surface/50 border border-subtle text-text-secondary font-medium hover:border-accent hover:text-accent transition-natural" data-filter="frontend">
-                    Frontend
-                </button>
-                <button class="filter-button px-6 py-3 rounded-lg bg-surface/50 border border-subtle text-text-secondary font-medium hover:border-accent hover:text-accent transition-natural" data-filter="backend">
-                    Backend
-                </button>
-                <button class="filter-button px-6 py-3 rounded-lg bg-surface/50 border border-subtle text-text-secondary font-medium hover:border-accent hover:text-accent transition-natural" data-filter="tools">
-                    Tools & DevOps
-                </button>
-                <button class="filter-button px-6 py-3 rounded-lg bg-surface/50 border border-subtle text-text-secondary font-medium hover:border-accent hover:text-accent transition-natural" data-filter="design">
-                    Design & 3D
-                </button>
-            </div>
-        </div>
-    </section>
+    <div class="neural-pulse"></div>
 
-    <!-- Interactive Skills Constellation -->
-    <section id="skills-constellation" class="py-20 bg-background">
-        <div class="max-w-7xl mx-auto px-6">
-            <!-- Frontend Skills -->
-            <div class="skill-category mb-20" data-category="frontend">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold mb-4 text-accent">Frontend Mastery</h2>
-                    <p class="text-text-secondary max-w-2xl mx-auto">Building immersive user experiences with modern web technologies</p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- React Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 10.11c1.03 0 1.87.84 1.87 1.89s-.84 1.89-1.87 1.89c-1.03 0-1.87-.84-1.87-1.89s.84-1.89 1.87-1.89M7.37 20c.63.38 2.01-.2 3.6-1.7-.52-.59-1.03-1.23-1.51-1.9a22.7 22.7 0 0 1-2.4-.36c-.51 2.14-.32 3.61.31 3.96m.71-5.74l-.29-.51c-.11.29-.22.58-.29.86.27.06.57.11.88.16l-.3-.51m6.54-.76l.81-1.5-.81-1.5c-.3-.53-.62-1-.91-1.47C13.17 9 12.6 9 12 9s-1.17 0-1.71.03c-.29.47-.61.94-.91 1.47L8.57 12l.81 1.5c.3.53.62 1 .91 1.47.54.03 1.11.03 1.71.03s1.17 0 1.71-.03c.29-.47.61-.94.91-1.47M12 6.78c-.19.22-.39.45-.59.72h1.18c-.2-.27-.4-.5-.59-.72m0 10.44c.19-.22.39-.45.59-.72h-1.18c.2.27.4.5.59.72M16.62 4c-.62-.38-2 .2-3.59 1.7.52.59 1.03 1.23 1.51 1.9.82.08 1.63.2 2.4.36.51-2.14.32-3.61-.32-3.96m-.7 5.74l.29.51c.11-.29.22-.58.29-.86-.27-.06-.57-.11-.88-.16l.3.51m1.45-7.05c1.47.84 1.63 3.05 1.01 5.63 2.54.75 4.37 1.99 4.37 3.68s-1.83 2.93-4.37 3.68c.62 2.58.46 4.79-1.01 5.63-1.46.84-3.45-.12-5.37-1.95-1.92 1.83-3.91 2.79-5.37 1.95-1.47-.84-1.63-3.05-1.01-5.63-2.54-.75-4.37-1.99-4.37-3.68s1.83-2.93 4.37-3.68c-.62-2.58-.46-4.79 1.01-5.63 1.46-.84 3.45.12 5.37 1.95 1.92-1.83 3.91-2.79 5.37-1.95z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">React</h3>
-                                    <p class="text-sm text-text-secondary">Component Architecture</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-accent">95%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar" style="width: 95%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-demo mb-4">
-                            <div class="bg-primary/50 px-4 py-2 text-sm text-accent border-b border-subtle">
-                                <span>Interactive Hook Demo</span>
-                            </div>
-                            <div class="p-4 font-mono text-sm">
-                                <div class="text-success">const</div>
-                                <div class="text-text-primary ml-2">[count, setCount] = useState(0);</div>
-                                <div class="text-accent mt-2">// Click to increment: <span id="react-counter" class="text-warning cursor-pointer hover:text-success transition-natural">0</span></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Hooks</span>
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Context</span>
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Redux</span>
-                        </div>
-                    </div>
-                    
-                    <!-- JavaScript Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-warning/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-warning" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M3 3h18v18H3V3zm16.525 13.707c-.131-.821-.666-1.511-2.252-2.155-.552-.259-1.165-.438-1.349-.854-.068-.248-.078-.382-.034-.529.113-.484.687-.629 1.137-.495.293.09.563.315.732.676.775-.507.775-.507 1.316-.844-.203-.314-.304-.451-.439-.586-.473-.528-1.103-.798-2.126-.77l-.528.067c-.507.124-.991.395-1.283.754-.855.968-.608 2.655.427 3.354 1.023.765 2.521.933 2.712 1.653.18.878-.652 1.159-1.475 1.058-.607-.136-.945-.439-1.316-1.002l-1.372.788c.157.359.337.517.607.832 1.305 1.316 4.568 1.249 5.153-.754.021-.067.18-.528.056-1.237l.034.049zm-6.737-5.434h-1.686c0 1.453-.007 2.898-.007 4.354 0 .924.047 1.772-.104 2.033-.247.517-.886.451-1.175.359-.297-.146-.448-.349-.623-.641-.047-.078-.082-.146-.095-.146l-1.368.844c.229.473.563.879.994 1.137.641.383 1.502.507 2.404.305.588-.17 1.095-.519 1.358-1.059.384-.697.302-1.553.299-2.509.008-1.541 0-3.083 0-4.635l.003-.042z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">JavaScript</h3>
-                                    <p class="text-sm text-text-secondary">ES6+ & Modern APIs</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-warning">92%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-warning to-success" style="width: 92%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-demo mb-4">
-                            <div class="bg-primary/50 px-4 py-2 text-sm text-warning border-b border-subtle">
-                                <span>Async/Await Demo</span>
-                            </div>
-                            <div class="p-4 font-mono text-sm">
-                                <div class="text-accent">const</div>
-                                <div class="text-text-primary ml-2">fetchData = async () => {</div>
-                                <div class="text-success ml-4">const response = await fetch('/api');</div>
-                                <div class="text-text-primary ml-2">};</div>
-                                <div class="text-warning mt-2 cursor-pointer hover:text-success transition-natural" id="js-demo">// Click to execute →</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">ES6+</span>
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">Async</span>
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">DOM</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Three.js Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-success/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Three.js</h3>
-                                    <p class="text-sm text-text-secondary">3D Web Graphics</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-success">88%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-success to-accent" style="width: 88%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-demo mb-4">
-                            <div class="bg-primary/50 px-4 py-2 text-sm text-success border-b border-subtle">
-                                <span>3D Cube Demo</span>
-                            </div>
-                            <div class="p-4">
-                                <div id="threejs-demo" class="w-full h-32 bg-background rounded border border-subtle cursor-pointer hover:border-success transition-natural flex items-center justify-center">
-                                    <span class="text-success">Click to start 3D animation</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">WebGL</span>
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">Shaders</span>
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">Animation</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Backend Arsenal -->
+    <section class="skill-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">NODE://backend</span>
+                <div class="section-line"></div>
             </div>
-            
-            <!-- Backend Skills -->
-            <div class="skill-category mb-20" data-category="backend">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold mb-4 text-success">Backend Architecture</h2>
-                    <p class="text-text-secondary max-w-2xl mx-auto">Scalable server-side solutions and database management</p>
+            <h2 class="section-title fade-in">Backend Core</h2>
+            <p class="section-subtitle fade-in fade-in-d1">&gt;_ Server-side processing units — the engine room</p>
+
+            <div class="skills-grid">
+                <div class="skill-card fade-in">
+                    <div class="skill-card-icon">🟢</div>
+                    <div class="skill-card-name">Node.js / Express</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="88"></div></div>
+                    <div class="skill-level"><span>Runtime</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Node.js Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-success/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l1.95 1.12c.95.46 1.27.46 1.71.46.85 0 1.31-.52 1.31-1.36V9.47c0-.09-.07-.16-.16-.16H7.75c-.09 0-.16.07-.16.16v7.2c0 .78-.81 1.56-2.3.89L3.46 16.4c-.25-.14-.4-.4-.4-.69V7.29c0-.29.15-.55.4-.69l7.44-4.3c.25-.14.53-.14.78 0l7.44 4.3c.25.14.4.4.4.69v8.58c0 .29-.15.55-.4.69l-7.44 4.3c-.25.14-.53.14-.78 0l-1.95-1.12c-.19-.11-.43-.14-.63-.06-.2.08-.33.26-.33.48 0 .16.08.3.22.38l1.95 1.12c.48.28 1.08.28 1.56 0l7.44-4.3c.48-.28.78-.8.78-1.36V7.29c0-.56-.3-1.08-.78-1.36L12.78 2.05c-.23-.13-.51-.2-.78-.2z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Node.js</h3>
-                                    <p class="text-sm text-text-secondary">Server-side JavaScript</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-success">90%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-success to-accent" style="width: 90%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-demo mb-4">
-                            <div class="bg-primary/50 px-4 py-2 text-sm text-success border-b border-subtle">
-                                <span>Express API Demo</span>
-                            </div>
-                            <div class="p-4 font-mono text-sm">
-                                <div class="text-accent">app.get</div>
-                                <div class="text-text-primary">('/api/skills', (req, res) => {</div>
-                                <div class="text-success ml-4">res.json({ skills: 'awesome' });</div>
-                                <div class="text-text-primary">});</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">Express</span>
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">REST API</span>
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">NPM</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Python Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-warning/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-warning" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.26-.02.21-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25c-.28 0-.5.22-.5.5 0 .27.22.5.5.5.27 0 .5-.23.5-.5 0-.28-.23-.5-.5-.5zm2.829-9.06c-.3 0-.54-.24-.54-.53 0-.3.24-.54.54-.54.3 0 .53.24.53.54 0 .29-.23.53-.53.53z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Python</h3>
-                                    <p class="text-sm text-text-secondary">Data & Backend</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-warning">85%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-warning to-success" style="width: 85%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-demo mb-4">
-                            <div class="bg-primary/50 px-4 py-2 text-sm text-warning border-b border-subtle">
-                                <span>Flask API Demo</span>
-                            </div>
-                            <div class="p-4 font-mono text-sm">
-                                <div class="text-accent">@app.route</div>
-                                <div class="text-text-primary">('/api/data')</div>
-                                <div class="text-success">def get_data():</div>
-                                <div class="text-text-primary ml-4">return jsonify(data)</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">Flask</span>
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">Django</span>
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">NumPy</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Database Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 3C7.58 3 4 4.79 4 7s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4zM4 9v3c0 2.21 3.58 4 8 4s8-1.79 8-4V9c0 2.21-3.58 4-8 4s-8-1.79-8-4zM4 14v3c0 2.21 3.58 4 8 4s8-1.79 8-4v-3c0 2.21-3.58 4-8 4s-8-1.79-8-4z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Databases</h3>
-                                    <p class="text-sm text-text-secondary">SQL & NoSQL</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-accent">87%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-accent to-success" style="width: 87%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="code-demo mb-4">
-                            <div class="bg-primary/50 px-4 py-2 text-sm text-accent border-b border-subtle">
-                                <span>MongoDB Query</span>
-                            </div>
-                            <div class="p-4 font-mono text-sm">
-                                <div class="text-success">db.skills.find</div>
-                                <div class="text-text-primary">({</div>
-                                <div class="text-accent ml-4">category: "database",</div>
-                                <div class="text-accent ml-4">level: { $gte: 85 }</div>
-                                <div class="text-text-primary">})</div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">MongoDB</span>
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">PostgreSQL</span>
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Redis</span>
-                        </div>
-                    </div>
+                <div class="skill-card fade-in fade-in-d1">
+                    <div class="skill-card-icon">🐍</div>
+                    <div class="skill-card-name">Python</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill cyan" data-width="78"></div></div>
+                    <div class="skill-level"><span>Language</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
-            </div>
-            
-            <!-- Tools & DevOps Skills -->
-            <div class="skill-category mb-20" data-category="tools">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold mb-4 text-warning">Tools & DevOps</h2>
-                    <p class="text-text-secondary max-w-2xl mx-auto">Development workflow optimization and deployment automation</p>
+                <div class="skill-card fade-in fade-in-d2">
+                    <div class="skill-card-icon">🔥</div>
+                    <div class="skill-card-name">Firebase</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill amber" data-width="85"></div></div>
+                    <div class="skill-level"><span>BaaS</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Git Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="text-center mb-4">
-                            <div class="w-16 h-16 bg-warning/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                                <svg class="w-8 h-8 text-warning" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold">Git</h3>
-                            <div class="text-2xl font-bold text-warning mb-2">95%</div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-warning to-success" style="width: 95%;"></div>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-1 justify-center">
-                            <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs">GitHub</span>
-                            <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs">Branching</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Docker Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="text-center mb-4">
-                            <div class="w-16 h-16 bg-accent/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                                <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.186m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold">Docker</h3>
-                            <div class="text-2xl font-bold text-accent mb-2">80%</div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-accent to-success" style="width: 80%;"></div>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-1 justify-center">
-                            <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">Containers</span>
-                            <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">Compose</span>
-                        </div>
-                    </div>
-                    
-                    <!-- AWS Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="text-center mb-4">
-                            <div class="w-16 h-16 bg-success/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                                <svg class="w-8 h-8 text-success" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335c-.072.048-.144.071-.2.071-.08 0-.16-.04-.239-.112-.112-.12-.207-.248-.279-.383-.072-.135-.144-.296-.2-.495-.503.592-1.135.888-1.895.888-.543 0-.975-.16-1.287-.479-.32-.32-.479-.744-.479-1.279 0-.568.2-1.023.607-1.375.407-.353.943-.528 1.618-.528.224 0 .455.016.703.056.247.04.503.088.767.16v-.528c0-.544-.112-.927-.32-1.143-.216-.216-.583-.32-1.111-.32-.239 0-.487.032-.744.08-.256.056-.504.12-.728.2-.112.04-.191.064-.24.08-.047.016-.08.023-.095.023-.08 0-.12-.063-.12-.183v-.295c0-.096.016-.168.056-.2.04-.048.112-.08.2-.12.239-.12.528-.224.863-.296.34-.08.687-.112 1.048-.112.8 0 1.383.183 1.758.56.367.375.559.936.559 1.687v2.222zm-2.295.832c.216 0 .44-.04.68-.12.239-.08.455-.224.647-.415.12-.12.207-.256.256-.415.048-.16.08-.36.08-.598v-.288c-.192-.064-.4-.112-.615-.144-.216-.032-.424-.048-.624-.048-.447 0-.775.088-1.007.272-.216.183-.336.44-.336.775 0 .319.08.56.256.728.168.175.423.255.663.255zm5.255.656c-.104 0-.175-.016-.215-.056-.048-.032-.08-.112-.112-.2L8.295 5.732c-.032-.104-.048-.168-.048-.2 0-.08.04-.127.12-.127h.487c.112 0 .183.016.215.056.048.032.08.112.112.2l1.015 4.004 1.951-4.004c.032-.104.064-.168.112-.2.048-.04.112-.056.215-.056h.4c.112 0 .183.016.215.056.048.032.08.112.112.2l1.967 4.004L16.199 5.66c.032-.104.064-.168.112-.2.048-.04.112-.056.215-.056h.463c.08 0 .127.04.127.127 0 .032-.008.063-.016.104-.008.04-.024.088-.048.152l-2.215 5.535c-.032.104-.064.168-.112.2-.048.04-.112.056-.215.056h-.431c-.112 0-.183-.016-.215-.056-.048-.032-.08-.112-.112-.2L12.295 7.684l-1.951 3.638c-.032.104-.064.168-.112.2-.048.04-.112.056-.215.056h-.431zm8.159.08c-.735 0-1.455-.088-2.159-.255-.703-.168-1.247-.36-1.615-.584-.112-.064-.191-.136-.231-.2-.04-.063-.056-.127-.056-.2v-.303c0-.12.048-.184.127-.184.048 0 .096.008.152.032.056.023.144.056.248.104.335.144.695.256 1.08.336.383.08.767.12 1.151.12.6 0 1.063-.104 1.375-.32.32-.216.479-.52.479-.927 0-.272-.088-.504-.256-.695-.168-.192-.48-.36-.927-.52l-1.335-.415c-.671-.216-1.151-.536-1.455-.967-.296-.432-.447-.911-.447-1.439 0-.4.08-.76.231-1.08.16-.32.375-.6.647-.823.272-.224.6-.4.991-.52.392-.12.815-.184 1.279-.184.32 0 .647.024.96.08.32.056.607.127.871.2.255.088.487.168.68.264.2.096.36.2.48.32.048.056.088.112.112.184.024.071.04.151.04.231v.28c0 .12-.048.184-.127.184-.056 0-.16-.024-.296-.088-.775-.36-1.647-.536-2.607-.536-.559 0-.999.08-1.319.256-.32.175-.487.447-.487.823 0 .272.096.504.279.703.184.2.52.375 1.015.544l1.311.415c.663.216 1.127.504 1.407.88.279.375.415.823.415 1.343 0 .416-.08.8-.24 1.128-.16.336-.384.624-.68.864-.288.24-.647.423-1.071.544-.408.135-.88.200-1.399.200z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold">AWS</h3>
-                            <div class="text-2xl font-bold text-success mb-2">75%</div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-success to-accent" style="width: 75%;"></div>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-1 justify-center">
-                            <span class="bg-success/10 text-success px-2 py-1 rounded text-xs">EC2</span>
-                            <span class="bg-success/10 text-success px-2 py-1 rounded text-xs">S3</span>
-                        </div>
-                    </div>
-                    
-                    <!-- VS Code Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="text-center mb-4">
-                            <div class="w-16 h-16 bg-accent/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                                <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/>
-                                </svg>
-                            </div>
-                            <h3 class="text-lg font-semibold">VS Code</h3>
-                            <div class="text-2xl font-bold text-accent mb-2">98%</div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-accent to-success" style="width: 98%;"></div>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap gap-1 justify-center">
-                            <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">Extensions</span>
-                            <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">Debugging</span>
-                        </div>
-                    </div>
+                <div class="skill-card fade-in fade-in-d3">
+                    <div class="skill-card-icon">🗄️</div>
+                    <div class="skill-card-name">MongoDB / SQL</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill magenta" data-width="80"></div></div>
+                    <div class="skill-level"><span>Database</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
-            </div>
-            
-            <!-- Design & 3D Skills -->
-            <div class="skill-category" data-category="design">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold mb-4 text-accent">Design & 3D</h2>
-                    <p class="text-text-secondary max-w-2xl mx-auto">Creative visual design and 3D modeling capabilities</p>
+                <div class="skill-card fade-in">
+                    <div class="skill-card-icon">🔗</div>
+                    <div class="skill-card-name">REST APIs</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="90"></div></div>
+                    <div class="skill-level"><span>Architecture</span><span class="proficiency expert">Expert</span></div>
                 </div>
-                
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Figma Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Figma</h3>
-                                    <p class="text-sm text-text-secondary">UI/UX Design</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-accent">82%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-accent to-success" style="width: 82%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Prototyping</span>
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Components</span>
-                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-xs">Auto Layout</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Blender Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-warning/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-warning" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12.51 13.214c.046-.8.438-1.506 1.03-2.006a3.424 3.424 0 0 1 2.212-.79c.85 0 1.631.3 2.211.79.592.5.983 1.206 1.028 2.005.045.823-.285 1.586-.865 2.153a3.389 3.389 0 0 1-2.374.938 3.393 3.393 0 0 1-2.376-.938c-.58-.567-.91-1.33-.865-2.152M7.35 14.831c.006.314.106.922.256 1.398a7.372 7.372 0 0 0 1.593 2.757 8.227 8.227 0 0 0 2.787 2.001 8.746 8.746 0 0 0 3.66.76 8.746 8.746 0 0 0 3.659-.76 8.227 8.227 0 0 0 2.787-2.001 7.372 7.372 0 0 0 1.593-2.757c.15-.476.25-1.084.256-1.398l.002-.6c-.002-3.206-.312-5.827-.312-5.827-.78-1.25-1.328-2.534-2.09-3.179-.297-.251-.66-.394-1.034-.394-.372 0-.736.143-1.033.394-.762.645-1.311 1.929-2.09 3.179 0 0-.31 2.62-.312 5.827l.002.6z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Blender</h3>
-                                    <p class="text-sm text-text-secondary">3D Modeling</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-warning">70%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-warning to-success" style="width: 70%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">Modeling</span>
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">Animation</span>
-                            <span class="bg-warning/10 text-warning px-3 py-1 rounded-full text-xs">Rendering</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Photoshop Skill Node -->
-                    <div class="skill-node bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 magnetic-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-12 h-12 bg-success/20 rounded-lg flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-success" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M9.85 8.42c0-.78-.1-1.38-.28-1.81-.2-.42-.51-.63-.93-.63-.28 0-.52.1-.7.28-.19.18-.28.43-.28.74 0 .64.33 1.14.98 1.51.33.18.68.34 1.05.46.16-.18.16-.37.16-.55zm8.36 8.19c-.74.74-1.71 1.12-2.91 1.12-1.29 0-2.33-.44-3.12-1.32-.8-.88-1.19-2.04-1.19-3.48 0-1.54.42-2.76 1.27-3.67.84-.9 1.96-1.36 3.35-1.36.28 0 .57.02.87.07v-2.2c0-.32-.02-.58-.07-.78-.05-.2-.13-.36-.25-.48-.12-.12-.28-.2-.48-.25-.2-.05-.44-.07-.72-.07-.56 0-1.07.08-1.54.25-.47.17-.87.4-1.2.7-.33.3-.58.66-.75 1.08-.17.42-.26.88-.26 1.38h-2.61c0-.88.19-1.68.58-2.4.39-.72.92-1.34 1.6-1.86.68-.52 1.47-.92 2.38-1.2.91-.28 1.89-.42 2.94-.42 1.11 0 2.09.15 2.94.46.85.31 1.56.74 2.13 1.29.57.55 1 1.21 1.29 1.98.29.77.44 1.62.44 2.55v7.38h-2.61v-1.36c-.33.52-.78.93-1.35 1.23-.57.3-1.22.45-1.95.45-1.2 0-2.17-.38-2.91-1.12z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold">Photoshop</h3>
-                                    <p class="text-sm text-text-secondary">Image Editing</p>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-bold text-success">78%</div>
-                                <div class="text-xs text-text-secondary">Proficiency</div>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-4">
-                            <div class="bg-surface rounded-full h-2 overflow-hidden">
-                                <div class="proficiency-bar bg-gradient-to-r from-success to-accent" style="width: 78%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">Retouching</span>
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">Compositing</span>
-                            <span class="bg-success/10 text-success px-3 py-1 rounded-full text-xs">Effects</span>
-                        </div>
-                    </div>
+                <div class="skill-card fade-in fade-in-d1">
+                    <div class="skill-card-icon">🔑</div>
+                    <div class="skill-card-name">Auth / Security</div>
+                    <div class="skill-bar-track"><div class="skill-bar-fill magenta" data-width="82"></div></div>
+                    <div class="skill-level"><span>Security</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Related Projects Section -->
-    <section class="bg-surface/30 backdrop-blur-sm border-t border-subtle py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold mb-4">Skills in Action</h2>
-                <p class="text-text-secondary max-w-2xl mx-auto">See how these technologies come together in real projects</p>
+    <div class="neural-pulse"></div>
+
+    <!-- DevOps & Tools -->
+    <section class="skill-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">NODE://devops</span>
+                <div class="section-line"></div>
             </div>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <a href="project_galaxy.html" class="group bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 hover:border-accent/50 transition-natural magnetic-hover">
-                    <div class="aspect-video bg-gradient-to-br from-accent/20 to-success/20 rounded-lg mb-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="E-commerce Platform" class="w-full h-full object-cover group-hover:scale-105 transition-natural" onerror="this.src='https://images.pexels.com/photos/270348/pexels-photo-270348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 group-hover:text-accent transition-natural">E-commerce Platform</h3>
-                    <p class="text-text-secondary mb-4">Full-stack application using React, Node.js, and MongoDB</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">React</span>
-                        <span class="bg-success/10 text-success px-2 py-1 rounded text-xs">Node.js</span>
-                        <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs">MongoDB</span>
-                    </div>
-                </a>
-                
-                <a href="project_galaxy.html" class="group bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 hover:border-success/50 transition-natural magnetic-hover">
-                    <div class="aspect-video bg-gradient-to-br from-success/20 to-accent/20 rounded-lg mb-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="3D Portfolio Website" class="w-full h-full object-cover group-hover:scale-105 transition-natural" onerror="this.src='https://images.pixabay.com/photo/2016/11/30/20/58/programming-1873854_1280.png'; this.onerror=null;" />
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 group-hover:text-success transition-natural">3D Portfolio Website</h3>
-                    <p class="text-text-secondary mb-4">Interactive 3D experience built with Three.js and WebGL</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-success/10 text-success px-2 py-1 rounded text-xs">Three.js</span>
-                        <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">WebGL</span>
-                        <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs">JavaScript</span>
-                    </div>
-                </a>
-                
-                <a href="project_galaxy.html" class="group bg-surface/80 backdrop-blur-sm border border-subtle rounded-xl p-6 hover:border-warning/50 transition-natural magnetic-hover">
-                    <div class="aspect-video bg-gradient-to-br from-warning/20 to-accent/20 rounded-lg mb-4 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Data Visualization Dashboard" class="w-full h-full object-cover group-hover:scale-105 transition-natural" onerror="this.src='https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'; this.onerror=null;" />
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2 group-hover:text-warning transition-natural">Data Visualization Dashboard</h3>
-                    <p class="text-text-secondary mb-4">Python-powered analytics with interactive charts</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-warning/10 text-warning px-2 py-1 rounded text-xs">Python</span>
-                        <span class="bg-success/10 text-success px-2 py-1 rounded text-xs">Flask</span>
-                        <span class="bg-accent/10 text-accent px-2 py-1 rounded text-xs">D3.js</span>
-                    </div>
-                </a>
+            <h2 class="section-title fade-in">DevOps & Ecosystem</h2>
+            <p class="section-subtitle fade-in fade-in-d1">&gt;_ Deployment pipelines, tools, and infrastructure</p>
+
+            <div class="tools-grid">
+                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>Git / GitHub</div>
+                <div class="tool-chip fade-in"><div class="tool-dot cyan"></div>Vercel</div>
+                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>Docker</div>
+                <div class="tool-chip fade-in"><div class="tool-dot amber"></div>Render</div>
+                <div class="tool-chip fade-in"><div class="tool-dot magenta"></div>Postman</div>
+                <div class="tool-chip fade-in"><div class="tool-dot cyan"></div>VS Code</div>
+                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>npm / yarn</div>
+                <div class="tool-chip fade-in"><div class="tool-dot amber"></div>Figma</div>
+                <div class="tool-chip fade-in"><div class="tool-dot magenta"></div>Linux CLI</div>
+                <div class="tool-chip fade-in"><div class="tool-dot cyan"></div>Webpack / Vite</div>
+                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>Jest / Testing</div>
+                <div class="tool-chip fade-in"><div class="tool-dot amber"></div>CI/CD Pipelines</div>
             </div>
         </div>
     </section>
 
-    <!-- JavaScript for Interactive Elements -->
-    <script src="../js/menu.js"></script>
+    <div class="neural-pulse"></div>
+
+    <!-- Soft Skills / Philosophy -->
+    <section class="skill-section">
+        <div class="section-inner">
+            <div class="section-header fade-in">
+                <span class="section-tag">NODE://protocol</span>
+                <div class="section-line"></div>
+            </div>
+            <h2 class="section-title fade-in">Operating Protocols</h2>
+
+            <div class="skills-grid" style="margin-top:1.5rem;">
+                <div class="skill-card fade-in" style="text-align:center;">
+                    <div style="font-size:2rem;margin-bottom:1rem;">🎯</div>
+                    <div class="skill-card-name">Problem Solving</div>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Break complex systems into elegant, modular solutions</p>
+                </div>
+                <div class="skill-card fade-in fade-in-d1" style="text-align:center;">
+                    <div style="font-size:2rem;margin-bottom:1rem;">🚢</div>
+                    <div class="skill-card-name">Ship Fast</div>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Rapid iteration with production-quality output</p>
+                </div>
+                <div class="skill-card fade-in fade-in-d2" style="text-align:center;">
+                    <div style="font-size:2rem;margin-bottom:1rem;">🤝</div>
+                    <div class="skill-card-name">Collaboration</div>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Clear communication and effective teamwork</p>
+                </div>
+                <div class="skill-card fade-in fade-in-d3" style="text-align:center;">
+                    <div style="font-size:2rem;margin-bottom:1rem;">📚</div>
+                    <div class="skill-card-name">Continuous Learning</div>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Always evolving, always adapting to new tech</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER // LUCKNOW, INDIA</p>
+    </footer>
+
     <script>
-        // 3D Skills Canvas
-        class SkillsUniverse {
-            constructor() {
-                this.canvas = document.getElementById('skillsCanvas');
-                this.scene = new THREE.Scene();
-                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true });
-                this.skills = [];
-                this.mouse = { x: 0, y: 0 };
-                
-                this.init();
-                this.createSkillNodes();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.onWindowResize());
-                window.addEventListener('mousemove', (e) => this.onMouseMove(e));
-            }
-            
-            init() {
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-                this.renderer.setClearColor(0x000000, 0);
-                this.camera.position.z = 5;
-                
-                // Add ambient light
-                const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
-                this.scene.add(ambientLight);
-                
-                // Add directional light
-                const directionalLight = new THREE.DirectionalLight(0x00d4ff, 0.8);
-                directionalLight.position.set(1, 1, 1);
-                this.scene.add(directionalLight);
-            }
-            
-            createSkillNodes() {
-                const skillData = [
-                    { name: 'React', color: 0x00d4ff, position: [2, 1, 0] },
-                    { name: 'JavaScript', color: 0xff9500, position: [-2, 1, 0] },
-                    { name: 'Three.js', color: 0x39ff14, position: [0, -1, 1] },
-                    { name: 'Node.js', color: 0x39ff14, position: [1.5, -1.5, -1] },
-                    { name: 'Python', color: 0xff9500, position: [-1.5, -1.5, -1] },
-                    { name: 'MongoDB', color: 0x00d4ff, position: [0, 2, -1] }
-                ];
-                
-                skillData.forEach(skill => {
-                    const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-                    const material = new THREE.MeshPhongMaterial({ 
-                        color: skill.color,
-                        transparent: true,
-                        opacity: 0.8
-                    });
-                    const cube = new THREE.Mesh(geometry, material);
-                    cube.position.set(...skill.position);
-                    cube.userData = { name: skill.name, originalPosition: [...skill.position] };
-                    
-                    this.scene.add(cube);
-                    this.skills.push(cube);
-                });
-            }
-            
-            onMouseMove(event) {
-                this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            }
-            
-            onWindowResize() {
-                this.camera.aspect = window.innerWidth / window.innerHeight;
-                this.camera.updateProjectionMatrix();
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-            
-            animate() {
-                requestAnimationFrame(() => this.animate());
-                
-                // Rotate skill nodes
-                this.skills.forEach((skill, index) => {
-                    skill.rotation.x += 0.01;
-                    skill.rotation.y += 0.01;
-                    
-                    // Mouse interaction
-                    const mouseInfluence = 0.1;
-                    skill.position.x = skill.userData.originalPosition[0] + this.mouse.x * mouseInfluence;
-                    skill.position.y = skill.userData.originalPosition[1] + this.mouse.y * mouseInfluence;
-                    
-                    // Floating animation
-                    skill.position.y += Math.sin(Date.now() * 0.001 + index) * 0.02;
-                });
-                
-                this.renderer.render(this.scene, this.camera);
-            }
-        }
-        
-        // Initialize 3D scene when page loads
-        window.addEventListener('load', () => {
-            new SkillsUniverse();
-        });
-        
-        // Filter functionality
-        const filterButtons = document.querySelectorAll('.filter-button');
-        const skillCategories = document.querySelectorAll('.skill-category');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const filter = button.getAttribute('data-filter');
-                
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                
-                // Show/hide categories
-                skillCategories.forEach(category => {
-                    if (filter === 'all' || category.getAttribute('data-category') === filter) {
-                        category.classList.add('visible');
-                        category.style.display = 'block';
-                    } else {
-                        category.classList.remove('visible');
-                        setTimeout(() => {
-                            if (!category.classList.contains('visible')) {
-                                category.style.display = 'none';
-                            }
-                        }, 600);
-                    }
-                });
-            });
-        });
-        
-        // Initialize visible categories
-        skillCategories.forEach(category => {
-            category.classList.add('visible');
-        });
-        
-        // Interactive code demos
-        document.getElementById('react-counter').addEventListener('click', function() {
-            let count = parseInt(this.textContent);
-            this.textContent = count + 1;
-            this.style.color = '#39ff14';
-            setTimeout(() => {
-                this.style.color = '#ff9500';
-            }, 200);
-        });
-        
-        document.getElementById('js-demo').addEventListener('click', function() {
-            this.textContent = '// Executing... ✓';
-            this.style.color = '#39ff14';
-            setTimeout(() => {
-                this.textContent = '// Click to execute →';
-                this.style.color = '#ff9500';
-            }, 2000);
-        });
-        
-        // Three.js demo
-        document.getElementById('threejs-demo').addEventListener('click', function() {
-            if (this.querySelector('canvas')) return;
-            
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, this.offsetWidth / this.offsetHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true });
-            renderer.setSize(this.offsetWidth, this.offsetHeight);
-            this.innerHTML = '';
-            this.appendChild(renderer.domElement);
-            
-            const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
-            const cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-            
-            camera.position.z = 5;
-            
-            function animate() {
-                requestAnimationFrame(animate);
-                cube.rotation.x += 0.01;
-                cube.rotation.y += 0.01;
-                renderer.render(scene, camera);
-            }
-            animate();
-        });
-        
-        // Magnetic hover effect
-        document.querySelectorAll('.magnetic-hover').forEach(element => {
-            element.addEventListener('mousemove', (e) => {
-                const rect = element.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                element.style.transform = 'translate(0px, 0px) scale(1)';
-            });
-        });
-        
-        // Animate proficiency bars on scroll
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -100px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const bars = entry.target.querySelectorAll('.proficiency-bar');
+        // Animate skill bars on scroll
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const bars = e.target.querySelectorAll('.skill-bar-fill');
                     bars.forEach(bar => {
-                        bar.style.width = bar.style.width || '0%';
+                        const w = bar.getAttribute('data-width');
+                        if (w) bar.style.width = w + '%';
                     });
                 }
             });
-        }, observerOptions);
-        
-        skillCategories.forEach(category => {
-            observer.observe(category);
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.skills-grid').forEach(g => barObserver.observe(g));
+
+        // Scroll fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
         });
     </script>
-<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
 </body>
 </html>
