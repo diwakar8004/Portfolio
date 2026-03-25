@@ -66,9 +66,18 @@
 
         .contact-container {
             max-width: 1100px; width: 100%; position: relative; z-index: 2;
-            display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; align-items: start;
         }
-        @media (max-width: 860px) { .contact-container { grid-template-columns: 1fr; } }
+        .portal-grid {
+            display: grid; grid-template-columns: 380px 1fr; gap: 4rem; align-items: start;
+        }
+        @media (max-width: 960px) {
+            .portal-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .portal-info { max-width: 480px; margin: 0 auto; width: 100%; }
+        }
+        @media (max-width: 480px) {
+            .portal-info, .portal-form { padding: 1.5rem; }
+            .channel-item { padding: 1rem; }
+        }
 
         /* Left panel: Info */
         .info-panel {

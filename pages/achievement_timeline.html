@@ -85,10 +85,18 @@
         .timeline-track::before {
             content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
             width: 2px;
-            background: linear-gradient(180deg,
+            background: linear-gradient(180deg, 
                 var(--neon) 0%, var(--cyan) 30%, var(--magenta) 60%, var(--amber) 90%, transparent 100%
             );
             opacity: 0.5;
+        }
+        @media (max-width: 640px) {
+            .timeline-track { padding-left: 30px; }
+            .timeline-track::before { left: 10px; }
+            .year-marker::before { left: -28px; width: 14px; height: 14px; }
+            .mission-entry::before { left: -24px; width: 8px; height: 8px; }
+            .mission-entry::after { left: -20px; width: 12px; }
+            .mission-card { padding: 1.25rem; }
         }
 
         /* Year marker */
