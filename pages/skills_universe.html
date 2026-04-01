@@ -1,215 +1,684 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CLASSIFIED // Skills Matrix — Dhyanchand Gond</title>
-    <meta name="description" content="Neural skill matrix of Dhyanchand Gond — TypeScript, Next.js, React, Redux, Firebase, Node.js, and beyond." />
+    <meta name="description"
+        content="Neural skill matrix of Dhyanchand Gond — TypeScript, Next.js, React, Redux, Firebase, Node.js, and beyond." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --void: #030308; --abyss: #07070f; --surface: #0c0c18; --panel: #10101f;
-            --border: rgba(0,255,170,0.08); --border-hot: rgba(0,255,170,0.25);
-            --neon: #00ffaa; --cyan: #00e5ff; --magenta: #ff006e; --amber: #ffbe0b;
-            --text: #c8d6e5; --text-dim: #5a6a7a; --text-bright: #e8f0f8;
-            --glow-neon: 0 0 30px rgba(0,255,170,0.3), 0 0 60px rgba(0,255,170,0.1);
+            --void: #030308;
+            --abyss: #07070f;
+            --surface: #0c0c18;
+            --panel: #10101f;
+            --border: rgba(0, 255, 170, 0.08);
+            --border-hot: rgba(0, 255, 170, 0.25);
+            --neon: #00ffaa;
+            --cyan: #00e5ff;
+            --magenta: #ff006e;
+            --amber: #ffbe0b;
+            --text: #c8d6e5;
+            --text-dim: #5a6a7a;
+            --text-bright: #e8f0f8;
+            --glow-neon: 0 0 30px rgba(0, 255, 170, 0.3), 0 0 60px rgba(0, 255, 170, 0.1);
             --font-display: 'Orbitron', sans-serif;
             --font-body: 'Inter', -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); background: var(--void); color: var(--text); overflow-x: hidden; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--void);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
         body::after {
-            content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
-            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,170,0.015) 2px, rgba(0,255,170,0.015) 4px);
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 170, 0.015) 2px, rgba(0, 255, 170, 0.015) 4px);
         }
 
         /* Navbar (same as about) */
-        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(3,3,8,0.85); backdrop-filter: blur(25px) saturate(180%); border-bottom: 1px solid var(--border); }
-        .navbar::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--neon), transparent); opacity: 0.4; }
-        .navbar-inner { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .nav-logo-icon { width: 38px; height: 38px; border-radius: 8px; background: linear-gradient(135deg, var(--neon), var(--cyan)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: var(--void); font-family: var(--font-display); box-shadow: var(--glow-neon); }
-        .nav-logo-text { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: var(--neon); letter-spacing: 2px; text-transform: uppercase; }
-        .nav-links { display: flex; align-items: center; gap: 2rem; }
-        .nav-links a { color: var(--text-dim); font-size: 0.8rem; font-weight: 500; text-decoration: none; transition: all 0.3s; letter-spacing: 1px; text-transform: uppercase; font-family: var(--font-mono); position: relative; }
-        .nav-links a:hover, .nav-links a.active { color: var(--neon); text-shadow: 0 0 20px rgba(0,255,170,0.5); }
-        .nav-links a.active::after { content: ''; position: absolute; bottom: -6px; left: 0; right: 0; height: 2px; background: var(--neon); box-shadow: 0 0 10px var(--neon); }
-        .nav-cta { background: transparent; color: var(--neon); padding: 8px 20px; border: 1px solid var(--neon); border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; }
-        .nav-cta:hover { background: var(--neon); color: var(--void); box-shadow: var(--glow-neon); }
-        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--neon); }
-        @media (max-width: 768px) { .nav-links { display: none; } .mobile-menu-btn { display: block; } }
-        .mobile-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(3,3,8,0.97); backdrop-filter: blur(30px); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
-        .mobile-overlay.open { display: flex; }
-        .mobile-overlay a { color: var(--text); font-size: 1.2rem; font-weight: 600; text-decoration: none; font-family: var(--font-display); letter-spacing: 3px; text-transform: uppercase; transition: color 0.3s; }
-        .mobile-overlay a:hover { color: var(--neon); }
-        .mobile-close { position: absolute; top: 1.25rem; right: 1.5rem; background: none; border: none; color: var(--text-dim); cursor: pointer; }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(3, 3, 8, 0.85);
+            backdrop-filter: blur(25px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            opacity: 0.4;
+        }
+
+        .navbar-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--neon), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--void);
+            font-family: var(--font-display);
+            box-shadow: var(--glow-neon);
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--neon);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+            position: relative;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--neon);
+            text-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+        }
+
+        .nav-links a.active:not(.nav-cta)::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--neon);
+            box-shadow: 0 0 10px var(--neon);
+        }
+
+        .nav-cta.active {
+            background: rgba(0, 255, 170, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
+            border-width: 2px;
+        }
+
+        .nav-cta {
+            background: transparent;
+            color: var(--neon);
+            padding: 8px 20px;
+            border: 1px solid var(--neon);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--neon);
+            color: var(--void);
+            box-shadow: var(--glow-neon);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--neon);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(3, 3, 8, 0.97);
+            backdrop-filter: blur(30px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-overlay.open {
+            display: flex;
+        }
+
+        .mobile-overlay a {
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: var(--font-display);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .mobile-overlay a:hover {
+            color: var(--neon);
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+        }
 
         /* Section common */
-        .section-inner { max-width: 1200px; margin: 0 auto; }
-        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 1.5rem; }
-        .section-tag { font-family: var(--font-mono); font-size: 0.7rem; color: var(--neon); background: rgba(0,255,170,0.08); border: 1px solid rgba(0,255,170,0.2); padding: 4px 12px; letter-spacing: 2px; text-transform: uppercase; }
-        .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-hot), transparent); }
-        .section-title { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: var(--text-bright); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .section-subtitle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim); margin-bottom: 3rem; }
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--neon);
+            background: rgba(0, 255, 170, 0.08);
+            border: 1px solid rgba(0, 255, 170, 0.2);
+            padding: 4px 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-hot), transparent);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
 
         /* Hero */
         .skills-hero {
-            min-height: 60vh; display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden; padding: 8rem 2rem 4rem; text-align: center;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
         }
+
         .skills-hero::before {
-            content: ''; position: absolute; inset: 0;
+            content: '';
+            position: absolute;
+            inset: 0;
             background:
-                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,255,170,0.08), transparent),
-                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,229,255,0.05), transparent);
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 255, 170, 0.08), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 229, 255, 0.05), transparent);
         }
+
         .hex-grid-bg {
-            position: absolute; inset: 0; opacity: 0.03;
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpath d='M30 0L60 15v22L30 52 0 37V15z' fill='none' stroke='%2300ffaa' stroke-width='0.5'/%3E%3C/svg%3E");
             background-size: 60px 52px;
         }
-        .skills-hero-content { position: relative; z-index: 2; }
+
+        .skills-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
         .skills-hero h1 {
-            font-family: var(--font-display); font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 900; text-transform: uppercase; letter-spacing: 4px;
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
             margin-bottom: 1rem;
         }
+
         .skills-hero h1 span {
             background: linear-gradient(135deg, var(--neon), var(--cyan));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-            filter: drop-shadow(0 0 20px rgba(0,255,170,0.4));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 170, 0.4));
         }
+
         .skills-hero p {
-            font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim);
-            max-width: 600px; margin: 0 auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* Skill category sections */
-        .skill-section { padding: 4rem 2rem; position: relative; }
-        .skill-section:nth-child(even) { background: var(--abyss); }
+        .skill-section {
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .skill-section:nth-child(even) {
+            background: var(--abyss);
+        }
+
         .skill-section::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--neon), transparent); opacity: 0.15;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            opacity: 0.15;
         }
 
         /* Skill cards grid */
         .skills-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
         }
-        @media (max-width: 860px) { .skills-grid { grid-template-columns: 1fr; } }
+
+        @media (max-width: 860px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .skill-card {
-            background: var(--panel); border: 1px solid var(--border);
-            padding: 1.5rem; position: relative; overflow: hidden;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .skill-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
             background: linear-gradient(90deg, var(--neon), var(--cyan));
-            transform: scaleX(0); transform-origin: left;
+            transform: scaleX(0);
+            transform-origin: left;
             transition: transform 0.4s;
         }
-        .skill-card:hover::before { transform: scaleX(1); }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+
         .skill-card:hover {
             border-color: var(--border-hot);
             transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(0,255,170,0.06);
+            box-shadow: 0 20px 60px rgba(0, 255, 170, 0.06);
         }
+
         .skill-card-icon {
-            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--border-hot); background: rgba(0,255,170,0.05);
-            margin-bottom: 1rem; font-size: 1.2rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-hot);
+            background: rgba(0, 255, 170, 0.05);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
+
         .skill-card-name {
-            font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
-            color: var(--text-bright); letter-spacing: 2px; text-transform: uppercase;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 2px;
+            text-transform: uppercase;
             margin-bottom: 0.75rem;
         }
 
         /* Skill progress bar */
         .skill-bar-track {
-            width: 100%; height: 4px; background: rgba(255,255,255,0.05);
-            margin-bottom: 0.5rem; position: relative; overflow: hidden;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
+
         .skill-bar-fill {
-            height: 100%; width: 0; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .skill-bar-fill.neon { background: linear-gradient(90deg, var(--neon), rgba(0,255,170,0.5)); }
-        .skill-bar-fill.cyan { background: linear-gradient(90deg, var(--cyan), rgba(0,229,255,0.5)); }
-        .skill-bar-fill.magenta { background: linear-gradient(90deg, var(--magenta), rgba(255,0,110,0.5)); }
-        .skill-bar-fill.amber { background: linear-gradient(90deg, var(--amber), rgba(255,190,11,0.5)); }
+
+        .skill-bar-fill.neon {
+            background: linear-gradient(90deg, var(--neon), rgba(0, 255, 170, 0.5));
+        }
+
+        .skill-bar-fill.cyan {
+            background: linear-gradient(90deg, var(--cyan), rgba(0, 229, 255, 0.5));
+        }
+
+        .skill-bar-fill.magenta {
+            background: linear-gradient(90deg, var(--magenta), rgba(255, 0, 110, 0.5));
+        }
+
+        .skill-bar-fill.amber {
+            background: linear-gradient(90deg, var(--amber), rgba(255, 190, 11, 0.5));
+        }
 
         .skill-level {
-            font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim);
-            display: flex; justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
         }
 
         /* Proficiency badges */
         .proficiency {
-            display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px;
-            font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 1px;
-            text-transform: uppercase; border: 1px solid;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid;
         }
-        .proficiency.expert { color: var(--neon); border-color: rgba(0,255,170,0.3); background: rgba(0,255,170,0.05); }
-        .proficiency.advanced { color: var(--cyan); border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.05); }
-        .proficiency.intermediate { color: var(--amber); border-color: rgba(255,190,11,0.3); background: rgba(255,190,11,0.05); }
+
+        .proficiency.expert {
+            color: var(--neon);
+            border-color: rgba(0, 255, 170, 0.3);
+            background: rgba(0, 255, 170, 0.05);
+        }
+
+        .proficiency.advanced {
+            color: var(--cyan);
+            border-color: rgba(0, 229, 255, 0.3);
+            background: rgba(0, 229, 255, 0.05);
+        }
+
+        .proficiency.intermediate {
+            color: var(--amber);
+            border-color: rgba(255, 190, 11, 0.3);
+            background: rgba(255, 190, 11, 0.05);
+        }
 
         /* Tools / ecosystem grid */
         .tools-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1rem; margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
         }
+
         .tool-chip {
-            display: flex; align-items: center; gap: 10px;
-            background: var(--panel); border: 1px solid var(--border);
-            padding: 12px 16px; transition: all 0.3s;
-            font-family: var(--font-mono); font-size: 0.8rem; color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            transition: all 0.3s;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text);
         }
+
         .tool-chip:hover {
             border-color: var(--border-hot);
-            background: rgba(0,255,170,0.03);
+            background: rgba(0, 255, 170, 0.03);
             transform: translateX(4px);
         }
+
         .tool-dot {
-            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
-        .tool-dot.neon { background: var(--neon); box-shadow: 0 0 8px rgba(0,255,170,0.5); }
-        .tool-dot.cyan { background: var(--cyan); box-shadow: 0 0 8px rgba(0,229,255,0.5); }
-        .tool-dot.amber { background: var(--amber); box-shadow: 0 0 8px rgba(255,190,11,0.5); }
-        .tool-dot.magenta { background: var(--magenta); box-shadow: 0 0 8px rgba(255,0,110,0.5); }
+
+        .tool-dot.neon {
+            background: var(--neon);
+            box-shadow: 0 0 8px rgba(0, 255, 170, 0.5);
+        }
+
+        .tool-dot.cyan {
+            background: var(--cyan);
+            box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+        }
+
+        .tool-dot.amber {
+            background: var(--amber);
+            box-shadow: 0 0 8px rgba(255, 190, 11, 0.5);
+        }
+
+        .tool-dot.magenta {
+            background: var(--magenta);
+            box-shadow: 0 0 8px rgba(255, 0, 110, 0.5);
+        }
 
         /* Neural pulse */
-        .neural-pulse { height: 2px; width: 100%; position: relative; background: rgba(0,255,170,0.05); margin: 0; overflow: hidden; }
-        .neural-pulse::after { content: ''; position: absolute; top: 0; width: 100px; height: 100%; background: linear-gradient(90deg, transparent, var(--neon), transparent); animation: pulseSweep 3s linear infinite; }
-        @keyframes pulseSweep { 0% { left: -100px; } 100% { left: 100%; } }
+        .neural-pulse {
+            height: 2px;
+            width: 100%;
+            position: relative;
+            background: rgba(0, 255, 170, 0.05);
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .neural-pulse::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+            animation: pulseSweep 3s linear infinite;
+        }
+
+        @keyframes pulseSweep {
+            0% {
+                left: -100px;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
 
         /* Footer */
-        .footer { padding: 2rem; text-align: center; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
-        .footer a { color: var(--neon); text-decoration: none; }
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .footer a {
+            color: var(--neon);
+            text-decoration: none;
+        }
 
         /* Fade animation */
-        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeIn 0.8s ease forwards; }
-        .fade-in-d1 { animation-delay: 0.15s; }
-        .fade-in-d2 { animation-delay: 0.3s; }
-        .fade-in-d3 { animation-delay: 0.45s; }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .fade-in-d1 {
+            animation-delay: 0.15s;
+        }
+
+        .fade-in-d2 {
+            animation-delay: 0.3s;
+        }
+
+        .fade-in-d3 {
+            animation-delay: 0.45s;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         /* Corner decor */
-        .corner-decor { position: absolute; width: 20px; height: 20px; }
-        .corner-decor.tl { top: 0; left: 0; border-top: 1px solid var(--neon); border-left: 1px solid var(--neon); }
-        .corner-decor.tr { top: 0; right: 0; border-top: 1px solid var(--neon); border-right: 1px solid var(--neon); }
-        .corner-decor.bl { bottom: 0; left: 0; border-bottom: 1px solid var(--neon); border-left: 1px solid var(--neon); }
-        .corner-decor.br { bottom: 0; right: 0; border-bottom: 1px solid var(--neon); border-right: 1px solid var(--neon); }
+        .corner-decor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+        }
+
+        .corner-decor.tl {
+            top: 0;
+            left: 0;
+            border-top: 1px solid var(--neon);
+            border-left: 1px solid var(--neon);
+        }
+
+        .corner-decor.tr {
+            top: 0;
+            right: 0;
+            border-top: 1px solid var(--neon);
+            border-right: 1px solid var(--neon);
+        }
+
+        .corner-decor.bl {
+            bottom: 0;
+            left: 0;
+            border-bottom: 1px solid var(--neon);
+            border-left: 1px solid var(--neon);
+        }
+
+        .corner-decor.br {
+            bottom: 0;
+            right: 0;
+            border-bottom: 1px solid var(--neon);
+            border-right: 1px solid var(--neon);
+        }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
-            <a href="hero_laboratory.html" class="nav-logo"><div class="nav-logo-icon">DG</div><span class="nav-logo-text">Dhyanchand</span></a>
+            <a href="hero_laboratory.html" class="nav-logo">
+                <div class="nav-logo-icon">DG</div><span class="nav-logo-text">Dhyanchand</span>
+            </a>
             <div class="nav-links">
                 <a href="hero_laboratory.html">Home</a>
                 <a href="about_dimension.html">About</a>
@@ -218,14 +687,20 @@
                 <a href="achievement_timeline.html">Timeline</a>
                 <a href="contact_portal.html" class="nav-cta">Contact</a>
             </div>
-            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Open menu">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')"
+                aria-label="Open menu">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
             </button>
         </div>
     </nav>
     <div id="mobileMenu" class="mobile-overlay">
-        <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')" aria-label="Close">
-            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l16 16M22 6L6 22"/></svg>
+        <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"
+            aria-label="Close">
+            <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 6l16 16M22 6L6 22" />
+            </svg>
         </button>
         <a href="hero_laboratory.html">Home</a><a href="about_dimension.html">About</a>
         <a href="skills_universe.html">Skills</a><a href="project_galaxy.html">Projects</a>
@@ -257,37 +732,49 @@
                 <div class="skill-card fade-in">
                     <div class="skill-card-icon">⚛️</div>
                     <div class="skill-card-name">React / Next.js</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="92"></div></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="92"></div>
+                    </div>
                     <div class="skill-level"><span>Framework</span><span class="proficiency expert">Expert</span></div>
                 </div>
                 <div class="skill-card fade-in fade-in-d1">
                     <div class="skill-card-icon">📘</div>
                     <div class="skill-card-name">TypeScript</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="95"></div></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="95"></div>
+                    </div>
                     <div class="skill-level"><span>Language</span><span class="proficiency expert">Expert</span></div>
                 </div>
                 <div class="skill-card fade-in fade-in-d2">
                     <div class="skill-card-icon">🎨</div>
                     <div class="skill-card-name">Tailwind CSS</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill cyan" data-width="90"></div></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill cyan" data-width="90"></div>
+                    </div>
                     <div class="skill-level"><span>Styling</span><span class="proficiency expert">Expert</span></div>
                 </div>
                 <div class="skill-card fade-in fade-in-d3">
                     <div class="skill-card-icon">🔄</div>
                     <div class="skill-card-name">Redux / Zustand</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill cyan" data-width="88"></div></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill cyan" data-width="88"></div>
+                    </div>
                     <div class="skill-level"><span>State</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
                 <div class="skill-card fade-in">
                     <div class="skill-card-icon">📐</div>
                     <div class="skill-card-name">HTML5 / CSS3</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="95"></div></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="95"></div>
+                    </div>
                     <div class="skill-level"><span>Core</span><span class="proficiency expert">Expert</span></div>
                 </div>
                 <div class="skill-card fade-in fade-in-d1">
                     <div class="skill-card-icon">⚡</div>
                     <div class="skill-card-name">JavaScript ES6+</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill amber" data-width="94"></div></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill amber" data-width="94"></div>
+                    </div>
                     <div class="skill-level"><span>Language</span><span class="proficiency expert">Expert</span></div>
                 </div>
             </div>
@@ -310,38 +797,89 @@
                 <div class="skill-card fade-in">
                     <div class="skill-card-icon">🟢</div>
                     <div class="skill-card-name">Node.js / Express</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="88"></div></div>
-                    <div class="skill-level"><span>Runtime</span><span class="proficiency advanced">Advanced</span></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="92"></div>
+                    </div>
+                    <div class="skill-level"><span>Runtime</span><span class="proficiency expert">Expert</span></div>
                 </div>
                 <div class="skill-card fade-in fade-in-d1">
-                    <div class="skill-card-icon">🐍</div>
-                    <div class="skill-card-name">Python</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill cyan" data-width="78"></div></div>
-                    <div class="skill-level"><span>Language</span><span class="proficiency advanced">Advanced</span></div>
+                    <div class="skill-card-icon">☕</div>
+                    <div class="skill-card-name">Java</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="88"></div>
+                    </div>
+                    <div class="skill-level"><span>Language</span><span class="proficiency expert">Expert</span></div>
                 </div>
                 <div class="skill-card fade-in fade-in-d2">
-                    <div class="skill-card-icon">🔥</div>
-                    <div class="skill-card-name">Firebase</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill amber" data-width="85"></div></div>
-                    <div class="skill-level"><span>BaaS</span><span class="proficiency advanced">Advanced</span></div>
+                    <div class="skill-card-icon">⚙️</div>
+                    <div class="skill-card-name">C Programming</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill cyan" data-width="85"></div>
+                    </div>
+                    <div class="skill-level"><span>Language</span><span class="proficiency advanced">Advanced</span>
+                    </div>
                 </div>
                 <div class="skill-card fade-in fade-in-d3">
-                    <div class="skill-card-icon">🗄️</div>
-                    <div class="skill-card-name">MongoDB / SQL</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill magenta" data-width="80"></div></div>
-                    <div class="skill-level"><span>Database</span><span class="proficiency advanced">Advanced</span></div>
+                    <div class="skill-card-icon">📊</div>
+                    <div class="skill-card-name">DSA</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="90"></div>
+                    </div>
+                    <div class="skill-level"><span>Computer Science</span><span class="proficiency expert">Expert</span>
+                    </div>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-card-icon">🔗</div>
-                    <div class="skill-card-name">REST APIs</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill neon" data-width="90"></div></div>
-                    <div class="skill-level"><span>Architecture</span><span class="proficiency expert">Expert</span></div>
+                    <div class="skill-card-icon">🗄️</div>
+                    <div class="skill-card-name">MongoDB / SQL</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill magenta" data-width="85"></div>
+                    </div>
+                    <div class="skill-level"><span>Database</span><span class="proficiency advanced">Advanced</span>
+                    </div>
                 </div>
                 <div class="skill-card fade-in fade-in-d1">
+                    <div class="skill-card-icon">🔗</div>
+                    <div class="skill-card-name">REST APIs</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill neon" data-width="90"></div>
+                    </div>
+                    <div class="skill-level"><span>Architecture</span><span class="proficiency expert">Expert</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in fade-in-d2">
                     <div class="skill-card-icon">🔑</div>
                     <div class="skill-card-name">Auth / Security</div>
-                    <div class="skill-bar-track"><div class="skill-bar-fill magenta" data-width="82"></div></div>
-                    <div class="skill-level"><span>Security</span><span class="proficiency advanced">Advanced</span></div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill magenta" data-width="88"></div>
+                    </div>
+                    <div class="skill-level"><span>Security</span><span class="proficiency advanced">Advanced</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in fade-in-d3">
+                    <div class="skill-card-icon">🧠</div>
+                    <div class="skill-card-name">ML (Basics)</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill amber" data-width="70"></div>
+                    </div>
+                    <div class="skill-level"><span>AI</span><span class="proficiency intermediate">Intermediate</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-card-icon">🐍</div>
+                    <div class="skill-card-name">Python</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill cyan" data-width="82"></div>
+                    </div>
+                    <div class="skill-level"><span>Language</span><span class="proficiency advanced">Advanced</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in fade-in-d1">
+                    <div class="skill-card-icon">🔥</div>
+                    <div class="skill-card-name">Firebase</div>
+                    <div class="skill-bar-track">
+                        <div class="skill-bar-fill amber" data-width="85"></div>
+                    </div>
+                    <div class="skill-level"><span>BaaS</span><span class="proficiency advanced">Advanced</span></div>
                 </div>
             </div>
         </div>
@@ -360,18 +898,45 @@
             <p class="section-subtitle fade-in fade-in-d1">&gt;_ Deployment pipelines, tools, and infrastructure</p>
 
             <div class="tools-grid">
-                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>Git / GitHub</div>
-                <div class="tool-chip fade-in"><div class="tool-dot cyan"></div>Vercel</div>
-                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>Docker</div>
-                <div class="tool-chip fade-in"><div class="tool-dot amber"></div>Render</div>
-                <div class="tool-chip fade-in"><div class="tool-dot magenta"></div>Postman</div>
-                <div class="tool-chip fade-in"><div class="tool-dot cyan"></div>VS Code</div>
-                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>npm / yarn</div>
-                <div class="tool-chip fade-in"><div class="tool-dot amber"></div>Figma</div>
-                <div class="tool-chip fade-in"><div class="tool-dot magenta"></div>Linux CLI</div>
-                <div class="tool-chip fade-in"><div class="tool-dot cyan"></div>Webpack / Vite</div>
-                <div class="tool-chip fade-in"><div class="tool-dot neon"></div>Jest / Testing</div>
-                <div class="tool-chip fade-in"><div class="tool-dot amber"></div>CI/CD Pipelines</div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot neon"></div>Git / GitHub
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot cyan"></div>Vercel
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot neon"></div>Docker
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot amber"></div>Render
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot magenta"></div>Postman
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot cyan"></div>VS Code
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot neon"></div>AI Dev Tools (Cursor/Windsurf)
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot amber"></div>Figma
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot magenta"></div>Linux CLI
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot cyan"></div>Webpack / Vite
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot neon"></div>Jest / Testing
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot cyan"></div>CI/CD Pipelines
+                </div>
+                <div class="tool-chip fade-in">
+                    <div class="tool-dot amber"></div>npm / yarn
+                </div>
             </div>
         </div>
     </section>
@@ -391,22 +956,26 @@
                 <div class="skill-card fade-in" style="text-align:center;">
                     <div style="font-size:2rem;margin-bottom:1rem;">🎯</div>
                     <div class="skill-card-name">Problem Solving</div>
-                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Break complex systems into elegant, modular solutions</p>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Break complex systems into
+                        elegant, modular solutions</p>
                 </div>
                 <div class="skill-card fade-in fade-in-d1" style="text-align:center;">
                     <div style="font-size:2rem;margin-bottom:1rem;">🚢</div>
                     <div class="skill-card-name">Ship Fast</div>
-                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Rapid iteration with production-quality output</p>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Rapid iteration with
+                        production-quality output</p>
                 </div>
                 <div class="skill-card fade-in fade-in-d2" style="text-align:center;">
                     <div style="font-size:2rem;margin-bottom:1rem;">🤝</div>
                     <div class="skill-card-name">Collaboration</div>
-                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Clear communication and effective teamwork</p>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Clear communication and
+                        effective teamwork</p>
                 </div>
                 <div class="skill-card fade-in fade-in-d3" style="text-align:center;">
                     <div style="font-size:2rem;margin-bottom:1rem;">📚</div>
                     <div class="skill-card-name">Continuous Learning</div>
-                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Always evolving, always adapting to new tech</p>
+                    <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.6;">Always evolving, always adapting
+                        to new tech</p>
                 </div>
             </div>
         </div>
@@ -414,7 +983,8 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER // LUCKNOW, INDIA</p>
+        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER
+            // LUCKNOW, INDIA</p>
     </footer>
 
     <script>
@@ -442,4 +1012,5 @@
         });
     </script>
 </body>
+
 </html>
