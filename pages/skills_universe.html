@@ -12,6 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script>
+        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+            window.location.href = '../index.html';
+        }
+    </script>
     <style>
         :root {
             --void: #030308;
@@ -58,6 +63,48 @@
             pointer-events: none;
             background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 170, 0.015) 2px, rgba(0, 255, 170, 0.015) 4px);
         }
+
+        #neural-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* ═══ CURSOR TRAIL ═══ */
+        .cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--neon);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);box-shadow:0 0 16px var(--neon),0 0 32px rgba(0,255,170,0.4);mix-blend-mode:screen;transition:width .2s,height .2s;}
+        .cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,255,170,0.5);pointer-events:none;z-index:99997;transform:translate(-50%,-50%);transition:all .15s ease;mix-blend-mode:screen;}
+        .cursor-trail{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:99996;opacity:0;transform:translate(-50%,-50%);mix-blend-mode:screen;}
+
+        /* ═══ MORPHING ORBS ═══ */
+        .orb-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+        .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.09;}
+        .orb-1{width:450px;height:450px;background:radial-gradient(circle,var(--neon),transparent 70%);top:-80px;left:-100px;animation:orbF1 25s ease-in-out infinite;}
+        .orb-2{width:350px;height:350px;background:radial-gradient(circle,var(--cyan),transparent 70%);bottom:-50px;right:5%;animation:orbF2 32s ease-in-out infinite;}
+        .orb-3{width:280px;height:280px;background:radial-gradient(circle,var(--magenta),transparent 70%);top:40%;right:-80px;animation:orbF3 20s ease-in-out infinite;}
+        @keyframes orbF1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(120px,80px) scale(1.15)}}
+        @keyframes orbF2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-100px,-80px) scale(1.2)}}
+        @keyframes orbF3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-80px,60px) scale(0.9)}}
+
+        /* ═══ GLITCH TITLE ═══ */
+        .glitch-title{position:relative;display:inline-block;}
+        .glitch-title::before,.glitch-title::after{content:attr(data-text);position:absolute;inset:0;font-family:inherit;font-size:inherit;font-weight:inherit;color:inherit;}
+        .glitch-title::before{color:var(--cyan);clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);animation:glitchA 3.5s infinite;left:2px;}
+        .glitch-title::after{color:var(--magenta);clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);animation:glitchB 3.5s infinite;left:-2px;}
+        @keyframes glitchA{0%,90%,100%{transform:translate(0)}92%{transform:translate(-3px,1px)}96%{transform:translate(3px,-1px)}}
+        @keyframes glitchB{0%,90%,100%{transform:translate(0)}93%{transform:translate(3px,2px)}97%{transform:translate(-3px,-2px)}}
+
+        /* ═══ SHIMMER ON SKILL BARS ═══ */
+        .skill-bar-fill::after {
+            content:'';
+            position:absolute;
+            top:0;left:-100%;width:100%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+            animation:shimmer 2.5s ease infinite;
+        }
+        .skill-bar-track { position:relative; }
+        @keyframes shimmer{0%{left:-100%}100%{left:200%}}
 
         /* Navbar (same as about) */
         .navbar {
@@ -414,8 +461,14 @@
         .skill-card:hover {
             border-color: var(--border-hot);
             transform: translateY(-6px);
-            box-shadow: 0 20px 60px rgba(0, 255, 170, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 255, 170, 0.08);
         }
+        /* Skill card mouse glow */
+        .skill-card .card-glow {
+            position:absolute;inset:0;opacity:0;transition:opacity 0.4s;pointer-events:none;
+            background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,255,170,0.07), transparent 60%);
+        }
+        .skill-card:hover .card-glow { opacity:1; }
 
         .skill-card-icon {
             width: 48px;
@@ -673,6 +726,7 @@
 </head>
 
 <body>
+    <canvas id="neural-canvas"></canvas>
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
@@ -709,9 +763,10 @@
 
     <!-- Hero -->
     <section class="skills-hero">
+        <div class="orb-field"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
         <div class="hex-grid-bg"></div>
         <div class="skills-hero-content fade-in">
-            <h1>Skills <span>Matrix</span></h1>
+            <h1><span class="glitch-title" data-text="Skills Matrix">Skills <span style="background:linear-gradient(135deg,var(--neon),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Matrix</span></span></h1>
             <p>&gt;_ Neural capabilities acquired through years of building production-grade systems</p>
         </div>
     </section>
@@ -988,6 +1043,31 @@
     </footer>
 
     <script>
+        // Cursor Trail
+        (function(){
+            const dot=document.createElement('div');dot.className='cursor-dot';document.body.appendChild(dot);
+            const ring=document.createElement('div');ring.className='cursor-ring';document.body.appendChild(ring);
+            const trails=[];for(let i=0;i<8;i++){const t=document.createElement('div');t.className='cursor-trail';document.body.appendChild(t);trails.push({el:t,x:0,y:0});}
+            let mx=0,my=0;
+            document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';setTimeout(()=>{ring.style.left=mx+'px';ring.style.top=my+'px';},80);});
+            function anim(){trails.forEach((t,i)=>{t.x+=(mx-t.x)*(0.18-i*0.012);t.y+=(my-t.y)*(0.18-i*0.012);t.el.style.left=t.x+'px';t.el.style.top=t.y+'px';t.el.style.opacity=(1-i/trails.length)*0.5;t.el.style.transform=`translate(-50%,-50%) scale(${1-i*0.08})`;});requestAnimationFrame(anim);}
+            anim();
+            document.addEventListener('mousedown',()=>{dot.style.width='14px';dot.style.height='14px';ring.style.width='50px';ring.style.height='50px';});
+            document.addEventListener('mouseup',()=>{dot.style.width='8px';dot.style.height='8px';ring.style.width='36px';ring.style.height='36px';});
+        })();
+
+        // Skill Card Mouse Glow
+        document.querySelectorAll('.skill-card').forEach(card => {
+            const glow = document.createElement('div');
+            glow.className = 'card-glow';
+            card.appendChild(glow);
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+                card.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+            });
+        });
+
         // Animate skill bars on scroll
         const barObserver = new IntersectionObserver((entries) => {
             entries.forEach(e => {
@@ -1002,15 +1082,66 @@
         }, { threshold: 0.2 });
         document.querySelectorAll('.skills-grid').forEach(g => barObserver.observe(g));
 
-        // Scroll fade-in
+        // Neural background
+        (function(){
+            const canvas = document.getElementById('neural-canvas');
+            const ctx = canvas.getContext('2d');
+            let w, h, nodes = [];
+            
+            function init() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+                nodes = [];
+                for(let i=0; i<60; i++) {
+                    nodes.push({
+                        x: Math.random() * w, y: Math.random() * h,
+                        vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5
+                    });
+                }
+            }
+            
+            function render() {
+                ctx.clearRect(0, 0, w, h);
+                nodes.forEach(n => {
+                    n.x += n.vx; n.y += n.vy;
+                    if(n.x < 0 || n.x > w) n.vx *= -1;
+                    if(n.y < 0 || n.y > h) n.vy *= -1;
+                    
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, 1.5, 0, Math.PI*2);
+                    ctx.fillStyle = 'rgba(0, 255, 170, 0.4)';
+                    ctx.fill();
+                    
+                    nodes.forEach(n2 => {
+                        const d = Math.hypot(n.x-n2.x, n.y-n2.y);
+                        if(d < 180) {
+                            ctx.beginPath();
+                            ctx.moveTo(n.x, n.y);
+                            ctx.lineTo(n2.x, n2.y);
+                            ctx.strokeStyle = `rgba(0, 255, 170, ${0.1 * (1 - d/180)})`;
+                            ctx.stroke();
+                        }
+                    });
+                });
+                requestAnimationFrame(render);
+            }
+            
+            window.addEventListener('resize', init);
+            init();
+            render();
+        })();
+
+        // Scroll Reveal
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.style.animationPlayState = 'running'; });
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.style.animationPlayState = 'running';
+            });
         }, { threshold: 0.1 });
+        
         document.querySelectorAll('.fade-in').forEach(el => {
             el.style.animationPlayState = 'paused';
             observer.observe(el);
         });
     </script>
 </body>
-
 </html>

@@ -12,6 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script>
+        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+            window.location.href = '../index.html';
+        }
+    </script>
     <style>
         :root {
             --void: #030308;
@@ -58,6 +63,29 @@
             pointer-events: none;
             background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 170, 0.015) 2px, rgba(0, 255, 170, 0.015) 4px);
         }
+
+        /* ═══ CURSOR TRAIL ═══ */
+        .cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--neon);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);box-shadow:0 0 16px var(--neon),0 0 32px rgba(0,255,170,0.4);mix-blend-mode:screen;transition:width .2s,height .2s;}
+        .cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,255,170,0.5);pointer-events:none;z-index:99997;transform:translate(-50%,-50%);transition:all .15s ease;mix-blend-mode:screen;}
+        .cursor-trail{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:99996;opacity:0;transform:translate(-50%,-50%);mix-blend-mode:screen;}
+
+        /* ═══ MORPHING ORBS ═══ */
+        .orb-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+        .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.09;}
+        .orb-1{width:450px;height:450px;background:radial-gradient(circle,var(--neon),transparent 70%);top:-80px;left:-100px;animation:orbF1 25s ease-in-out infinite;}
+        .orb-2{width:350px;height:350px;background:radial-gradient(circle,var(--cyan),transparent 70%);bottom:-50px;right:5%;animation:orbF2 32s ease-in-out infinite;}
+        .orb-3{width:280px;height:280px;background:radial-gradient(circle,var(--magenta),transparent 70%);top:40%;right:-80px;animation:orbF3 20s ease-in-out infinite;}
+        @keyframes orbF1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(120px,80px) scale(1.15)}}
+        @keyframes orbF2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-100px,-80px) scale(1.2)}}
+        @keyframes orbF3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-80px,60px) scale(0.9)}}
+
+        /* ═══ GLITCH TITLE ═══ */
+        .glitch-title{position:relative;}
+        .glitch-title::before,.glitch-title::after{content:attr(data-text);position:absolute;inset:0;}
+        .glitch-title::before{color:var(--cyan);clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);animation:glitchA 3.5s infinite;left:2px;}
+        .glitch-title::after{color:var(--magenta);clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);animation:glitchB 3.5s infinite;left:-2px;}
+        @keyframes glitchA{0%,90%,100%{transform:translate(0)}92%{transform:translate(-3px,1px)}96%{transform:translate(3px,-1px)}}
+        @keyframes glitchB{0%,90%,100%{transform:translate(0)}93%{transform:translate(3px,2px)}97%{transform:translate(-3px,-2px)}}
 
         /* Navbar */
         .navbar {
@@ -340,6 +368,10 @@
             position: relative;
             padding-left: 50px;
         }
+        
+        @media (max-width: 640px) {
+            #timeline-progress { left: 10px !important; }
+        }
 
         .timeline-track::before {
             content: '';
@@ -347,10 +379,20 @@
             left: 20px;
             top: 0;
             bottom: 0;
-            width: 2px;
             background: linear-gradient(180deg,
                     var(--neon) 0%, var(--cyan) 30%, var(--magenta) 60%, var(--amber) 90%, transparent 100%);
-            opacity: 0.5;
+            opacity: 0.15;
+        }
+
+        #timeline-progress {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--neon), var(--cyan), var(--magenta), var(--amber));
+            box-shadow: 0 0 15px var(--neon);
+            z-index: 1;
+            transition: height 0.1s ease;
         }
 
         @media (max-width: 640px) {
@@ -475,12 +517,27 @@
             padding: 1.5rem 2rem;
             transition: all 0.3s;
             position: relative;
+            overflow: hidden;
         }
+        .mission-card::before {
+            content:'';
+            position:absolute;
+            left:0;top:0;bottom:0;
+            width:3px;
+            opacity:0;
+            transition:opacity 0.3s;
+        }
+        .mission-entry[data-color="neon"] .mission-card::before{background:var(--neon);box-shadow:0 0 12px var(--neon);}
+        .mission-entry[data-color="cyan"] .mission-card::before{background:var(--cyan);box-shadow:0 0 12px var(--cyan);}
+        .mission-entry[data-color="magenta"] .mission-card::before{background:var(--magenta);box-shadow:0 0 12px var(--magenta);}
+        .mission-entry[data-color="amber"] .mission-card::before{background:var(--amber);box-shadow:0 0 12px var(--amber);}
 
         .mission-card:hover {
             border-color: var(--border-hot);
             box-shadow: 0 0 50px rgba(0, 255, 170, 0.05);
+            transform: translateX(4px);
         }
+        .mission-card:hover::before { opacity:1; }
 
         .mission-header {
             display: flex;
@@ -715,8 +772,9 @@
 
     <!-- Hero -->
     <section class="timeline-hero">
+        <div class="orb-field"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
         <div class="fade-in" style="position:relative;z-index:2;">
-            <h1>Mission <span>Log</span></h1>
+            <h1 class="glitch-title" data-text="Mission Log">Mission <span>Log</span></h1>
             <p>&gt;_ Chronological record of operations, achievements, and neural evolution</p>
         </div>
     </section>
@@ -727,6 +785,7 @@
     <section class="timeline-section">
         <div class="section-inner">
             <div class="timeline-track">
+                <div id="timeline-progress"></div>
 
                 <!-- 2026 -->
                 <div class="year-marker">
@@ -958,13 +1017,95 @@
     </footer>
 
     <script>
-        // Scroll-triggered animations for timeline entries
+        // Cursor Trail
+        (function(){
+            const dot=document.createElement('div');dot.className='cursor-dot';document.body.appendChild(dot);
+            const ring=document.createElement('div');ring.className='cursor-ring';document.body.appendChild(ring);
+            const trails=[];for(let i=0;i<8;i++){const t=document.createElement('div');t.className='cursor-trail';document.body.appendChild(t);trails.push({el:t,x:0,y:0});}
+            let mx=0,my=0;
+            document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';setTimeout(()=>{ring.style.left=mx+'px';ring.style.top=my+'px';},80);});
+            function anim(){trails.forEach((t,i)=>{t.x+=(mx-t.x)*(0.18-i*0.012);t.y+=(my-t.y)*(0.18-i*0.012);t.el.style.left=t.x+'px';t.el.style.top=t.y+'px';t.el.style.opacity=(1-i/trails.length)*0.5;t.el.style.transform=`translate(-50%,-50%) scale(${1-i*0.08})`;});requestAnimationFrame(anim);}
+            anim();
+            document.addEventListener('mousedown',()=>{dot.style.width='14px';dot.style.height='14px';ring.style.width='50px';ring.style.height='50px';});
+            document.addEventListener('mouseup',()=>{dot.style.width='8px';dot.style.height='8px';ring.style.width='36px';ring.style.height='36px';});
+        })();
+
+        // Timeline progress
+        (function(){
+            const progress = document.getElementById('timeline-progress');
+            const track = document.querySelector('.timeline-track');
+            
+            window.addEventListener('scroll', () => {
+                const rect = track.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                const totalHeight = rect.height;
+                const progressTop = -rect.top + windowHeight/2;
+                
+                let pct = (progressTop / totalHeight) * 100;
+                pct = Math.max(0, Math.min(pct, 100));
+                progress.style.height = pct + '%';
+            });
+        })();
+
+        // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => {
-                if (e.isIntersecting) e.target.classList.add('visible');
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    // Start counting if stat
+                    if(e.target.classList.contains('stat-value') && !e.target.dataset.started) {
+                        e.target.dataset.started = true;
+                        animateCounter(e.target);
+                    }
+                }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-        document.querySelectorAll('.mission-entry').forEach(el => observer.observe(el));
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.mission-entry, .stat-value').forEach(el => observer.observe(el));
+
+        function animateCounter(el) {
+            const target = parseInt(el.textContent);
+            let current = 0;
+            const duration = 1500;
+            const step = target / (duration / 16);
+            
+            function update() {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target + (el.textContent.includes('+') ? '+' : '');
+                    return;
+                }
+                el.textContent = Math.floor(current) + (el.textContent.includes('+') ? '+' : '');
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        // Animated count-up for stats
+        const countUp = (el, target, suffix='') => {
+            let current = 0;
+            const step = target / 60;
+            const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = (target === Infinity ? '∞' : Math.ceil(current)) + suffix;
+                if (current >= target) clearInterval(timer);
+            }, 25);
+        };
+        const statsObserver = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if(e.isIntersecting) {
+                    const vals = e.target.querySelectorAll('.stat-val');
+                    vals.forEach(v => {
+                        const txt = v.textContent;
+                        const num = parseFloat(txt);
+                        if(!isNaN(num)) countUp(v, num, txt.includes('+') ? '+' : '');
+                    });
+                    statsObserver.unobserve(e.target);
+                }
+            });
+        },{threshold:0.3});
+        const statsBar = document.querySelector('.stats-bar');
+        if(statsBar) statsObserver.observe(statsBar);
 
         // Fade-in for hero
         const fadeObserver = new IntersectionObserver((entries) => {

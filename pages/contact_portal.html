@@ -12,6 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script>
+        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+            window.location.href = '../index.html';
+        }
+    </script>
     <style>
         :root {
             --void: #030308;
@@ -58,6 +63,127 @@
             z-index: 9999;
             pointer-events: none;
             background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 170, 0.015) 2px, rgba(0, 255, 170, 0.015) 4px);
+        }
+
+        /* ═══ CURSOR TRAIL ═══ */
+        .cursor-dot {
+            position: fixed; width: 8px; height: 8px; border-radius: 50%;
+            background: var(--neon); pointer-events: none; z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+            box-shadow: 0 0 16px var(--neon), 0 0 32px rgba(0,255,170,0.4);
+            mix-blend-mode: screen;
+        }
+        .cursor-ring {
+            position: fixed; width: 36px; height: 36px; border-radius: 50%;
+            border: 1px solid rgba(0,255,170,0.5); pointer-events: none; z-index: 99997;
+            transform: translate(-50%, -50%); transition: all 0.15s ease;
+            mix-blend-mode: screen;
+        }
+        .cursor-trail {
+            position: fixed; width: 4px; height: 4px; border-radius: 50%;
+            background: var(--cyan); pointer-events: none; z-index: 99996;
+            opacity: 0; transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+        }
+
+        /* ═══ MORPHING ORBS ═══ */
+        .orb-field { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.08; }
+        .orb-1 {
+            width: 450px; height: 450px;
+            background: radial-gradient(circle, var(--neon), transparent 70%);
+            top: -80px; left: -100px;
+            animation: orbFloat1 28s ease-in-out infinite;
+        }
+        .orb-2 {
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, var(--magenta), transparent 70%);
+            bottom: 0; right: 5%;
+            animation: orbFloat2 22s ease-in-out infinite;
+        }
+        @keyframes orbFloat1 {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(120px, 80px); }
+        }
+        .orb-3 {
+            width: 280px; height: 280px;
+            background: radial-gradient(circle, var(--cyan), transparent 70%);
+            top: 40%; right: -80px;
+            animation: orbFloat3 20s ease-in-out infinite;
+        }
+        @keyframes orbFloat2 {
+            0%,100% { transform: translate(0,0); }
+            50% { transform: translate(-100px, -80px); }
+        }
+        @keyframes orbFloat3 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(-80px, 60px) scale(0.9); }
+        }
+        @keyframes radarSpin { to { transform: rotate(360deg); } }
+
+        /* ═══ RADAR WIDGET ═══ */
+        .radar-widget {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 1rem 1.5rem;
+            background: rgba(0,255,170,0.04);
+            border: 1px solid rgba(0,255,170,0.15);
+            margin-bottom: 2rem;
+        }
+        .radar-circle {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,255,170,0.3);
+            position: relative;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .radar-circle::before {
+            content: '';
+            position: absolute;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,255,170,0.15);
+        }
+        .radar-line {
+            position: absolute;
+            width: 50%; height: 1px;
+            background: linear-gradient(90deg, var(--neon), transparent);
+            left: 50%; top: 50%;
+            transform-origin: left center;
+            animation: radarSpin 2s linear infinite;
+        }
+        .radar-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--neon);
+            box-shadow: 0 0 8px var(--neon);
+            animation: radarBlink 2s ease infinite;
+        }
+        @keyframes radarSpin { to { transform: rotate(360deg); } }
+        @keyframes radarBlink {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .radar-text {
+            flex: 1;
+        }
+        .radar-label {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .radar-value {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--neon);
+            letter-spacing: 1px;
         }
 
         /* Navbar */
@@ -448,12 +574,30 @@
             transition: all 0.3s;
             text-decoration: none;
             color: inherit;
+            position: relative;
+            overflow: hidden;
         }
+        .channel-item::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: var(--neon);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s;
+        }
+        .channel-item:nth-child(2)::after { background: var(--cyan); }
+        .channel-item:nth-child(3)::after { background: var(--magenta); }
+        .channel-item:nth-child(4)::after { background: var(--amber); }
 
         .channel-item:hover {
             border-color: var(--border-hot);
             background: rgba(0, 255, 170, 0.06);
             transform: translateX(4px);
+        }
+        .channel-item:hover::after {
+            transform: scaleY(1);
         }
 
         .channel-icon {
@@ -774,6 +918,11 @@
 
     <!-- Main Content -->
     <section class="contact-main">
+        <div class="orb-field" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
         <div class="contact-grid-bg"></div>
 
         <div class="contact-container">
@@ -787,6 +936,21 @@
                 <div class="info-badge">
                     <div class="info-badge-dot"></div>
                     <span class="info-badge-text">Channel Open</span>
+                </div>
+
+                <!-- Radar Widget -->
+                <div style="display:flex;align-items:center;gap:16px;padding:16px;background:rgba(0,255,170,0.03);border:1px solid rgba(0,255,170,0.1);margin-bottom:1.5rem;">
+                    <div style="position:relative;width:56px;height:56px;flex-shrink:0;">
+                        <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(0,255,170,0.2);"></div>
+                        <div style="position:absolute;inset:6px;border-radius:50%;border:1px solid rgba(0,255,170,0.15);"></div>
+                        <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0deg,rgba(0,255,170,0.25) 40deg,transparent 80deg);animation:radarSpin 2.5s linear infinite;"></div>
+                        <div style="position:absolute;top:50%;left:50%;width:4px;height:4px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);transform:translate(-50%,-50%);"></div>
+                    </div>
+                    <div>
+                        <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--neon);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">Status</div>
+                        <div style="font-family:var(--font-display);font-size:0.75rem;color:var(--text-bright);letter-spacing:1px;">Available for Work</div>
+                        <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);">Response time &lt; 24h</div>
+                    </div>
                 </div>
 
                 <h1 class="info-title">
@@ -939,6 +1103,19 @@
     </footer>
 
     <script>
+        // Cursor Trail
+        (function(){
+            const dot=document.createElement('div');dot.className='cursor-dot';document.body.appendChild(dot);
+            const ring=document.createElement('div');ring.className='cursor-ring';document.body.appendChild(ring);
+            const trails=[];for(let i=0;i<8;i++){const t=document.createElement('div');t.className='cursor-trail';document.body.appendChild(t);trails.push({el:t,x:0,y:0});}
+            let mx=0,my=0;
+            document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';setTimeout(()=>{ring.style.left=mx+'px';ring.style.top=my+'px';},80);});
+            function anim(){trails.forEach((t,i)=>{t.x+=(mx-t.x)*(0.18-i*0.012);t.y+=(my-t.y)*(0.18-i*0.012);t.el.style.left=t.x+'px';t.el.style.top=t.y+'px';t.el.style.opacity=(1-i/trails.length)*0.5;t.el.style.transform=`translate(-50%,-50%) scale(${1-i*0.08})`;});requestAnimationFrame(anim);}
+            anim();
+            document.addEventListener('mousedown',()=>{dot.style.width='14px';dot.style.height='14px';ring.style.width='50px';ring.style.height='50px';});
+            document.addEventListener('mouseup',()=>{dot.style.width='8px';dot.style.height='8px';ring.style.width='36px';ring.style.height='36px';});
+        })();
+
         // Form handling
         document.getElementById('contactForm').addEventListener('submit', async function (e) {
             e.preventDefault();

@@ -12,6 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script>
+        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+            window.location.href = '../index.html';
+        }
+    </script>
     <style>
         /* ═══════════════════════════════════════════
            NEURAL COMMAND CENTER — CORE SYSTEM
@@ -68,6 +73,228 @@
                     transparent 2px,
                     rgba(0, 255, 170, 0.015) 2px,
                     rgba(0, 255, 170, 0.015) 4px);
+        }
+
+        /* ═══ CURSOR TRAIL ═══ */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--neon);
+            pointer-events: none;
+            z-index: 99998;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, opacity 0.2s;
+            box-shadow: 0 0 16px var(--neon), 0 0 32px rgba(0,255,170,0.4);
+            mix-blend-mode: screen;
+        }
+        .cursor-ring {
+            position: fixed;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,255,170,0.5);
+            pointer-events: none;
+            z-index: 99997;
+            transform: translate(-50%, -50%);
+            transition: all 0.15s ease;
+            mix-blend-mode: screen;
+        }
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--cyan);
+            pointer-events: none;
+            z-index: 99996;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+        }
+
+        /* ═══ FLOATING AVAILABILITY WIDGET ═══ */
+        .avail-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 500;
+            background: rgba(3,3,8,0.9);
+            border: 1px solid rgba(0,255,170,0.3);
+            backdrop-filter: blur(20px);
+            padding: 14px 20px 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: slideInWidget 1s ease 2s both;
+            text-decoration: none;
+        }
+        .avail-widget:hover {
+            border-color: var(--neon);
+            box-shadow: 0 0 30px rgba(0,255,170,0.15);
+            transform: translateY(-3px);
+        }
+        .avail-pulse-ring {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avail-pulse-ring::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid var(--neon);
+            animation: availPulse 2s ease infinite;
+        }
+        @keyframes availPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(2.2); opacity: 0; }
+        }
+        .avail-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--neon);
+            box-shadow: 0 0 10px var(--neon);
+        }
+        .avail-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .avail-label {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .avail-status {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--neon);
+            letter-spacing: 1px;
+        }
+        @keyframes slideInWidget {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* ═══ MORPHING ORBS ═══ */
+        .orb-field {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.12;
+            animation: orbFloat linear infinite;
+        }
+        .orb-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--neon), transparent 70%);
+            top: -100px; left: -100px;
+            animation-duration: 25s;
+            animation-name: orbFloat1;
+        }
+        .orb-2 {
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, var(--cyan), transparent 70%);
+            bottom: -50px; right: 10%;
+            animation-duration: 30s;
+            animation-name: orbFloat2;
+        }
+        .orb-3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, var(--magenta), transparent 70%);
+            top: 30%; right: -50px;
+            animation-duration: 20s;
+            animation-name: orbFloat3;
+        }
+        @keyframes orbFloat1 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(150px, 100px) scale(1.2); }
+            66% { transform: translate(-80px, 200px) scale(0.9); }
+        }
+        @keyframes orbFloat2 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            40% { transform: translate(-200px, -100px) scale(1.3); }
+            70% { transform: translate(100px, -150px) scale(0.8); }
+        }
+        @keyframes orbFloat3 {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(-150px, 100px) scale(1.4); }
+        }
+
+        /* ═══ TERMINAL WINDOW ═══ */
+        .terminal-window {
+            position: absolute;
+            bottom: -20px;
+            right: -30px;
+            width: 280px;
+            background: rgba(7,7,15,0.95);
+            border: 1px solid rgba(0,255,170,0.2);
+            backdrop-filter: blur(20px);
+            z-index: 10;
+            overflow: hidden;
+            animation: terminalAppear 1s ease 1.5s both;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,255,170,0.05);
+        }
+        @keyframes terminalAppear {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .terminal-titlebar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: rgba(0,255,170,0.04);
+            border-bottom: 1px solid rgba(0,255,170,0.1);
+        }
+        .term-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+        .term-dot.red { background: #ff5f57; }
+        .term-dot.amber { background: #ffbd2e; }
+        .term-dot.green { background: #28ca41; }
+        .terminal-filename {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            margin-left: auto;
+            letter-spacing: 1px;
+        }
+        .terminal-body {
+            padding: 12px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            line-height: 1.8;
+        }
+        .t-dim { color: var(--text-dim); }
+        .t-neon { color: var(--neon); }
+        .t-cyan { color: var(--cyan); }
+        .t-amber { color: var(--amber); }
+        .t-magenta { color: var(--magenta); }
+        .t-white { color: #e8f0f8; }
+        .terminal-cursor {
+            display: inline-block;
+            width: 7px; height: 1em;
+            background: var(--neon);
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+            box-shadow: 0 0 6px var(--neon);
         }
 
         /* ═══ NAVBAR ═══ */
@@ -1449,6 +1676,31 @@
                 transform: translateY(0);
             }
         }
+
+        /* ═══ EXPLORE CARD ENHANCED ═══ */
+        .explore-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .explore-card .card-glow {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        .explore-card:nth-child(1) .card-glow {
+            background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,255,170,0.08), transparent 60%);
+        }
+        .explore-card:nth-child(2) .card-glow {
+            background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,229,255,0.08), transparent 60%);
+        }
+        .explore-card:nth-child(3) .card-glow {
+            background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,190,11,0.08), transparent 60%);
+        }
+        .explore-card:hover .card-glow {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -1494,10 +1746,30 @@
         <a href="contact_portal.html">Contact</a>
     </div>
 
+    <!-- Cursor Trail -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Floating Availability Widget -->
+    <a href="contact_portal.html" class="avail-widget">
+        <div class="avail-pulse-ring">
+            <div class="avail-dot"></div>
+        </div>
+        <div class="avail-text">
+            <span class="avail-label">Status</span>
+            <span class="avail-status">Open to Work</span>
+        </div>
+    </a>
+
     <!-- ═══ HERO ═══ -->
     <section class="hero">
         <div class="hero-grid"></div>
         <div class="hero-neural"></div>
+        <div class="orb-field">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
 
         <!-- Floating particles -->
         <div class="particle-field" id="particleField"></div>
@@ -1565,9 +1837,9 @@
                 </div>
             </div>
 
-            <!-- Right: Avatar -->
+            <!-- Right: Avatar + Terminal -->
             <div class="hero-visual fade-up fade-up-d2">
-                <div class="avatar-container">
+                <div class="avatar-container" style="position:relative;">
                     <div class="avatar-glow"></div>
                     <div class="avatar-ring">
                         <div class="avatar-ring-inner"></div>
@@ -1605,6 +1877,27 @@
                         <div class="orbit-node">📄</div>
                     </div>
                 </div>
+
+                <!-- Terminal card floating below avatar -->
+                <div class="terminal-window">
+                    <div class="terminal-titlebar">
+                        <div class="term-dot red"></div>
+                        <div class="term-dot amber"></div>
+                        <div class="term-dot green"></div>
+                        <span class="terminal-filename">dev.config.ts</span>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div><span class="t-dim">// neural architect online</span></div>
+                        <div><span class="t-amber">const</span> <span class="t-neon">stack</span> <span class="t-white">= [</span></div>
+                        <div>&nbsp;&nbsp;<span class="t-cyan">'TypeScript'</span><span class="t-white">,</span></div>
+                        <div>&nbsp;&nbsp;<span class="t-cyan">'Node.js'</span><span class="t-white">,</span></div>
+                        <div>&nbsp;&nbsp;<span class="t-cyan">'Next.js'</span><span class="t-white">,</span></div>
+                        <div><span class="t-white">];</span></div>
+                        <div><span class="t-dim">// status: open to hire</span></div>
+                        <div><span class="t-magenta">export</span> <span class="t-amber">default</span> <span class="t-neon">DhyanchandGond</span> <span class="t-white">▊</span></div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -1767,6 +2060,60 @@
 
     <!-- ═══ SCRIPTS ═══ -->
     <script>
+        // ── Custom Cursor Trail ──
+        const dot = document.getElementById('cursorDot');
+        const ring = document.getElementById('cursorRing');
+        const trails = [];
+        for (let i = 0; i < 8; i++) {
+            const t = document.createElement('div');
+            t.className = 'cursor-trail';
+            document.body.appendChild(t);
+            trails.push({ el: t, x: 0, y: 0 });
+        }
+        let mx = 0, my = 0;
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX; my = e.clientY;
+            dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+            setTimeout(() => { ring.style.left = mx + 'px'; ring.style.top = my + 'px'; }, 80);
+        });
+        let trailTick = 0;
+        function animateTrails() {
+            trailTick++;
+            trails.forEach((t, i) => {
+                const delay = (i + 1) * 0.12;
+                t.x += (mx - t.x) * (0.18 - i * 0.012);
+                t.y += (my - t.y) * (0.18 - i * 0.012);
+                t.el.style.left = t.x + 'px';
+                t.el.style.top = t.y + 'px';
+                t.el.style.opacity = (1 - i / trails.length) * 0.5;
+                t.el.style.transform = `translate(-50%, -50%) scale(${1 - i*0.08})`;
+            });
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+        document.addEventListener('mousedown', () => {
+            dot.style.width = '14px'; dot.style.height = '14px';
+            ring.style.width = '50px'; ring.style.height = '50px';
+        });
+        document.addEventListener('mouseup', () => {
+            dot.style.width = '8px'; dot.style.height = '8px';
+            ring.style.width = '36px'; ring.style.height = '36px';
+        });
+
+        // ── Card Mouse Glow ──
+        document.querySelectorAll('.explore-card').forEach(card => {
+            const glow = document.createElement('div');
+            glow.className = 'card-glow';
+            card.appendChild(glow);
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+                const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
+                card.style.setProperty('--mx', x);
+                card.style.setProperty('--my', y);
+            });
+        });
+
         // ── Typing Animation ──
         const typingText = document.getElementById('typingText');
         const roles = [

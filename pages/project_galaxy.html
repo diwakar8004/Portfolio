@@ -12,6 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <script>
+        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+            window.location.href = '../index.html';
+        }
+    </script>
     <style>
         :root {
             --void: #030308;
@@ -58,6 +63,43 @@
             pointer-events: none;
             background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 170, 0.015) 2px, rgba(0, 255, 170, 0.015) 4px);
         }
+
+        /* ═══ CURSOR TRAIL ═══ */
+        .cursor-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--neon);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);box-shadow:0 0 16px var(--neon),0 0 32px rgba(0,255,170,0.4);mix-blend-mode:screen;transition:width .2s,height .2s;}
+        .cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1px solid rgba(0,255,170,0.5);pointer-events:none;z-index:99997;transform:translate(-50%,-50%);transition:all .15s ease;mix-blend-mode:screen;}
+        .cursor-trail{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:99996;opacity:0;transform:translate(-50%,-50%);mix-blend-mode:screen;}
+
+        /* ═══ MORPHING ORBS ═══ */
+        .orb-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+        .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.09;}
+        .orb-1{width:450px;height:450px;background:radial-gradient(circle,var(--neon),transparent 70%);top:-80px;left:-100px;animation:orbF1 25s ease-in-out infinite;}
+        .orb-2{width:350px;height:350px;background:radial-gradient(circle,var(--cyan),transparent 70%);bottom:-50px;right:5%;animation:orbF2 32s ease-in-out infinite;}
+        .orb-3{width:280px;height:280px;background:radial-gradient(circle,var(--magenta),transparent 70%);top:40%;right:-80px;animation:orbF3 20s ease-in-out infinite;}
+        @keyframes orbF1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(120px,80px) scale(1.15)}}
+        @keyframes orbF2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-100px,-80px) scale(1.2)}}
+        @keyframes orbF3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-80px,60px) scale(0.9)}}
+
+        /* ═══ GLITCH TITLE ═══ */
+        .glitch-wrap{position:relative;display:inline-block;}
+        .glitch-wrap::before,.glitch-wrap::after{content:attr(data-text);position:absolute;inset:0;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;text-transform:inherit;}
+        .glitch-wrap::before{color:var(--cyan);clip-path:polygon(0 25%,100% 25%,100% 45%,0 45%);animation:glitchA 3.5s infinite;left:3px;}
+        .glitch-wrap::after{color:var(--magenta);clip-path:polygon(0 60%,100% 60%,100% 75%,0 75%);animation:glitchB 3.5s infinite;left:-3px;}
+        @keyframes glitchA{0%,88%,100%{transform:translate(0)}90%{transform:translate(-4px,1px)}95%{transform:translate(4px,-1px)}}
+        @keyframes glitchB{0%,88%,100%{transform:translate(0)}91%{transform:translate(4px,2px)}96%{transform:translate(-4px,-2px)}}
+
+        /* ═══ 3D TILT CARD ═══ */
+        .project-card {
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: transform 0.15s ease, border-color 0.4s, box-shadow 0.4s;
+        }
+        /* Card spotlight on hover */
+        .project-card .card-spotlight {
+            position:absolute;inset:0;pointer-events:none;opacity:0;
+            background:radial-gradient(circle at var(--sx,50%) var(--sy,50%), rgba(0,255,170,0.06), transparent 60%);
+            transition:opacity 0.3s;
+        }
+        .project-card:hover .card-spotlight { opacity:1; }
 
         /* Navbar */
         .navbar {
@@ -551,14 +593,46 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Tech stack chips inside card */
-        .card-tech {
+        /* ═══ PROJECT CONSOLE ═══ */
+        .project-console {
+            height: 120px;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--neon);
+            opacity: 0.8;
         }
-
+        .console-lines {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, transparent 0%, rgba(0,255,170,0.05) 50%, transparent 100%);
+            background-size: 100% 4px;
+            animation: scanScroll 10s linear infinite;
+        }
+        @keyframes scanScroll {
+            from { background-position: 0 0; }
+            to { background-position: 0 100%; }
+        }
+        
+        .pulse-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(var(--neon) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.05; transform: scale(1); }
+            50% { opacity: 0.15; transform: scale(1.05); }
+        }
         .tech-chip {
             font-family: var(--font-mono);
             font-size: 0.65rem;
@@ -752,9 +826,10 @@
 
     <!-- Hero -->
     <section class="projects-hero">
+        <div class="orb-field"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
         <div class="grid-bg"></div>
         <div style="position:relative;z-index:2;" class="fade-in">
-            <h1>Project <span>Operations</span></h1>
+            <h1><span class="glitch-wrap" data-text="Project Operations">Project <span>Operations</span></span></h1>
             <p>&gt;_ Classified deployments. Real code. Shipped to production.</p>
         </div>
     </section>
@@ -783,6 +858,11 @@
                     <div class="card-status-bar">
                         <span>OP-001 // CYBERSHIELD</span>
                         <span class="status-live"><span class="status-dot"></span>DEPLOYED</span>
+                    </div>
+                    <div class="project-console">
+                        <div class="console-lines"></div>
+                        <div class="pulse-grid"></div>
+                        <code>&gt;_ SEC_PROTOCOL: ACT_001</code>
                     </div>
                     <div class="card-body">
                         <div class="card-tag-row">
@@ -816,6 +896,11 @@
                     <div class="card-status-bar">
                         <span>OP-002 // ALGOARENA</span>
                         <span class="status-live"><span class="status-dot"></span>ACTIVE</span>
+                    </div>
+                    <div class="project-console">
+                        <div class="console-lines"></div>
+                        <div class="pulse-grid"></div>
+                        <code>&gt;_ LOGIC_KERNEL: ACT_002</code>
                     </div>
                     <div class="card-body">
                         <div class="card-tag-row">
@@ -851,6 +936,11 @@
                         <span class="status-live"><span class="status-dot"
                                 style="background:var(--cyan);box-shadow:0 0 8px var(--cyan);"></span>LIVE</span>
                     </div>
+                    <div class="project-console">
+                        <div class="console-lines"></div>
+                        <div class="pulse-grid"></div>
+                        <code>&gt;_ VERCEL_DEPL: LGC_003</code>
+                    </div>
                     <div class="card-body">
                         <div class="card-tag-row">
                             <span class="op-tag cyan">TypeScript</span>
@@ -885,6 +975,11 @@
                         <span class="status-live"><span class="status-dot"
                                 style="background:var(--amber);box-shadow:0 0 8px var(--amber);"></span>ACTIVE</span>
                     </div>
+                    <div class="project-console">
+                        <div class="console-lines"></div>
+                        <div class="pulse-grid"></div>
+                        <code>&gt;_ AI_SYNTHESIS: ACT_004</code>
+                    </div>
                     <div class="card-body">
                         <div class="card-tag-row">
                             <span class="op-tag amber">AI-Powered</span>
@@ -918,6 +1013,11 @@
                     <div class="card-status-bar">
                         <span>OP-005 // TAX-MANAGER</span>
                         <span class="status-live"><span class="status-dot"></span>DEPLOYED</span>
+                    </div>
+                    <div class="project-console">
+                        <div class="console-lines"></div>
+                        <div class="pulse-grid"></div>
+                        <code>&gt;_ FIN_DISTRICT: DST_005</code>
                     </div>
                     <div class="card-body">
                         <div class="card-tag-row">
@@ -993,6 +1093,39 @@
     </footer>
 
     <script>
+        // Cursor Trail
+        (function(){
+            const dot=document.createElement('div');dot.className='cursor-dot';document.body.appendChild(dot);
+            const ring=document.createElement('div');ring.className='cursor-ring';document.body.appendChild(ring);
+            const trails=[];for(let i=0;i<8;i++){const t=document.createElement('div');t.className='cursor-trail';document.body.appendChild(t);trails.push({el:t,x:0,y:0});}
+            let mx=0,my=0;
+            document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';setTimeout(()=>{ring.style.left=mx+'px';ring.style.top=my+'px';},80);});
+            function anim(){trails.forEach((t,i)=>{t.x+=(mx-t.x)*(0.18-i*0.012);t.y+=(my-t.y)*(0.18-i*0.012);t.el.style.left=t.x+'px';t.el.style.top=t.y+'px';t.el.style.opacity=(1-i/trails.length)*0.5;t.el.style.transform=`translate(-50%,-50%) scale(${1-i*0.08})`;});requestAnimationFrame(anim);}
+            anim();
+            document.addEventListener('mousedown',()=>{dot.style.width='14px';dot.style.height='14px';ring.style.width='50px';ring.style.height='50px';});
+            document.addEventListener('mouseup',()=>{dot.style.width='8px';dot.style.height='8px';ring.style.width='36px';ring.style.height='36px';});
+        })();
+
+        // 3D Card Tilt + Spotlight
+        document.querySelectorAll('.project-card').forEach(card => {
+            const spot = document.createElement('div');
+            spot.className = 'card-spotlight';
+            card.appendChild(spot);
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                const x = e.clientX - r.left, y = e.clientY - r.top;
+                const cx = r.width/2, cy = r.height/2;
+                const rotX = ((y-cy)/cy * -6).toFixed(2);
+                const rotY = ((x-cx)/cx * 6).toFixed(2);
+                card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-8px)`;
+                card.style.setProperty('--sx', (x/r.width*100).toFixed(1)+'%');
+                card.style.setProperty('--sy', (y/r.height*100).toFixed(1)+'%');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
         // Filter logic
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
