@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dhyanchand Gond — Neural Command Center</title>
-    <meta name="description" content="Dhyanchand Gond — Full-Stack Developer. Initializing Neural Command Center..." />
+    <meta name="description" content="Dhyanchand Gond — AI-assisted web developer. Initializing Neural Command Center..." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -187,6 +187,53 @@
             10% { opacity:0.6; }
             90% { opacity:0.6; }
             100% { opacity:0; transform: translateY(-100vh); }
+        }
+
+        @media (max-width: 768px) {
+            .radar {
+                width: 280px;
+                height: 280px;
+            }
+
+            .brand-name {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+
+            .loading-text {
+                font-size: 0.72rem;
+                letter-spacing: 1px;
+                margin-bottom: 1.25rem;
+            }
+
+            .terminal-log {
+                max-width: 90vw;
+                font-size: 0.58rem;
+                line-height: 1.6;
+            }
+
+            .progress-track {
+                width: 80vw;
+                max-width: 240px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .initials {
+                width: 74px;
+                height: 74px;
+                font-size: 1.6rem;
+            }
+
+            .brand-name {
+                font-size: 1rem;
+            }
+
+            .orb-1,
+            .orb-2,
+            .orb-3 {
+                filter: blur(80px);
+            }
         }
     </style>
 </head>

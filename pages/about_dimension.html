@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CLASSIFIED // About — Dhyanchand Gond</title>
     <meta name="description"
-        content="Classified dossier on Dhyanchand Gond — Full-Stack Developer, neural architect, and digital craftsman from Lucknow, India." />
+        content="Classified dossier on Dhyanchand Gond — AI-assisted developer, neural architect, and digital craftsman from Lucknow, India." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -1344,6 +1344,86 @@
             border-bottom: 1px solid var(--neon);
             border-right: 1px solid var(--neon);
         }
+
+        @media (max-width: 1024px) {
+            .section-inner {
+                max-width: 100%;
+                padding: 0 1.25rem;
+            }
+
+            .dossier-section,
+            .timeline-section,
+            .activity-section {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 0 1rem;
+                height: 58px;
+            }
+
+            .about-hero {
+                min-height: 80vh;
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero-title {
+                letter-spacing: 2px;
+            }
+
+            .hero-subtitle {
+                font-size: 0.84rem;
+                line-height: 1.7;
+                margin-bottom: 2rem;
+            }
+
+            .section-header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .section-tag {
+                letter-spacing: 1px;
+                font-size: 0.62rem;
+                padding: 4px 8px;
+            }
+
+            .subject-role {
+                font-size: 0.72rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+
+            .classified-stamp {
+                padding: 6px 14px;
+            }
+
+            .classified-stamp span {
+                letter-spacing: 2px;
+                font-size: 0.6rem;
+            }
+
+            .bio-card,
+            .subject-card,
+            .timeline-card,
+            .activity-card {
+                padding: 1rem;
+            }
+
+            .mobile-overlay a {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+        }
     </style>
 </head>
 
@@ -1411,9 +1491,9 @@
             </h1>
             <p class="hero-subtitle fade-in fade-in-d1">
                 <span class="highlight">&gt;_</span> Subject: <span class="highlight">Dhyanchand Gond</span> //
-                Full-stack developer from Lucknow, India. Specializing in
-                <span class="highlight">TypeScript</span>, <span class="highlight">Next.js</span>,
-                and production-grade neural interfaces.
+                AI-assisted developer from Lucknow, India. Experienced with
+                <span class="highlight">Python</span>, <span class="highlight">Java</span>,
+                and practical web product development.
             </p>
         </div>
     </section>
@@ -1441,7 +1521,7 @@
                         <img src="diwakar-avatar.png" alt="Dhyanchand Gond — Neural Architect" />
                     </div>
                     <div class="subject-name">Dhyanchand Gond</div>
-                    <div class="subject-role">Full-Stack Developer // Neural Architect</div>
+                    <div class="subject-role">AI-Assisted Developer // Neural Architect</div>
 
                     <div class="subject-stats">
                         <div class="stat-row">
@@ -1480,11 +1560,10 @@
                             <span class="bio-card-title">Mission Brief</span>
                         </div>
                         <p class="bio-card-text">
-                            Dev who ships. My mission is to turn raw ideas into <span class="neon">production-ready
-                                applications</span>
-                            that solve real problems. I specialize in building full-stack systems with
-                            <span class="cyan">Node.js, Express, MongoDB, REST APIs & Security</span> —
-                            always prioritizing clean architecture, performance, and extraordinary user experiences.
+                            My mission is to turn ideas into <span class="neon">production-ready applications</span>
+                            that solve real problems. I focus on practical development using
+                            <span class="cyan">Python, SQL, Firebase, REST APIs, and secure coding practices</span> —
+                            with strong attention to clean architecture, performance, and user experience.
                         </p>
                     </div>
 
@@ -1501,12 +1580,12 @@
                             <span class="bio-card-title">Origin Story</span>
                         </div>
                         <p class="bio-card-text">
-                            It started with a single line of code — a <span class="cyan">"Hello, World!"</span>
-                            that sparked a lifelong obsession with building digital systems. From experimenting with
+                            It started with a single line of code — <span class="cyan">"Hello, World!"</span> —
+                            which sparked a long-term interest in building digital systems. From experimenting with
                             basic
-                            algorithms to shipping full-stack platforms like <span class="neon">CyberShield</span>,
+                            algorithms to delivering real-world platforms like <span class="neon">CyberShield</span>,
                             <span class="neon">AlgoArena</span>, and <span class="neon">PartanX</span> — each project
-                            pushed the boundaries of what I thought was possible.
+                            has expanded my technical depth and execution ability.
                         </p>
                     </div>
 
@@ -1523,9 +1602,9 @@
                         </div>
                         <p class="bio-card-text">
                             Currently focused on building <span class="neon">production-grade web platforms</span> that
-                            merge
-                            analysis systems. Exploring <span class="cyan">AI Dev Tools, Java, DSA, and ML Basics</span> to deepen
-                            Every line of code is a step toward the future I want to build.
+                            combine practical engineering with data-aware thinking. Exploring
+                            <span class="cyan">AI Dev Tools, Java, DSA, and ML basics</span> to deepen my problem-solving
+                            approach. Every line of code is a step toward the future I want to build.
                         </p>
                     </div>
                 </div>
@@ -1550,8 +1629,8 @@
                     <div class="timeline-card">
                         <div class="timeline-year">2024 — Present</div>
                         <h3>Building Tomorrow's Web</h3>
-                        <p>Shipping production-grade platforms. Full-stack development with TypeScript, Next.js, and
-                            modern frameworks. Leading development of CyberShield, AlgoArena, and AI-powered tools.</p>
+                        <p>Building production-grade platforms with web fundamentals, Firebase, and cloud deployment.
+                            Leading development of CyberShield, AlgoArena, and AI-powered tools.</p>
                         <div class="timeline-tags">
                             <span class="timeline-tag">Node.js</span>
                             <span class="timeline-tag cyan">AI Tools</span>
@@ -1566,11 +1645,11 @@
                     <div class="timeline-card">
                         <div class="timeline-year" style="color:var(--cyan);">2022 — 2023</div>
                         <h3>Advanced Development Phase</h3>
-                        <p>Mastered React ecosystem, state management with Redux, and backend architecture with Node.js
-                            & Express. Built complex multi-tier applications and deployed to cloud platforms.</p>
+                        <p>Strengthened JavaScript and backend fundamentals, API design, and deployment workflows.
+                            Built multi-tier applications and shipped them to cloud platforms.</p>
                         <div class="timeline-tags">
                             <span class="timeline-tag cyan">React</span>
-                            <span class="timeline-tag">Redux</span>
+                            <span class="timeline-tag">Firebase</span>
                             <span class="timeline-tag cyan">Node.js</span>
                             <span class="timeline-tag">Cloud</span>
                         </div>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CLASSIFIED // Mission Log — Dhyanchand Gond</title>
     <meta name="description"
-        content="Chronological mission log of Dhyanchand Gond's achievements, milestones, and evolution as a full-stack developer." />
+        content="Chronological mission log of Dhyanchand Gond's achievements, milestones, and evolution as an AI-assisted developer." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -733,6 +733,74 @@
                 transform: translateY(0);
             }
         }
+
+        @media (max-width: 1024px) {
+            .section-inner {
+                max-width: 100%;
+                padding: 0 1.25rem;
+            }
+
+            .timeline-section {
+                padding: 3rem 1.25rem 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 0 1rem;
+                height: 58px;
+            }
+
+            .timeline-hero {
+                min-height: 44vh;
+                padding: 6.5rem 1rem 2.5rem;
+            }
+
+            .timeline-hero h1 {
+                letter-spacing: 2px;
+            }
+
+            .timeline-hero p {
+                font-size: 0.8rem;
+            }
+
+            .mission-card {
+                padding: 1rem;
+            }
+
+            .mission-title {
+                font-size: 1rem;
+            }
+
+            .mission-desc {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timeline-hero h1 {
+                font-size: 1.7rem;
+                letter-spacing: 1px;
+            }
+
+            .mission-header {
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+
+            .mission-tags {
+                gap: 0.35rem;
+            }
+
+            .mission-tag {
+                font-size: 0.55rem;
+            }
+
+            .mobile-overlay a {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+        }
     </style>
 </head>
 
@@ -849,8 +917,8 @@
                         <div class="mission-title">AI ResumeBuilder Released</div>
                         <div class="mission-desc">Shipped AI-powered Resume Builder with real-time suggestions, skill
                             extraction, ATS scoring, and multiple professional templates.</div>
-                        <div class="mission-tags"><span class="mission-tag">TypeScript</span><span
-                                class="mission-tag">AI/ML</span><span class="mission-tag">Next.js</span></div>
+                        <div class="mission-tags"><span class="mission-tag">JavaScript</span><span
+                                class="mission-tag">AI/ML</span><span class="mission-tag">Web Dev</span></div>
                     </div>
                 </div>
 
@@ -861,10 +929,10 @@
                             <span class="mission-date">2025</span>
                         </div>
                         <div class="mission-title">PartanX Deployed to Vercel</div>
-                        <div class="mission-desc">Full-stack TypeScript platform deployed to Vercel. Clean architecture,
-                            high performance, and production-ready infrastructure.</div>
-                        <div class="mission-tags"><span class="mission-tag">TypeScript</span><span
-                                class="mission-tag">Vercel</span><span class="mission-tag">Next.js</span></div>
+                        <div class="mission-desc">Web platform deployed to Vercel with clean architecture, high
+                            performance, and production-ready infrastructure.</div>
+                        <div class="mission-tags"><span class="mission-tag">JavaScript</span><span
+                                class="mission-tag">Vercel</span><span class="mission-tag">Web App</span></div>
                     </div>
                 </div>
 
@@ -897,7 +965,7 @@
                         <div class="mission-title">Tax Management System</div>
                         <div class="mission-desc">Built a complete tax management system with Dashboard, Payments, ITR &
                             GST Sync, Tax Filing, and comprehensive Finance Tools.</div>
-                        <div class="mission-tags"><span class="mission-tag">TypeScript</span><span
+                        <div class="mission-tags"><span class="mission-tag">JavaScript</span><span
                                 class="mission-tag">React</span><span class="mission-tag">FinTech</span></div>
                     </div>
                 </div>
@@ -911,7 +979,7 @@
                         <div class="mission-title">MediConnect Platform</div>
                         <div class="mission-desc">Launched medical video consultation platform with pre-call patient
                             details and secure video conferencing with licensed counselors.</div>
-                        <div class="mission-tags"><span class="mission-tag">TypeScript</span><span
+                        <div class="mission-tags"><span class="mission-tag">JavaScript</span><span
                                 class="mission-tag">WebRTC</span><span class="mission-tag">Healthcare</span></div>
                     </div>
                 </div>
@@ -922,11 +990,11 @@
                             <span class="mission-type learning">Learning</span>
                             <span class="mission-date">2024</span>
                         </div>
-                        <div class="mission-title">Advanced TypeScript & Next.js</div>
-                        <div class="mission-desc">Deep-dived into advanced TypeScript patterns, Next.js App Router,
-                            server components, and modern full-stack architecture.</div>
-                        <div class="mission-tags"><span class="mission-tag">TypeScript</span><span
-                                class="mission-tag">Next.js</span><span class="mission-tag">React</span></div>
+                        <div class="mission-title">Advanced JavaScript & React</div>
+                        <div class="mission-desc">Deep-dived into modern JavaScript patterns, React architecture,
+                            component systems, and deployment-ready frontend workflows.</div>
+                        <div class="mission-tags"><span class="mission-tag">JavaScript</span><span
+                                class="mission-tag">React</span><span class="mission-tag">Frontend</span></div>
                     </div>
                 </div>
 
@@ -942,11 +1010,11 @@
                             <span class="mission-type learning">Learning</span>
                             <span class="mission-date">2023</span>
                         </div>
-                        <div class="mission-title">React & Redux Mastery</div>
-                        <div class="mission-desc">Mastered the React ecosystem including hooks, context, Redux state
-                            management, and component architecture patterns.</div>
+                        <div class="mission-title">React Foundations</div>
+                        <div class="mission-desc">Strengthened the React ecosystem including hooks, context,
+                            and reusable component architecture patterns.</div>
                         <div class="mission-tags"><span class="mission-tag">React</span><span
-                                class="mission-tag">Redux</span><span class="mission-tag">Hooks</span></div>
+                                class="mission-tag">Context API</span><span class="mission-tag">Hooks</span></div>
                     </div>
                 </div>
 
@@ -958,7 +1026,7 @@
                         </div>
                         <div class="mission-title">Backend Architecture</div>
                         <div class="mission-desc">Built proficiency in Node.js, Express, REST API design, MongoDB, and
-                            cloud deployment. Full-stack development unlocked.</div>
+                            cloud deployment workflows.</div>
                         <div class="mission-tags"><span class="mission-tag">Node.js</span><span
                                 class="mission-tag">Express</span><span class="mission-tag">MongoDB</span></div>
                     </div>

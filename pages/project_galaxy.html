@@ -787,6 +787,81 @@
                 transform: translateY(0);
             }
         }
+
+        @media (max-width: 1024px) {
+            .section-inner,
+            .filter-inner {
+                max-width: 100%;
+                padding: 0 1.25rem;
+            }
+
+            .projects-section {
+                padding: 3rem 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 0 1rem;
+                height: 58px;
+            }
+
+            .projects-hero {
+                min-height: 48vh;
+                padding: 6.5rem 1rem 2.5rem;
+            }
+
+            .projects-hero h1 {
+                letter-spacing: 2px;
+            }
+
+            .projects-hero p {
+                font-size: 0.8rem;
+            }
+
+            .filter-bar {
+                top: 58px;
+                padding: 0.85rem 0;
+            }
+
+            .filter-label {
+                margin-right: 0;
+                width: 100%;
+            }
+
+            .filter-btn {
+                font-size: 0.62rem;
+                padding: 6px 10px;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card-desc {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-hero h1 {
+                font-size: 1.7rem;
+                letter-spacing: 1px;
+            }
+
+            .tech-chip {
+                font-size: 0.6rem;
+            }
+
+            .mobile-overlay a {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+        }
     </style>
 </head>
 
@@ -841,7 +916,7 @@
         <div class="filter-inner">
             <span class="filter-label">Filter_by:</span>
             <button class="filter-btn active" data-filter="all">All Ops</button>
-            <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
+            <button class="filter-btn" data-filter="webapp">Web Apps</button>
             <button class="filter-btn" data-filter="security">Security</button>
             <button class="filter-btn" data-filter="ai">AI / ML</button>
             <button class="filter-btn" data-filter="platform">Platform</button>
@@ -854,7 +929,7 @@
             <div class="projects-grid" id="projectsGrid">
 
                 <!-- CyberShield -->
-                <div class="project-card fade-in" data-accent="magenta" data-category="security fullstack">
+                <div class="project-card fade-in" data-accent="magenta" data-category="security webapp">
                     <div class="card-status-bar">
                         <span>OP-001 // CYBERSHIELD</span>
                         <span class="status-live"><span class="status-dot"></span>DEPLOYED</span>
@@ -867,7 +942,7 @@
                     <div class="card-body">
                         <div class="card-tag-row">
                             <span class="op-tag magenta">Security</span>
-                            <span class="op-tag neon">Full-Stack</span>
+                            <span class="op-tag neon">Web App</span>
                         </div>
                         <h3 class="card-title">CyberShield</h3>
                         <p class="card-desc">A cybersecurity-focused platform with real-time threat monitoring, security
@@ -892,7 +967,7 @@
                 </div>
 
                 <!-- AlgoArena -->
-                <div class="project-card fade-in fade-in-d1" data-accent="neon" data-category="fullstack platform">
+                <div class="project-card fade-in fade-in-d1" data-accent="neon" data-category="webapp platform">
                     <div class="card-status-bar">
                         <span>OP-002 // ALGOARENA</span>
                         <span class="status-live"><span class="status-dot"></span>ACTIVE</span>
@@ -904,7 +979,7 @@
                     </div>
                     <div class="card-body">
                         <div class="card-tag-row">
-                            <span class="op-tag neon">Full-Stack</span>
+                            <span class="op-tag neon">Web App</span>
                             <span class="op-tag cyan">Platform</span>
                         </div>
                         <h3 class="card-title">AlgoArena</h3>
@@ -930,7 +1005,7 @@
                 </div>
 
                 <!-- PartanX -->
-                <div class="project-card fade-in fade-in-d2" data-accent="cyan" data-category="fullstack platform">
+                <div class="project-card fade-in fade-in-d2" data-accent="cyan" data-category="webapp platform">
                     <div class="card-status-bar">
                         <span>OP-003 // PARTANX</span>
                         <span class="status-live"><span class="status-dot"
@@ -943,15 +1018,15 @@
                     </div>
                     <div class="card-body">
                         <div class="card-tag-row">
-                            <span class="op-tag cyan">TypeScript</span>
-                            <span class="op-tag neon">Full-Stack</span>
+                            <span class="op-tag cyan">JavaScript</span>
+                            <span class="op-tag neon">Web Platform</span>
                         </div>
                         <h3 class="card-title">PartanX</h3>
-                        <p class="card-desc">A full-stack web platform deployed on Vercel. Built with TypeScript and
-                            modern technologies — clean architecture, fast performance, and production-ready.</p>
+                        <p class="card-desc">A web platform deployed on Vercel with modern technologies — clean
+                            architecture, fast performance, and production-ready delivery.</p>
                         <div class="card-tech">
-                            <span class="tech-chip">TypeScript</span>
-                            <span class="tech-chip">Next.js</span>
+                            <span class="tech-chip">JavaScript</span>
+                            <span class="tech-chip">React</span>
                             <span class="tech-chip">Vercel</span>
                             <span class="tech-chip">Tailwind</span>
                         </div>
@@ -969,7 +1044,7 @@
                 </div>
 
                 <!-- ResumeBuilder -->
-                <div class="project-card fade-in" data-accent="amber" data-category="ai fullstack">
+                <div class="project-card fade-in" data-accent="amber" data-category="ai webapp">
                     <div class="card-status-bar">
                         <span>OP-004 // RESUMEBUILDER</span>
                         <span class="status-live"><span class="status-dot"
@@ -983,14 +1058,14 @@
                     <div class="card-body">
                         <div class="card-tag-row">
                             <span class="op-tag amber">AI-Powered</span>
-                            <span class="op-tag neon">Full-Stack</span>
+                            <span class="op-tag neon">Web App</span>
                         </div>
                         <h3 class="card-title">AI ResumeBuilder</h3>
                         <p class="card-desc">AI-powered Resume Builder with real-time suggestions, skill extraction, ATS
                             scoring, and multiple professional templates. Smart, fast, effective.</p>
                         <div class="card-tech">
-                            <span class="tech-chip">TypeScript</span>
-                            <span class="tech-chip">Next.js</span>
+                            <span class="tech-chip">JavaScript</span>
+                            <span class="tech-chip">Firebase</span>
                             <span class="tech-chip">AI/ML</span>
                             <span class="tech-chip">Tailwind</span>
                         </div>
@@ -1009,7 +1084,7 @@
                 </div>
 
                 <!-- Tax Manager -->
-                <div class="project-card fade-in fade-in-d1" data-accent="neon" data-category="fullstack platform">
+                <div class="project-card fade-in fade-in-d1" data-accent="neon" data-category="webapp platform">
                     <div class="card-status-bar">
                         <span>OP-005 // TAX-MANAGER</span>
                         <span class="status-live"><span class="status-dot"></span>DEPLOYED</span>
@@ -1021,14 +1096,14 @@
                     </div>
                     <div class="card-body">
                         <div class="card-tag-row">
-                            <span class="op-tag neon">Full-Stack</span>
+                            <span class="op-tag neon">Web App</span>
                             <span class="op-tag amber">FinTech</span>
                         </div>
                         <h3 class="card-title">Tax Manager</h3>
                         <p class="card-desc">Complete tax management system with Dashboard, Payments, ITR & GST Sync,
                             Tax Filing, and Financial Tools. Enterprise-grade financial management.</p>
                         <div class="card-tech">
-                            <span class="tech-chip">TypeScript</span>
+                            <span class="tech-chip">JavaScript</span>
                             <span class="tech-chip">React</span>
                             <span class="tech-chip">Node.js</span>
                             <span class="tech-chip">MongoDB</span>
@@ -1048,7 +1123,7 @@
                 </div>
 
                 <!-- MediConnect -->
-                <div class="project-card fade-in fade-in-d2" data-accent="cyan" data-category="fullstack platform">
+                <div class="project-card fade-in fade-in-d2" data-accent="cyan" data-category="webapp platform">
                     <div class="card-status-bar">
                         <span>OP-006 // MEDICONNECT</span>
                         <span class="status-live"><span class="status-dot"
@@ -1057,13 +1132,13 @@
                     <div class="card-body">
                         <div class="card-tag-row">
                             <span class="op-tag cyan">HealthTech</span>
-                            <span class="op-tag neon">Full-Stack</span>
+                            <span class="op-tag neon">Web App</span>
                         </div>
                         <h3 class="card-title">MediConnect</h3>
                         <p class="card-desc">Medical video consultation platform — pre-call patient details, secure
                             video conferencing with licensed counselors, and telemedicine management.</p>
                         <div class="card-tech">
-                            <span class="tech-chip">TypeScript</span>
+                            <span class="tech-chip">JavaScript</span>
                             <span class="tech-chip">WebRTC</span>
                             <span class="tech-chip">Node.js</span>
                             <span class="tech-chip">Firebase</span>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DHYANCHAND GOND // Neural Command Center</title>
     <meta name="description"
-        content="Dhyanchand Gond — Full-Stack Developer & Neural Architect. TypeScript, Next.js, Tailwind, Redux. Building production-grade systems from Lucknow, India." />
+        content="Dhyanchand Gond — AI-assisted developer & Neural Architect. Python, Java, C, SQL, Firebase, and modern web development from Lucknow, India." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -1701,6 +1701,181 @@
         .explore-card:hover .card-glow {
             opacity: 1;
         }
+
+        @media (max-width: 1024px) {
+            .hero-inner {
+                padding: 0 1.25rem;
+            }
+
+            .section-inner,
+            .explore-inner {
+                max-width: 100%;
+                padding: 0 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-inner {
+                padding: 0 1rem;
+                height: 58px;
+            }
+
+            .hero {
+                padding-top: 5.8rem;
+                padding-bottom: 3rem;
+                min-height: auto;
+                overflow: visible;
+            }
+
+            .hero-title {
+                letter-spacing: 1px;
+            }
+
+            .hero-desc {
+                font-size: 0.86rem;
+                line-height: 1.7;
+                max-width: 100%;
+            }
+
+            .tech-pills {
+                gap: 0.5rem;
+            }
+
+            .tech-pill {
+                font-size: 0.62rem;
+                padding: 5px 10px;
+            }
+
+            .cta-group {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+                padding-top: 1.5rem;
+            }
+
+            .hero-visual {
+                order: 0;
+            }
+
+            .terminal-window {
+                display: none;
+            }
+
+            .avail-widget {
+                right: 10px;
+                bottom: 10px;
+                transform: scale(0.9);
+                transform-origin: bottom right;
+            }
+
+            .orb-field,
+            .particle-field {
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding-top: 5.2rem;
+                padding-bottom: 2rem;
+            }
+
+            .hero-name .text-main {
+                font-size: 2rem;
+            }
+
+            .hero-title {
+                font-size: 0.95rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-inner {
+                gap: 1.25rem;
+            }
+
+            .hero-desc {
+                font-size: 0.82rem;
+            }
+
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .mobile-overlay a {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .avail-widget {
+                display: none;
+            }
+
+            .cursor-dot,
+            .cursor-ring,
+            .cursor-trail {
+                display: none;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .hero {
+                padding-top: 5rem;
+            }
+
+            .status-badge {
+                font-size: 0.58rem;
+                letter-spacing: 1px;
+                padding: 5px 10px;
+            }
+
+            .hero-eyebrow {
+                font-size: 0.72rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-name .text-main {
+                font-size: 1.85rem;
+            }
+
+            .tech-pill {
+                font-size: 0.56rem;
+                padding: 5px 8px;
+            }
+
+            .stat-label {
+                letter-spacing: 1px;
+                font-size: 0.56rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .hero-name .text-main {
+                font-size: 1.72rem;
+            }
+
+            .hero-title {
+                font-size: 0.86rem;
+            }
+
+            .hero-desc {
+                font-size: 0.78rem;
+                line-height: 1.6;
+            }
+
+            .tech-pills {
+                gap: 0.35rem;
+            }
+        }
     </style>
 </head>
 
@@ -1789,19 +1964,19 @@
                     <span class="glitch-layer" aria-hidden="true">Dhyanchand Gond</span>
                 </h1>
                 <div class="hero-title">
-                    <span id="typingText">Full-Stack Developer</span><span class="typing-cursor"></span>
+                    <span id="typingText">AI-Assisted Developer</span><span class="typing-cursor"></span>
                 </div>
 
                 <p class="hero-desc fade-up fade-up-d1">
-                    Dev who ships. Turning raw ideas into <span class="neon">production-ready systems</span> with
-                    TypeScript, Node.js, AI Dev Tools & Cloud Architecture. Neural architect based in Lucknow, India 📍
+                    I build practical, <span class="neon">production-ready solutions</span> using Python, Java, SQL,
+                    Firebase, AI-assisted workflows, and modern cloud deployment tools. Based in Lucknow, India 📍
                 </p>
 
                 <div class="tech-pills fade-up fade-up-d2">
-                    <span class="tech-pill">TypeScript</span>
-                    <span class="tech-pill cyan">Node.js</span>
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill cyan">Java</span>
                     <span class="tech-pill amber">AI Tools</span>
-                    <span class="tech-pill magenta">Next.js</span>
+                    <span class="tech-pill magenta">SQL</span>
                     <span class="tech-pill">Firebase</span>
                 </div>
 
@@ -1889,9 +2064,9 @@
                     <div class="terminal-body" id="terminalBody">
                         <div><span class="t-dim">// neural architect online</span></div>
                         <div><span class="t-amber">const</span> <span class="t-neon">stack</span> <span class="t-white">= [</span></div>
-                        <div>&nbsp;&nbsp;<span class="t-cyan">'TypeScript'</span><span class="t-white">,</span></div>
-                        <div>&nbsp;&nbsp;<span class="t-cyan">'Node.js'</span><span class="t-white">,</span></div>
-                        <div>&nbsp;&nbsp;<span class="t-cyan">'Next.js'</span><span class="t-white">,</span></div>
+                        <div>&nbsp;&nbsp;<span class="t-cyan">'Python'</span><span class="t-white">,</span></div>
+                        <div>&nbsp;&nbsp;<span class="t-cyan">'Java'</span><span class="t-white">,</span></div>
+                        <div>&nbsp;&nbsp;<span class="t-cyan">'SQL'</span><span class="t-white">,</span></div>
                         <div><span class="t-white">];</span></div>
                         <div><span class="t-dim">// status: open to hire</span></div>
                         <div><span class="t-magenta">export</span> <span class="t-amber">default</span> <span class="t-neon">DhyanchandGond</span> <span class="t-white">▊</span></div>
@@ -1950,7 +2125,7 @@
                             <path d="M5 12h6m0 0l-3-3m3 3l-3 3" />
                         </svg>
                     </div>
-                    <div class="card-desc">TypeScript, Next.js, React, Redux, Firebase — the complete neural capability
+                    <div class="card-desc">Python, Java, SQL, Firebase, and web fundamentals — the complete neural capability
                         map.</div>
                 </a>
 
@@ -2003,10 +2178,10 @@
                 </a>
                 <a href="https://github.com/diwakar8004/PartanX" target="_blank" rel="noopener" class="repo-chip">
                     <div class="repo-name">🌐 PartanX</div>
-                    <div class="repo-desc">A full-stack web platform deployed on Vercel. Built with TypeScript and
-                        modern technologies.</div>
+                    <div class="repo-desc">A web platform deployed on Vercel with modern frontend tooling and practical
+                        deployment workflows.</div>
                     <div class="repo-meta">
-                        <span class="repo-lang"><span class="lang-dot lang-ts"></span>TypeScript</span>
+                        <span class="repo-lang"><span class="lang-dot lang-js"></span>JavaScript</span>
                         <span>⭐ 0</span><span>🍴 1</span>
                     </div>
                 </a>
@@ -2024,7 +2199,7 @@
                     <div class="repo-desc">AI-powered Resume Builder — real-time suggestions, skill extraction, ATS
                         scoring, multiple templates.</div>
                     <div class="repo-meta">
-                        <span class="repo-lang"><span class="lang-dot lang-ts"></span>TypeScript</span>
+                        <span class="repo-lang"><span class="lang-dot lang-js"></span>JavaScript</span>
                         <span>⭐ 0</span><span>🍴 0</span>
                     </div>
                 </a>
@@ -2034,7 +2209,7 @@
                     <div class="repo-desc">Complete tax management with Dashboard, Payments, ITR & GST Sync, Tax Filing,
                         and Finance Tools.</div>
                     <div class="repo-meta">
-                        <span class="repo-lang"><span class="lang-dot lang-ts"></span>TypeScript</span>
+                        <span class="repo-lang"><span class="lang-dot lang-js"></span>JavaScript</span>
                         <span>⭐ 0</span><span>🍴 0</span>
                     </div>
                 </a>
@@ -2044,7 +2219,7 @@
                     <div class="repo-desc">Medical consultation platform — pre-call details, secure video conferencing
                         with licensed counselors.</div>
                     <div class="repo-meta">
-                        <span class="repo-lang"><span class="lang-dot lang-ts"></span>TypeScript</span>
+                        <span class="repo-lang"><span class="lang-dot lang-js"></span>JavaScript</span>
                         <span>⭐ 0</span><span>🍴 0</span>
                     </div>
                 </a>
@@ -2117,10 +2292,10 @@
         // ── Typing Animation ──
         const typingText = document.getElementById('typingText');
         const roles = [
-            'Full-Stack Developer',
+            'AI-Assisted Developer',
             'Neural Architect',
-            'TypeScript Engineer',
-            'Next.js Builder',
+            'Web Developer',
+            'Cloud Deployment Practitioner',
             'Open Source Operative'
         ];
         let roleIndex = 0, charIndex = 0, isDeleting = false;
