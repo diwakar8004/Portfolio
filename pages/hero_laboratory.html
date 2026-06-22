@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DHYANCHAND GOND // Neural Command Center</title>
     <meta name="description"
-        content="Dhyanchand Gond — AI-assisted developer & Neural Architect. Python, Java, C, SQL, Firebase, and modern web development from Lucknow, India." />
+        content="Dhyanchand Gond — B.Tech CSE (AIML) student & front-end developer. Python, Java, React, ML, and responsive web apps from Lucknow, India." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -929,6 +929,29 @@
 
         .cta-secondary:hover {
             background: rgba(0, 255, 170, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .cta-resume {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--amber);
+            padding: 14px 28px;
+            border: 1px solid var(--amber);
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .cta-resume:hover {
+            background: rgba(255, 190, 11, 0.1);
+            box-shadow: 0 0 20px rgba(255, 190, 11, 0.25);
             transform: translateY(-2px);
         }
 
@@ -1964,20 +1987,21 @@
                     <span class="glitch-layer" aria-hidden="true">Dhyanchand Gond</span>
                 </h1>
                 <div class="hero-title">
-                    <span id="typingText">AI-Assisted Developer</span><span class="typing-cursor"></span>
+                    <span id="typingText">Front-End Developer</span><span class="typing-cursor"></span>
                 </div>
 
                 <p class="hero-desc fade-up fade-up-d1">
-                    I build practical, <span class="neon">production-ready solutions</span> using Python, Java, SQL,
-                    Firebase, AI-assisted workflows, and modern cloud deployment tools. Based in Lucknow, India 📍
+                    B.Tech CSE (AIML) student building <span class="neon">responsive, user-focused web applications</span>
+                    with a strong foundation in ML, DSA, and AI-assisted development. Nexus Hackathon runner-up &amp; Top 50
+                    at HackStrom among 2,500+ teams. Lucknow, India 📍
                 </p>
 
                 <div class="tech-pills fade-up fade-up-d2">
                     <span class="tech-pill">Python</span>
                     <span class="tech-pill cyan">Java</span>
-                    <span class="tech-pill amber">AI Tools</span>
+                    <span class="tech-pill amber">React</span>
                     <span class="tech-pill magenta">SQL</span>
-                    <span class="tech-pill">Firebase</span>
+                    <span class="tech-pill">ML / DSA</span>
                 </div>
 
                 <div class="cta-group fade-up fade-up-d3">
@@ -1986,6 +2010,12 @@
                         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14m0 0l-5-5m5 5l-5 5" />
                         </svg>
+                    </a>
+                    <a href="../public/Dhyanchand_Gond_Resume.pdf" download="Dhyanchand_Gond_Resume.pdf" class="cta-resume">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16" />
+                        </svg>
+                        Download Resume
                     </a>
                     <a href="https://github.com/diwakar8004" target="_blank" rel="noopener" class="cta-secondary">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" style="display:inline">
@@ -2002,12 +2032,12 @@
                         <div class="stat-label">Public Repos</div>
                     </div>
                     <div>
-                        <div class="stat-value cyan">5+</div>
-                        <div class="stat-label">Live Projects</div>
+                        <div class="stat-value cyan">Top 50</div>
+                        <div class="stat-label">HackStrom / 2,500+</div>
                     </div>
                     <div>
-                        <div class="stat-value amber">4</div>
-                        <div class="stat-label">Followers</div>
+                        <div class="stat-value amber">Runner-up</div>
+                        <div class="stat-label">Nexus Hackathon</div>
                     </div>
                 </div>
             </div>
@@ -2145,7 +2175,7 @@
                             <path d="M5 12h6m0 0l-3-3m3 3l-3 3" />
                         </svg>
                     </div>
-                    <div class="card-desc">CyberShield, AlgoArena, PartanX, ResumeBuilder — classified deployments.
+                    <div class="card-desc">AgriPredict, CyberShield, PartanX, Xorvo — classified deployments.
                     </div>
                 </a>
             </div>
@@ -2167,6 +2197,15 @@
                     GITHUB →</a>
             </div>
             <div class="repo-scroll">
+                <a href="project_galaxy.html" class="repo-chip">
+                    <div class="repo-name">🌾 AgriPredict</div>
+                    <div class="repo-desc">AI-powered agricultural dashboard with 4 ML models — irrigation, sustainability,
+                        market price, and yield prediction. React + Flask stack.</div>
+                    <div class="repo-meta">
+                        <span class="repo-lang"><span class="lang-dot lang-js"></span>React</span>
+                        <span>🧠 ML</span><span>🌱 Agri</span>
+                    </div>
+                </a>
                 <a href="https://github.com/diwakar8004/AlgoArena" target="_blank" rel="noopener" class="repo-chip">
                     <div class="repo-name">📚 AlgoArena</div>
                     <div class="repo-desc">A competitive programming and DSA practice platform inspired by LeetCode —
@@ -2292,11 +2331,11 @@
         // ── Typing Animation ──
         const typingText = document.getElementById('typingText');
         const roles = [
-            'AI-Assisted Developer',
-            'Neural Architect',
-            'Web Developer',
-            'Cloud Deployment Practitioner',
-            'Open Source Operative'
+            'Front-End Developer',
+            'AIML Engineering Student',
+            'Full-Stack Builder',
+            'Hackathon Competitor',
+            'ML & DSA Enthusiast'
         ];
         let roleIndex = 0, charIndex = 0, isDeleting = false;
 
