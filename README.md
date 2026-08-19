@@ -1,82 +1,64 @@
-# HTML
+# Neural Command Center — Portfolio
 
-A modern HTML project utilizing Tailwind CSS for building responsive web applications with minimal setup.
+A cyber‑themed, static HTML/CSS/JavaScript portfolio showcasing the classified neural command center of Dhyanchand Gond.
 
-## 🚀 Features
+## Features
 
-- **HTML5** - Modern HTML structure with best practices
-- **Tailwind CSS** - Utility-first CSS framework for rapid UI development
-- **Custom Components** - Pre-built component classes for buttons and containers
-- **NPM Scripts** - Easy-to-use commands for development and building
-- **Responsive Design** - Mobile-first approach for all screen sizes
+- **HTML5** — modern structure with semantic markup
+- **Vanilla CSS** — hand‑written styles in inline `<style>` blocks per page (no Tailwind CLI build step)
+- **Responsive Design** — mobile‑first layouts across desktop, tablet, and mobile
+- **Interactive JS** — cursor trails, scroll‑reveal animations, counter animations, heatmap, and project filtering
+- **Static & Deployable** — no build step required; open `index.html` directly or host on any static server
 
-## 📋 Prerequisites
+## Prerequisites
 
-- Node.js (v12.x or higher)
-- npm or yarn
+- A modern browser (Chrome, Firefox, Safari, Edge)
+- No Node.js required for viewing the site
 
-## 🛠️ Installation
-
-1. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-2. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-html_app/
-├── css/
-│   ├── tailwind.css   # Tailwind source file with custom utilities
-│   └── main.css       # Compiled CSS (generated)
-├── pages/             # HTML pages
-├── index.html         # Main entry point
-├── package.json       # Project dependencies and scripts
-└── tailwind.config.js # Tailwind CSS configuration
+Portfolio/
+├── index.html                       # Entry point (loader → redirects to hero_laboratory.html)
+├── pages/
+│   ├── hero_laboratory.html         # Home / landing page
+│   ├── about_dimension.html          # About / dossier
+│   ├── skills_universe.html          # Skills matrix
+│   ├── project_galaxy.html           # Projects showcase
+│   ├── achievement_timeline.html     # Timeline / mission log
+│   ├── contact_portal.html           # Contact form (Web3Forms)
+│   └── diwakar-avatar.jpg            # Avatar image
+├── public/
+│   ├── favicon.ico                   # Site favicon
+│   ├── manifest.json                 # Web app manifest
+│   └── Dhyanchand_Gond_Resume.pdf    # Downloadable resume
+├── package.json                      # Dependency manifest (legacy Tailwind config — not used at runtime)
+├── tailwind.config.js                # Tailwind configuration (legacy — not used at runtime)
+└── README.md
 ```
 
-## 🎨 Styling
+## Styling
 
-This project uses Tailwind CSS for styling. Custom utility classes include:
+All styles are written as hand‑crafted CSS in `<style>` blocks within each HTML file. The `package.json` and `tailwind.config.js` are legacy artifacts from the original template scaffold and are **not** used by the current pages — no build step is needed.
 
+## Deployment
 
-## 🧩 Customization
-
-To customize the Tailwind configuration, edit the `tailwind.config.js` file:
-
-
-## 📦 Build for Production
-
-Build the CSS for production:
+This is a static site. Simply serve the directory with any static file server:
 
 ```bash
-npm run build:css
+npx serve .
 # or
-yarn build:css
+python3 -m http.server
 ```
 
-## 📱 Responsive Design
+Or open `index.html` directly in a browser for local preview.
 
-The app is built with responsive design using Tailwind CSS breakpoints:
+## Integrations
 
-- `sm`: 640px and up
-- `md`: 768px and up
-- `lg`: 1024px and up
-- `xl`: 1280px and up
-- `2xl`: 1536px and up
+- **GitHub** — profile and repository links
+- **Web3Forms** — contact form submission (`contact_portal.html`)
+- **LinkedIn** — professional profile link
 
-## 🙏 Acknowledgments
+## Acknowledgements
 
-- Built with [Rocket.new](https://rocket.new)
-- Powered by HTML and Tailwind CSS
-
-Built with ❤️ on Rocket.new
+Built with ❤️ by Dhyanchand Gond.

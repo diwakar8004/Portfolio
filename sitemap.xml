@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap/0.1/image">
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://diwakar8004.github.io/Portfolio/public/og-image.jpg</image:loc>
+      <image:caption>Dhyanchand Gond — Neural Command Center</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/pages/hero_laboratory.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/pages/about_dimension.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/pages/skills_universe.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/pages/project_galaxy.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/pages/achievement_timeline.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://diwakar8004.github.io/Portfolio/pages/contact_portal.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLASSIFIED // Comms Portal — Dhyanchand Gond</title>
     <meta name="description"
-        content="Establish a secure communication channel with Dhyanchand Gond — AI-assisted developer from Lucknow, India." />
+        content="Establish a secure communication channel with Dhyanchand Gond — AI-assisted developer from Lucknow, India.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet">
     <script>
-        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+        if (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload') {
             window.location.href = '../index.html';
         }
     </script>
@@ -943,8 +943,65 @@
                 letter-spacing: 2px;
             }
         }
-    </style>
-</head>
+    
+        /* THEME SYSTEM — LIGHT MODE */
+        [data-theme="light"] {
+            --void: #f8fafc; --abyss: #eff1f5; --surface: #ffffff; --panel: #f1f3f5;
+            --border: rgba(0, 170, 170, 0.12); --border-hot: rgba(0, 170, 170, 0.3);
+            --neon: #008080; --neon-dim: rgba(0, 170, 170, 0.5);
+            --text: #1e293b; --text-dim: #71717a; --text-bright: #0f172a;
+            --glow-neon: 0 0 20px rgba(0, 170, 170, 0.2), 0 0 40px rgba(0, 170, 170, 0.1);
+            --glow-cyan: 0 0 20px rgba(0, 132, 204, 0.25), 0 0 40px rgba(0, 132, 204, 0.1);
+        }
+        [data-theme] { transition: background-color 0.4s ease, color 0.4s ease; }
+        .page-entrance { opacity: 0; transform: translateY(15px); filter: blur(2px);
+            transition: opacity .5s ease .1s, transform .5s ease .1s, filter .5s ease .1s; }
+        .page-entrance.loaded { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-section { opacity: 0; transform: translateY(25px);
+            transition: opacity .6s ease, transform .6s ease; }
+        .reveal-section.visible { opacity: 1; transform: translateY(0); }
+        .stagger-children > * { opacity: 0; transform: translateY(20px);
+            transition: opacity .5s ease, transform .5s ease; }
+        .stagger-children.revealed > * { opacity: 1; transform: translateY(0); }
+        .timeline-node { opacity: 0; transform: scale(0.8);
+            transition: opacity .5s ease, transform .5s ease; }
+        .timeline-node.visible { opacity: 1; transform: scale(1); }
+        .theme-toggle { display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(0,255,170,0.03); color: var(--text); cursor: pointer;
+            transition: all .3s cubic-bezier(.4,0,.2,1); flex-shrink: 0; margin-left: 12px; }
+        .theme-toggle:hover { transform: scale(1.05); box-shadow: var(--glow-neon); border-color: var(--border-hot); }
+        .theme-toggle:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+        .btnmicro { transition: transform .15s ease, box-shadow .25s ease; }
+        .btnmicro:hover { transform: translateY(-1px); }
+        .btnmicro:active { transform: translateY(0); }
+        @media (hover: hover) { .project-card:hover { transform: translateY(-4px); box-shadow: var(--glow-neon); } }
+        @media (hover: none), (pointer: coarse) { .project-card:hover { transform: none; } }
+        .form-field input:focus, .form-field textarea:focus { border-color: var(--neon); box-shadow: var(--glow-neon); }
+        .form-submit:hover { box-shadow: var(--glow-neon); transform: translateY(-2px); }
+        .form-submit:disabled { opacity: 0.7; cursor: wait; }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            .reveal-section, .stagger-children > *, .timeline-node, .page-entrance { opacity: 1 !important; transform: none !important; }
+            .project-card:hover { transform: none !important; }
+        }
+</style>
+
+    <link rel="canonical" href="https://diwakar8004.github.io/Portfolio/contact_portal.html">
+    <meta property="og:title" content="Comms Portal — Dhyanchand Gond">
+    <meta property="og:description" content="Secure comms portal — connect via encrypted mail, direct line, or GitHub.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://diwakar8004.github.io/Portfolio/contact_portal.html">
+    <meta property="og:image" content="https://diwakar8004.github.io/Portfolio/public/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Comms Portal — Dhyanchand Gond">
+    <meta name="twitter:description" content="Secure comms portal — connect via encrypted mail, direct line, or GitHub.">
+    <meta name="twitter:image" content="https://diwakar8004.github.io/Portfolio/public/og-image.jpg">
+    <link rel="icon" href="/public/favicon.ico">
+    <link rel="manifest" href="/public/manifest.json"></head>
 
 <body>
     <!-- Navbar -->
@@ -959,20 +1016,21 @@
                 <a href="skills_universe.html">Skills</a>
                 <a href="project_galaxy.html">Projects</a>
                 <a href="achievement_timeline.html">Timeline</a>
-                <a href="contact_portal.html" class="nav-cta active">Contact</a>
+                <a href="contact_portal.html" class="nav-cta active btnmicro">Contact</a>
             </div>
-            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')"
+            <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme"><span class="theme-icon">☾</span></button>
+            <button type="button" class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')"
                 aria-label="Open menu">
                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 6h16M4 12h16M4 18h16" />
+                    <path d="M4 6h16M4 12h16M4 18h16">
                 </svg>
             </button>
         </div>
     </nav>
     <div id="mobileMenu" class="mobile-overlay">
-        <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">
+        <button type="button" class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')" aria-label="Close menu"><span class="sr-only">Close menu</span>
             <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 6l16 16M22 6L6 22" />
+                <path d="M6 6l16 16M22 6L6 22">
             </svg>
         </button>
         <a href="hero_laboratory.html">Home</a><a href="about_dimension.html">About</a>
@@ -981,7 +1039,7 @@
     </div>
 
     <!-- Main Content -->
-    <section class="contact-main">
+    <section class="contact-main page-entrance">
         <div class="orb-field" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
@@ -1026,12 +1084,12 @@
                 </p>
 
                 <div class="channels">
-                    <a href="mailto:diwakargond923@gmail.com" class="channel-item">
+                    <a href="mailto:diwakargond923@gmail.com" class="channel-item btnmicro">
                         <div class="channel-icon">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
                                 style="color:var(--neon);display:inline">
                                 <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                             </svg>
                         </div>
                         <div>
@@ -1039,25 +1097,25 @@
                             <div class="channel-value">diwakargond923@gmail.com</div>
                         </div>
                     </a>
-                    <a href="tel:+916394237705" class="channel-item">
+                    <a href="tel:+916394237705" class="channel-item btnmicro">
                         <div class="channel-icon">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
                                 style="color:var(--amber);display:inline">
                                 <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
                             </svg>
                         </div>
                         <div>
                             <div class="channel-label">Direct Line</div>
-                            <div class="channel-value">+91 6394237705</div>
+                            <div class="channel-value">+91&nbsp;6394237705</div>
                         </div>
                     </a>
-                    <a href="https://github.com/diwakar8004" target="_blank" rel="noopener" class="channel-item">
+                    <a href="https://github.com/diwakar8004" target="_blank" rel="noopener noreferrer" class="channel-item btnmicro">
                         <div class="channel-icon">
                             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"
                                 style="color:var(--cyan);display:inline">
                                 <path
-                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z">
                             </svg>
                         </div>
                         <div>
@@ -1065,12 +1123,12 @@
                             <div class="channel-value">github.com/diwakar8004</div>
                         </div>
                     </a>
-                    <a href="https://www.linkedin.com/in/dhyanchand-gond-377045344" target="_blank" rel="noopener" class="channel-item">
+                    <a href="https://www.linkedin.com/in/dhyanchand-gond-377045344" target="_blank" rel="noopener noreferrer" class="channel-item btnmicro">
                         <div class="channel-icon">
                             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"
                                 style="color:var(--magenta);display:inline">
                                 <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z">
                             </svg>
                         </div>
                         <div>
@@ -1078,13 +1136,13 @@
                             <div class="channel-value">linkedin.com/in/dhyanchand...</div>
                         </div>
                     </a>
-                    <div class="channel-item">
+                    <div class="channel-item btnmicro">
                         <div class="channel-icon">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
                                 style="color:var(--amber);display:inline">
                                 <path
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z">
                             </svg>
                         </div>
                         <div>
@@ -1106,24 +1164,24 @@
                     <input type="hidden" name="access_key" value="b62f9deb-2139-486b-9288-a5fe9246e333">
                     <div class="form-group">
                         <label class="form-label" for="name">Callsign</label>
-                        <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required />
+                        <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="email">Comm Frequency</label>
                         <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com"
-                            required />
+                            required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="subject">Subject Line</label>
                         <input class="form-input" type="text" id="subject" name="subject"
-                            placeholder="Project collaboration, freelance, etc." />
+                            placeholder="Project collaboration, freelance, etc.">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="message">Encrypted Message</label>
                         <textarea class="form-textarea" id="message" name="message" placeholder="Describe your mission..."
                             required></textarea>
                     </div>
-                    <button type="submit" class="form-submit">
+                    <button type="submit" class="form-submit btnmicro">
                         ■ Transmit Message
                     </button>
                 </form>
@@ -1132,7 +1190,7 @@
                     <div class="success-icon">
                         <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"
                             style="color:var(--neon);display:inline">
-                            <path d="M5 13l4 4L19 7" />
+                            <path d="M5 13l4 4L19 7">
                         </svg>
                     </div>
                     <div class="success-title">Transmission Received</div>
@@ -1143,36 +1201,36 @@
     </section>
 
     <!-- Social Links -->
-    <section class="social-section">
+    <section class="social-section reveal-section">
         <div class="social-inner">
             <div class="social-title">Other Neural Endpoints</div>
             <div class="social-grid">
-                <a href="https://github.com/diwakar8004" target="_blank" rel="noopener" class="social-link">
+                <a href="https://github.com/diwakar8004" target="_blank" rel="noopener noreferrer" class="social-link btnmicro">
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" style="display:inline">
                         <path
-                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z">
                     </svg>
                     GitHub
                 </a>
-                <a href="mailto:diwakargond923@gmail.com" class="social-link">
+                <a href="mailto:diwakargond923@gmail.com" class="social-link btnmicro">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
                         style="display:inline">
                         <path
-                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                     </svg>
                     Email
                 </a>
-                <a href="../public/Dhyanchand_Gond_Resume.pdf" download="Dhyanchand_Gond_Resume.pdf" class="social-link">
+                <a href="../public/Dhyanchand_Gond_Resume.pdf" download="Dhyanchand_Gond_Resume.pdf" class="social-link btnmicro">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
                         style="display:inline">
-                        <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16" />
+                        <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16">
                     </svg>
                     Resume
                 </a>
-                <a href="https://www.linkedin.com/in/dhyanchand-gond-377045344" target="_blank" rel="noopener" class="social-link">
+                <a href="https://www.linkedin.com/in/dhyanchand-gond-377045344" target="_blank" rel="noopener noreferrer" class="social-link btnmicro">
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" style="display:inline">
                         <path
-                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z">
                     </svg>
                     LinkedIn
                 </a>
@@ -1182,7 +1240,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER
+        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank" rel="noopener noreferrer">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER
             // LUCKNOW, INDIA</p>
     </footer>
 
@@ -1244,6 +1302,77 @@
             el.style.animationPlayState = 'paused';
             observer.observe(el);
         });
+    </script>
+
+    <script>
+
+    (function() {
+        var STORAGE_KEY = 'portfolio-theme';
+        var THEMES = ['dark', 'light', 'system'];
+        function applyTheme(theme) {
+            var html = document.documentElement;
+            if (theme === 'system') {
+                var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            } else { html.setAttribute('data-theme', theme); }
+        }
+        function getStoredTheme() {
+            try { var stored = localStorage.getItem(STORAGE_KEY); if (stored && THEMES.indexOf(stored) >= 0) return stored; } catch(e) {}
+            var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            return isDark ? 'dark' : 'light';
+        }
+        function cycleTheme() {
+            var current = getStoredTheme();
+            var next = THEMES[(THEMES.indexOf(current) + 1) % THEMES.length];
+            try { localStorage.setItem(STORAGE_KEY, next); } catch(e) {}
+            applyTheme(next); updateToggleIcon(next);
+        }
+        function updateToggleIcon(theme) {
+            var btn = document.getElementById('themeToggle'); if (!btn) return;
+            var icon = btn.querySelector('.theme-icon'); if (!icon) return;
+            var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var resolved = theme === 'system' ? (isDark ? 'dark' : 'light') : theme;
+            var labels = {
+                dark: { symbol: '\u263E', label: 'Switch to light mode' },
+                light: { symbol: '\u2600', label: 'Switch to system preference' },
+                system: { symbol: '\u25D0', label: 'Switch to dark mode' },
+            };
+            var info = labels[resolved] || labels.dark;
+            btn.setAttribute('aria-label', info.label);
+            btn.setAttribute('title', info.label);
+            icon.textContent = info.symbol;
+        }
+        var initialTheme = getStoredTheme();
+        applyTheme(initialTheme);
+        function setupToggle() {
+            var btn = document.getElementById('themeToggle'); if (!btn) return;
+            updateToggleIcon(initialTheme);
+            btn.addEventListener('click', cycleTheme);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                if (getStoredTheme() === 'system') { applyTheme('system'); updateToggleIcon('system'); }
+            });
+        }
+        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', setupToggle); }
+        else { setupToggle(); }
+    })();
+    (function() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var entrance = document.querySelector('.page-entrance');
+        if (entrance) requestAnimationFrame(function() { entrance.classList.add('loaded'); });
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-section').forEach(function(s) { obs.observe(s); });
+        var sobs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('revealed'); sobs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.stagger-children').forEach(function(s) { sobs.observe(s); });
+        var tobs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); tobs.unobserve(e.target); } });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.timeline-node').forEach(function(n) { tobs.observe(n); });
+    })();
+
     </script>
 </body>
 

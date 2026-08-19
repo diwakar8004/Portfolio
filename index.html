@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dhyanchand Gond — Neural Command Center</title>
-    <meta name="description" content="Dhyanchand Gond — B.Tech CSE (AIML) student & front-end developer. Nexus Hackathon runner-up. Initializing Neural Command Center..." />
+    <meta name="description" content="Dhyanchand Gond — B.Tech CSE (AIML) student &amp; front-end developer. Nexus Hackathon runner-up. Initializing Neural Command Center...">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <style>
         :root {
             --void: #030308;
@@ -235,8 +235,65 @@
                 filter: blur(80px);
             }
         }
-    </style>
-</head>
+    
+        /* THEME SYSTEM — LIGHT MODE */
+        [data-theme="light"] {
+            --void: #f8fafc; --abyss: #eff1f5; --surface: #ffffff; --panel: #f1f3f5;
+            --border: rgba(0, 170, 170, 0.12); --border-hot: rgba(0, 170, 170, 0.3);
+            --neon: #008080; --neon-dim: rgba(0, 170, 170, 0.5);
+            --text: #1e293b; --text-dim: #71717a; --text-bright: #0f172a;
+            --glow-neon: 0 0 20px rgba(0, 170, 170, 0.2), 0 0 40px rgba(0, 170, 170, 0.1);
+            --glow-cyan: 0 0 20px rgba(0, 132, 204, 0.25), 0 0 40px rgba(0, 132, 204, 0.1);
+        }
+        [data-theme] { transition: background-color 0.4s ease, color 0.4s ease; }
+        .page-entrance { opacity: 0; transform: translateY(15px); filter: blur(2px);
+            transition: opacity .5s ease .1s, transform .5s ease .1s, filter .5s ease .1s; }
+        .page-entrance.loaded { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-section { opacity: 0; transform: translateY(25px);
+            transition: opacity .6s ease, transform .6s ease; }
+        .reveal-section.visible { opacity: 1; transform: translateY(0); }
+        .stagger-children > * { opacity: 0; transform: translateY(20px);
+            transition: opacity .5s ease, transform .5s ease; }
+        .stagger-children.revealed > * { opacity: 1; transform: translateY(0); }
+        .timeline-node { opacity: 0; transform: scale(0.8);
+            transition: opacity .5s ease, transform .5s ease; }
+        .timeline-node.visible { opacity: 1; transform: scale(1); }
+        .theme-toggle { display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(0,255,170,0.03); color: var(--text); cursor: pointer;
+            transition: all .3s cubic-bezier(.4,0,.2,1); flex-shrink: 0; margin-left: 12px; }
+        .theme-toggle:hover { transform: scale(1.05); box-shadow: var(--glow-neon); border-color: var(--border-hot); }
+        .theme-toggle:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+        .btnmicro { transition: transform .15s ease, box-shadow .25s ease; }
+        .btnmicro:hover { transform: translateY(-1px); }
+        .btnmicro:active { transform: translateY(0); }
+        @media (hover: hover) { .project-card:hover { transform: translateY(-4px); box-shadow: var(--glow-neon); } }
+        @media (hover: none), (pointer: coarse) { .project-card:hover { transform: none; } }
+        .form-field input:focus, .form-field textarea:focus { border-color: var(--neon); box-shadow: var(--glow-neon); }
+        .form-submit:hover { box-shadow: var(--glow-neon); transform: translateY(-2px); }
+        .form-submit:disabled { opacity: 0.7; cursor: wait; }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            .reveal-section, .stagger-children > *, .timeline-node, .page-entrance { opacity: 1 !important; transform: none !important; }
+            .project-card:hover { transform: none !important; }
+        }
+</style>
+
+    <link rel="canonical" href="https://diwakar8004.github.io/Portfolio/">
+    <meta property="og:title" content="Dhyanchand Gond — Neural Command Center">
+    <meta property="og:description" content="B.Tech CSE (AIML) student & front-end developer. Nexus Hackathon runner-up. Initializing Neural Command Center...">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://diwakar8004.github.io/Portfolio/">
+    <meta property="og:image" content="https://diwakar8004.github.io/Portfolio/public/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dhyanchand Gond — Neural Command Center">
+    <meta name="twitter:description" content="B.Tech CSE (AIML) student & front-end developer. Nexus Hackathon runner-up. Initializing Neural Command Center...">
+    <meta name="twitter:image" content="https://diwakar8004.github.io/Portfolio/public/og-image.jpg">
+    <link rel="icon" href="/public/favicon.ico">
+    <link rel="manifest" href="/public/manifest.json"></head>
 <body>
     <div class="grid-bg"></div>
     <div class="orb orb-1"></div>
@@ -307,6 +364,77 @@
         setTimeout(function() {
             window.location.href = 'pages/hero_laboratory.html';
         }, 2800);
+    </script>
+
+    <script>
+
+    (function() {
+        var STORAGE_KEY = 'portfolio-theme';
+        var THEMES = ['dark', 'light', 'system'];
+        function applyTheme(theme) {
+            var html = document.documentElement;
+            if (theme === 'system') {
+                var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            } else { html.setAttribute('data-theme', theme); }
+        }
+        function getStoredTheme() {
+            try { var stored = localStorage.getItem(STORAGE_KEY); if (stored && THEMES.indexOf(stored) >= 0) return stored; } catch(e) {}
+            var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            return isDark ? 'dark' : 'light';
+        }
+        function cycleTheme() {
+            var current = getStoredTheme();
+            var next = THEMES[(THEMES.indexOf(current) + 1) % THEMES.length];
+            try { localStorage.setItem(STORAGE_KEY, next); } catch(e) {}
+            applyTheme(next); updateToggleIcon(next);
+        }
+        function updateToggleIcon(theme) {
+            var btn = document.getElementById('themeToggle'); if (!btn) return;
+            var icon = btn.querySelector('.theme-icon'); if (!icon) return;
+            var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var resolved = theme === 'system' ? (isDark ? 'dark' : 'light') : theme;
+            var labels = {
+                dark: { symbol: '\u263E', label: 'Switch to light mode' },
+                light: { symbol: '\u2600', label: 'Switch to system preference' },
+                system: { symbol: '\u25D0', label: 'Switch to dark mode' },
+            };
+            var info = labels[resolved] || labels.dark;
+            btn.setAttribute('aria-label', info.label);
+            btn.setAttribute('title', info.label);
+            icon.textContent = info.symbol;
+        }
+        var initialTheme = getStoredTheme();
+        applyTheme(initialTheme);
+        function setupToggle() {
+            var btn = document.getElementById('themeToggle'); if (!btn) return;
+            updateToggleIcon(initialTheme);
+            btn.addEventListener('click', cycleTheme);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                if (getStoredTheme() === 'system') { applyTheme('system'); updateToggleIcon('system'); }
+            });
+        }
+        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', setupToggle); }
+        else { setupToggle(); }
+    })();
+    (function() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var entrance = document.querySelector('.page-entrance');
+        if (entrance) requestAnimationFrame(function() { entrance.classList.add('loaded'); });
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-section').forEach(function(s) { obs.observe(s); });
+        var sobs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('revealed'); sobs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.stagger-children').forEach(function(s) { sobs.observe(s); });
+        var tobs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); tobs.unobserve(e.target); } });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.timeline-node').forEach(function(n) { tobs.observe(n); });
+    })();
+
     </script>
 </body>
 </html>

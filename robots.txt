@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /tailwind.config.js
+
+Sitemap: https://diwakar8004.github.io/Portfolio/sitemap.xml

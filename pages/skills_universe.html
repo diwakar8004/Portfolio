@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLASSIFIED // Skills Matrix — Dhyanchand Gond</title>
     <meta name="description"
-        content="Neural skill matrix of Dhyanchand Gond — Python, Java, C, SQL, React, ML basics, DSA, and AI-assisted development." />
+        content="Neural skill matrix of Dhyanchand Gond — Python, Java, C, SQL, React, ML basics, DSA, and AI-assisted development.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Orbitron:wght@400;500;600;700;800;900&amp;display=swap"
         rel="stylesheet">
     <script>
-        if (performance.navigation.type === 1 || (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload')) {
+        if (performance.getEntriesByType('navigation')[0] && performance.getEntriesByType('navigation')[0].type === 'reload') {
             window.location.href = '../index.html';
         }
     </script>
@@ -843,8 +843,65 @@
                 display: none;
             }
         }
-    </style>
-</head>
+    
+        /* THEME SYSTEM — LIGHT MODE */
+        [data-theme="light"] {
+            --void: #f8fafc; --abyss: #eff1f5; --surface: #ffffff; --panel: #f1f3f5;
+            --border: rgba(0, 170, 170, 0.12); --border-hot: rgba(0, 170, 170, 0.3);
+            --neon: #008080; --neon-dim: rgba(0, 170, 170, 0.5);
+            --text: #1e293b; --text-dim: #71717a; --text-bright: #0f172a;
+            --glow-neon: 0 0 20px rgba(0, 170, 170, 0.2), 0 0 40px rgba(0, 170, 170, 0.1);
+            --glow-cyan: 0 0 20px rgba(0, 132, 204, 0.25), 0 0 40px rgba(0, 132, 204, 0.1);
+        }
+        [data-theme] { transition: background-color 0.4s ease, color 0.4s ease; }
+        .page-entrance { opacity: 0; transform: translateY(15px); filter: blur(2px);
+            transition: opacity .5s ease .1s, transform .5s ease .1s, filter .5s ease .1s; }
+        .page-entrance.loaded { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .reveal-section { opacity: 0; transform: translateY(25px);
+            transition: opacity .6s ease, transform .6s ease; }
+        .reveal-section.visible { opacity: 1; transform: translateY(0); }
+        .stagger-children > * { opacity: 0; transform: translateY(20px);
+            transition: opacity .5s ease, transform .5s ease; }
+        .stagger-children.revealed > * { opacity: 1; transform: translateY(0); }
+        .timeline-node { opacity: 0; transform: scale(0.8);
+            transition: opacity .5s ease, transform .5s ease; }
+        .timeline-node.visible { opacity: 1; transform: scale(1); }
+        .theme-toggle { display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+            background: rgba(0,255,170,0.03); color: var(--text); cursor: pointer;
+            transition: all .3s cubic-bezier(.4,0,.2,1); flex-shrink: 0; margin-left: 12px; }
+        .theme-toggle:hover { transform: scale(1.05); box-shadow: var(--glow-neon); border-color: var(--border-hot); }
+        .theme-toggle:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+        .btnmicro { transition: transform .15s ease, box-shadow .25s ease; }
+        .btnmicro:hover { transform: translateY(-1px); }
+        .btnmicro:active { transform: translateY(0); }
+        @media (hover: hover) { .project-card:hover { transform: translateY(-4px); box-shadow: var(--glow-neon); } }
+        @media (hover: none), (pointer: coarse) { .project-card:hover { transform: none; } }
+        .form-field input:focus, .form-field textarea:focus { border-color: var(--neon); box-shadow: var(--glow-neon); }
+        .form-submit:hover { box-shadow: var(--glow-neon); transform: translateY(-2px); }
+        .form-submit:disabled { opacity: 0.7; cursor: wait; }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            .reveal-section, .stagger-children > *, .timeline-node, .page-entrance { opacity: 1 !important; transform: none !important; }
+            .project-card:hover { transform: none !important; }
+        }
+</style>
+
+    <link rel="canonical" href="https://diwakar8004.github.io/Portfolio/skills_universe.html">
+    <meta property="og:title" content="Skills Matrix — Dhyanchand Gond">
+    <meta property="og:description" content="Skills matrix showcasing Python, Java, React, ML, and DevOps technologies.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://diwakar8004.github.io/Portfolio/skills_universe.html">
+    <meta property="og:image" content="https://diwakar8004.github.io/Portfolio/public/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Skills Matrix — Dhyanchand Gond">
+    <meta name="twitter:description" content="Skills matrix showcasing Python, Java, React, ML, and DevOps technologies.">
+    <meta name="twitter:image" content="https://diwakar8004.github.io/Portfolio/public/og-image.jpg">
+    <link rel="icon" href="/public/favicon.ico">
+    <link rel="manifest" href="/public/manifest.json"></head>
 
 <body>
     <canvas id="neural-canvas"></canvas>
@@ -860,21 +917,22 @@
                 <a href="skills_universe.html" class="active">Skills</a>
                 <a href="project_galaxy.html">Projects</a>
                 <a href="achievement_timeline.html">Timeline</a>
-                <a href="contact_portal.html" class="nav-cta">Contact</a>
+                <a href="contact_portal.html" class="nav-cta btnmicro">Contact</a>
             </div>
-            <button class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')"
+            <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme"><span class="theme-icon">☾</span></button>
+            <button type="button" class="mobile-menu-btn" onclick="document.getElementById('mobileMenu').classList.add('open')"
                 aria-label="Open menu">
                 <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 6h16M4 12h16M4 18h16" />
+                    <path d="M4 6h16M4 12h16M4 18h16">
                 </svg>
             </button>
         </div>
     </nav>
     <div id="mobileMenu" class="mobile-overlay">
-        <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"
-            aria-label="Close">
+        <button type="button" class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')"
+            aria-label="Close"><span class="sr-only">Close menu</span>
             <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 6l16 16M22 6L6 22" />
+                <path d="M6 6l16 16M22 6L6 22">
             </svg>
         </button>
         <a href="hero_laboratory.html">Home</a><a href="about_dimension.html">About</a>
@@ -883,7 +941,7 @@
     </div>
 
     <!-- Hero -->
-    <section class="skills-hero">
+    <section class="skills-hero page-entrance">
         <div class="orb-field"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
         <div class="hex-grid-bg"></div>
         <div class="skills-hero-content fade-in">
@@ -895,7 +953,7 @@
     <div class="neural-pulse"></div>
 
     <!-- Web Development Skills -->
-    <section class="skill-section">
+    <section class="skill-section reveal-section">
         <div class="section-inner">
             <div class="section-header fade-in">
                 <span class="section-tag">NODE://frontend</span>
@@ -904,7 +962,7 @@
             <h2 class="section-title fade-in">Web Development Skills</h2>
             <p class="section-subtitle fade-in fade-in-d1">&gt;_ Client-side implementation and interface development</p>
 
-            <div class="skills-grid">
+            <div class="skills-grid stagger-children">
                 <div class="skill-card fade-in">
                     <div class="skill-card-icon">⚛️</div>
                     <div class="skill-card-name">React / Web Basics</div>
@@ -962,7 +1020,7 @@
     <div class="neural-pulse"></div>
 
     <!-- Backend Arsenal -->
-    <section class="skill-section">
+    <section class="skill-section reveal-section">
         <div class="section-inner">
             <div class="section-header fade-in">
                 <span class="section-tag">NODE://backend</span>
@@ -1066,17 +1124,17 @@
 
     <div class="neural-pulse"></div>
 
-    <!-- DevOps & Tools -->
-    <section class="skill-section">
+    <!-- DevOps &amp; Tools -->
+    <section class="skill-section reveal-section">
         <div class="section-inner">
             <div class="section-header fade-in">
                 <span class="section-tag">NODE://devops</span>
                 <div class="section-line"></div>
             </div>
-            <h2 class="section-title fade-in">DevOps & Ecosystem</h2>
+            <h2 class="section-title fade-in">DevOps &amp; Ecosystem</h2>
             <p class="section-subtitle fade-in fade-in-d1">&gt;_ Deployment pipelines, tools, and infrastructure</p>
 
-            <div class="tools-grid">
+            <div class="tools-grid stagger-children">
                 <div class="tool-chip fade-in">
                     <div class="tool-dot neon"></div>Git / GitHub
                 </div>
@@ -1111,7 +1169,7 @@
     <div class="neural-pulse"></div>
 
     <!-- Soft Skills / Philosophy -->
-    <section class="skill-section">
+    <section class="skill-section reveal-section">
         <div class="section-inner">
             <div class="section-header fade-in">
                 <span class="section-tag">NODE://protocol</span>
@@ -1150,7 +1208,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER
+        <p>© 2026 <a href="https://github.com/diwakar8004" target="_blank" rel="noopener noreferrer">DHYANCHAND GOND</a> // NEURAL COMMAND CENTER
             // LUCKNOW, INDIA</p>
     </footer>
 
@@ -1254,6 +1312,77 @@
             el.style.animationPlayState = 'paused';
             observer.observe(el);
         });
+    </script>
+
+    <script>
+
+    (function() {
+        var STORAGE_KEY = 'portfolio-theme';
+        var THEMES = ['dark', 'light', 'system'];
+        function applyTheme(theme) {
+            var html = document.documentElement;
+            if (theme === 'system') {
+                var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            } else { html.setAttribute('data-theme', theme); }
+        }
+        function getStoredTheme() {
+            try { var stored = localStorage.getItem(STORAGE_KEY); if (stored && THEMES.indexOf(stored) >= 0) return stored; } catch(e) {}
+            var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            return isDark ? 'dark' : 'light';
+        }
+        function cycleTheme() {
+            var current = getStoredTheme();
+            var next = THEMES[(THEMES.indexOf(current) + 1) % THEMES.length];
+            try { localStorage.setItem(STORAGE_KEY, next); } catch(e) {}
+            applyTheme(next); updateToggleIcon(next);
+        }
+        function updateToggleIcon(theme) {
+            var btn = document.getElementById('themeToggle'); if (!btn) return;
+            var icon = btn.querySelector('.theme-icon'); if (!icon) return;
+            var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var resolved = theme === 'system' ? (isDark ? 'dark' : 'light') : theme;
+            var labels = {
+                dark: { symbol: '\u263E', label: 'Switch to light mode' },
+                light: { symbol: '\u2600', label: 'Switch to system preference' },
+                system: { symbol: '\u25D0', label: 'Switch to dark mode' },
+            };
+            var info = labels[resolved] || labels.dark;
+            btn.setAttribute('aria-label', info.label);
+            btn.setAttribute('title', info.label);
+            icon.textContent = info.symbol;
+        }
+        var initialTheme = getStoredTheme();
+        applyTheme(initialTheme);
+        function setupToggle() {
+            var btn = document.getElementById('themeToggle'); if (!btn) return;
+            updateToggleIcon(initialTheme);
+            btn.addEventListener('click', cycleTheme);
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+                if (getStoredTheme() === 'system') { applyTheme('system'); updateToggleIcon('system'); }
+            });
+        }
+        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', setupToggle); }
+        else { setupToggle(); }
+    })();
+    (function() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var entrance = document.querySelector('.page-entrance');
+        if (entrance) requestAnimationFrame(function() { entrance.classList.add('loaded'); });
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-section').forEach(function(s) { obs.observe(s); });
+        var sobs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('revealed'); sobs.unobserve(e.target); } });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.stagger-children').forEach(function(s) { sobs.observe(s); });
+        var tobs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); tobs.unobserve(e.target); } });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.timeline-node').forEach(function(n) { tobs.observe(n); });
+    })();
+
     </script>
 </body>
 </html>

@@ -1,15 +1,16 @@
 {
-  "short_name": "devportfolio-pro",
-  "name": "devportfolio-pro",
+  "name": "Dhyanchand Gond \u2014 Neural Command Center",
+  "short_name": "Dhyanchand Gond",
+  "description": "B.Tech CSE (AIML) student and front-end developer portfolio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030308",
+  "theme_color": "#00ffaa",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "public/favicon.ico",
+      "sizes": "48x48",
       "type": "image/x-icon"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
